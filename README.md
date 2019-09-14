@@ -1,5 +1,7 @@
 # react-native-mapbox
 
+MapBox wrapper for React Native around Android and IOS SDKs.
+
 ## Getting started
 
 `$ npm install react-native-mapbox --save`

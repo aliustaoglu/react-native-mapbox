@@ -1,16 +1,10 @@
 package biz.aliustaoglu.mapbox;
 
-import android.view.View;
-
-// AppCompatCheckBox import for React Native pre-0.60:
-import android.support.v7.widget.AppCompatCheckBox;
-// AppCompatCheckBox import for React Native 0.60(+):
-// import androidx.appcompat.widget.AppCompatCheckBox;
-
-import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import biz.aliustaoglu.mapbox.MapBoxModule.MapBoxMapView;
+import biz.aliustaoglu.mapbox.MapBoxModule.MapBoxViewController;
 
-public class RNMBReactNativeMapboxManager extends SimpleViewManager<View> {
+public class RNMBReactNativeMapboxManager extends MapBoxViewController {
 
     public static final String REACT_CLASS = "RNMBReactNativeMapbox";
 
@@ -20,10 +14,8 @@ public class RNMBReactNativeMapboxManager extends SimpleViewManager<View> {
     }
 
     @Override
-    public View createViewInstance(ThemedReactContext c) {
-        // TODO: Implement some actually useful functionality
-        AppCompatCheckBox cb = new AppCompatCheckBox(c);
-        cb.setChecked(true);
-        return cb;
+    public MapBoxMapView createViewInstance(ThemedReactContext c) {
+        MapBoxMapView mapBoxMapView= new MapBoxMapView(c);
+        return mapBoxMapView;
     }
 }
