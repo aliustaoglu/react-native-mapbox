@@ -55,6 +55,9 @@ dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
 
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.2.1'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v8:0.7.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-markerview-v8:0.3.0'
+
 }
 
 def configureReactNativePom(def pom) {

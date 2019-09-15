@@ -27,6 +27,7 @@ public class MapBoxViewController extends GenericMapViewController {
     protected GenericMapLayout createViewInstance(@Nonnull ThemedReactContext reactContext) {
         context = reactContext;
         mapView = new MapBoxMapView(reactContext);
+        mapView.mapView.onCreate(null);
         return mapView;
     }
 

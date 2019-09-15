@@ -39,6 +39,11 @@ public abstract class GenericMapViewController extends SimpleViewManager<Generic
         mapLayout.setMapStyle(mapStyle);
     }
 
+    @ReactProp(name="markers")
+    public void setMarkers(GenericMapLayout mapLayout, @Nullable ReadableArray markers){
+        mapLayout.setMarkers(markers);
+    }
+
 
     // @ReactProp cannot be used for events. All events should be built here and then called using RCTEventEmitter (see reactNativeEvent)
     @Nullable

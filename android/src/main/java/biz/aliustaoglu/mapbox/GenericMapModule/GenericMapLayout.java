@@ -22,6 +22,7 @@ public class GenericMapLayout extends LinearLayout{
     public ReadableMap data;
     public Integer zoom;
     public String mapStyle;
+    public ReadableArray markers;
     // Props - End
 
     public GenericMapLayout(Context context) {
@@ -49,11 +50,17 @@ public class GenericMapLayout extends LinearLayout{
 
         this.mapStyle = mapStyle;
     }
+
+    public void setMarkers(ReadableArray markers){
+
+        this.markers = markers;
+    }
     
 
     public void locateUser(ReadableArray args) {
 
     }
+
 
     protected void reactNativeEvent(String eventName, WritableMap eventParams) {
         ReactContext reactContext = (ReactContext) this.getContext();
