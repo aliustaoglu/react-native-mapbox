@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* RNMapBoxExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* RNMapBoxExampleTests.m */; };
-		0BA92FB0CC7CB8ADCF67E280 /* libPods-RNMapBoxExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60D2F333EDA2AABE177D2DDE /* libPods-RNMapBoxExampleTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -18,8 +17,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* RNMapBoxExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* RNMapBoxExampleTests.m */; };
 		5A4538800AE30E831F5ECD7B /* libPods-RNMapBoxExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 039F3435AFAEC3BE6A06BD0D /* libPods-RNMapBoxExample.a */; };
-		770AAC5D6A40F7775BC84CF3 /* libPods-RNMapBoxExample-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FEAD68A023A6451876840440 /* libPods-RNMapBoxExample-tvOSTests.a */; };
-		7F1ADDF2C6CB3F4D1D2C0D0B /* libPods-RNMapBoxExample-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410BABECDA4D9BE79C2A4AA0 /* libPods-RNMapBoxExample-tvOS.a */; };
+		D371B68F2336E79900222724 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B68E2336E79900222724 /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +43,6 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* RNMapBoxExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNMapBoxExampleTests.m; sourceTree = "<group>"; };
 		039F3435AFAEC3BE6A06BD0D /* libPods-RNMapBoxExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNMapBoxExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0743DAAA872E64BBE5DC5F73 /* Pods-RNMapBoxExample-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNMapBoxExample-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-RNMapBoxExample-tvOS/Pods-RNMapBoxExample-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* RNMapBoxExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RNMapBoxExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RNMapBoxExample/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = RNMapBoxExample/AppDelegate.m; sourceTree = "<group>"; };
@@ -57,16 +54,10 @@
 		2D02E4901E0B4A5D006451C7 /* RNMapBoxExample-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RNMapBoxExample-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9A3C3E6438AD12C46A40DB /* Pods-RNMapBoxExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNMapBoxExample.debug.xcconfig"; path = "Target Support Files/Pods-RNMapBoxExample/Pods-RNMapBoxExample.debug.xcconfig"; sourceTree = "<group>"; };
 		3C5B18033F1605C4C693382E /* Pods-RNMapBoxExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNMapBoxExample.release.xcconfig"; path = "Target Support Files/Pods-RNMapBoxExample/Pods-RNMapBoxExample.release.xcconfig"; sourceTree = "<group>"; };
-		410BABECDA4D9BE79C2A4AA0 /* libPods-RNMapBoxExample-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNMapBoxExample-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		60D2F333EDA2AABE177D2DDE /* libPods-RNMapBoxExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNMapBoxExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D5C4808DEF99E2DFF914461 /* Pods-RNMapBoxExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNMapBoxExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-RNMapBoxExampleTests/Pods-RNMapBoxExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9E1011B3700D80DC5693F5D5 /* Pods-RNMapBoxExample-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNMapBoxExample-tvOS.release.xcconfig"; path = "Target Support Files/Pods-RNMapBoxExample-tvOS/Pods-RNMapBoxExample-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		AA2BA976E35DBA23BA3E7ADD /* Pods-RNMapBoxExample-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNMapBoxExample-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-RNMapBoxExample-tvOSTests/Pods-RNMapBoxExample-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		DD6DC7D393CD61CAED81F16A /* Pods-RNMapBoxExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNMapBoxExampleTests.release.xcconfig"; path = "Target Support Files/Pods-RNMapBoxExampleTests/Pods-RNMapBoxExampleTests.release.xcconfig"; sourceTree = "<group>"; };
-		EC26E650143ED138B222DC3A /* Pods-RNMapBoxExample-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNMapBoxExample-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-RNMapBoxExample-tvOSTests/Pods-RNMapBoxExample-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		D371B68D2336E79900222724 /* RNMapBoxExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNMapBoxExample-Bridging-Header.h"; sourceTree = "<group>"; };
+		D371B68E2336E79900222724 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		FEAD68A023A6451876840440 /* libPods-RNMapBoxExample-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNMapBoxExample-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +65,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BA92FB0CC7CB8ADCF67E280 /* libPods-RNMapBoxExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +80,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F1ADDF2C6CB3F4D1D2C0D0B /* libPods-RNMapBoxExample-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +87,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				770AAC5D6A40F7775BC84CF3 /* libPods-RNMapBoxExample-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +120,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				D371B68E2336E79900222724 /* File.swift */,
+				D371B68D2336E79900222724 /* RNMapBoxExample-Bridging-Header.h */,
 			);
 			name = RNMapBoxExample;
 			sourceTree = "<group>";
@@ -142,9 +132,6 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				039F3435AFAEC3BE6A06BD0D /* libPods-RNMapBoxExample.a */,
-				410BABECDA4D9BE79C2A4AA0 /* libPods-RNMapBoxExample-tvOS.a */,
-				FEAD68A023A6451876840440 /* libPods-RNMapBoxExample-tvOSTests.a */,
-				60D2F333EDA2AABE177D2DDE /* libPods-RNMapBoxExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -187,14 +174,7 @@
 			children = (
 				3A9A3C3E6438AD12C46A40DB /* Pods-RNMapBoxExample.debug.xcconfig */,
 				3C5B18033F1605C4C693382E /* Pods-RNMapBoxExample.release.xcconfig */,
-				0743DAAA872E64BBE5DC5F73 /* Pods-RNMapBoxExample-tvOS.debug.xcconfig */,
-				9E1011B3700D80DC5693F5D5 /* Pods-RNMapBoxExample-tvOS.release.xcconfig */,
-				AA2BA976E35DBA23BA3E7ADD /* Pods-RNMapBoxExample-tvOSTests.debug.xcconfig */,
-				EC26E650143ED138B222DC3A /* Pods-RNMapBoxExample-tvOSTests.release.xcconfig */,
-				9D5C4808DEF99E2DFF914461 /* Pods-RNMapBoxExampleTests.debug.xcconfig */,
-				DD6DC7D393CD61CAED81F16A /* Pods-RNMapBoxExampleTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -205,7 +185,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "RNMapBoxExampleTests" */;
 			buildPhases = (
-				AC1E40B406FD85CC40A72F16 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -230,6 +209,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				5D366C38044FEF0DCB1937D7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -244,7 +224,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "RNMapBoxExample-tvOS" */;
 			buildPhases = (
-				34734CDAE3959BDD33A45303 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -264,7 +243,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "RNMapBoxExample-tvOSTests" */;
 			buildPhases = (
-				C886E5F425CCAC7A3C26DB7D /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -292,6 +270,9 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1020;
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -308,6 +289,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -387,48 +369,28 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		34734CDAE3959BDD33A45303 /* [CP] Check Pods Manifest.lock */ = {
+		5D366C38044FEF0DCB1937D7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-RNMapBoxExample/Pods-RNMapBoxExample-frameworks.sh",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/F1CD9014-347B-3A12-985D-D2CF4457B073.bcsymbolmap",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/C3BF5D38-E18B-392C-BFDF-5551F3CC528B.bcsymbolmap",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RNMapBoxExample-tvOS-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/F1CD9014-347B-3A12-985D-D2CF4457B073.bcsymbolmap",
+				"${BUILT_PRODUCTS_DIR}/C3BF5D38-E18B-392C-BFDF-5551F3CC528B.bcsymbolmap",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AC1E40B406FD85CC40A72F16 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RNMapBoxExampleTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RNMapBoxExample/Pods-RNMapBoxExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AC8A1AC9E4B170CBD64C4653 /* [CP] Check Pods Manifest.lock */ = {
@@ -447,28 +409,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-RNMapBoxExample-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C886E5F425CCAC7A3C26DB7D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RNMapBoxExample-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -529,6 +469,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				D371B68F2336E79900222724 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -580,8 +521,8 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D5C4808DEF99E2DFF914461 /* Pods-RNMapBoxExampleTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -603,8 +544,8 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD6DC7D393CD61CAED81F16A /* Pods-RNMapBoxExampleTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = RNMapBoxExampleTests/Info.plist;
@@ -626,6 +567,7 @@
 			baseConfigurationReference = 3A9A3C3E6438AD12C46A40DB /* Pods-RNMapBoxExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = RNMapBoxExample/Info.plist;
@@ -637,6 +579,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = RNMapBoxExample;
+				SWIFT_OBJC_BRIDGING_HEADER = "RNMapBoxExample-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -646,6 +591,7 @@
 			baseConfigurationReference = 3C5B18033F1605C4C693382E /* Pods-RNMapBoxExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = RNMapBoxExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -656,13 +602,14 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = RNMapBoxExample;
+				SWIFT_OBJC_BRIDGING_HEADER = "RNMapBoxExample-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0743DAAA872E64BBE5DC5F73 /* Pods-RNMapBoxExample-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -690,7 +637,6 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E1011B3700D80DC5693F5D5 /* Pods-RNMapBoxExample-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -718,7 +664,6 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA2BA976E35DBA23BA3E7ADD /* Pods-RNMapBoxExample-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -745,7 +690,6 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC26E650143ED138B222DC3A /* Pods-RNMapBoxExample-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

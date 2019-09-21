@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		B3E7B58A1CC2AC0600A0062D /* RNMBReactNativeMapbox.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNMBReactNativeMapbox.m */; };
+		D371B6832336E66800222724 /* NativeBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D371B6822336E66800222724 /* NativeBridge.m */; };
+		D371B6862336E67B00222724 /* MapBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6852336E67B00222724 /* MapBoxViewController.swift */; };
+		D371B6882336E68F00222724 /* MapBoxMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6872336E68F00222724 /* MapBoxMapView.swift */; };
+		D371B68A2336E6AB00222724 /* GenericMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6892336E6AB00222724 /* GenericMap.swift */; };
+		D371B68C2336E6BD00222724 /* GenericMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B68B2336E6BD00222724 /* GenericMapViewController.swift */; };
+		D371B6912336E8A900222724 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6902336E8A900222724 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +32,13 @@
 		134814201AA4EA6300B7C361 /* libRNMBReactNativeMapbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNMBReactNativeMapbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E7B5881CC2AC0600A0062D /* RNMBReactNativeMapbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNMBReactNativeMapbox.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNMBReactNativeMapbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNMBReactNativeMapbox.m; sourceTree = "<group>"; };
+		D371B6822336E66800222724 /* NativeBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeBridge.m; sourceTree = "<group>"; };
+		D371B6842336E67B00222724 /* RNMBReactNativeMapbox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNMBReactNativeMapbox-Bridging-Header.h"; sourceTree = "<group>"; };
+		D371B6852336E67B00222724 /* MapBoxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBoxViewController.swift; sourceTree = "<group>"; };
+		D371B6872336E68F00222724 /* MapBoxMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBoxMapView.swift; sourceTree = "<group>"; };
+		D371B6892336E6AB00222724 /* GenericMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMap.swift; sourceTree = "<group>"; };
+		D371B68B2336E6BD00222724 /* GenericMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMapViewController.swift; sourceTree = "<group>"; };
+		D371B6902336E8A900222724 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,10 +63,25 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				D371B6812336E64900222724 /* NativeModules */,
 				B3E7B5881CC2AC0600A0062D /* RNMBReactNativeMapbox.h */,
 				B3E7B5891CC2AC0600A0062D /* RNMBReactNativeMapbox.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		D371B6812336E64900222724 /* NativeModules */ = {
+			isa = PBXGroup;
+			children = (
+				D371B6822336E66800222724 /* NativeBridge.m */,
+				D371B6852336E67B00222724 /* MapBoxViewController.swift */,
+				D371B6842336E67B00222724 /* RNMBReactNativeMapbox-Bridging-Header.h */,
+				D371B6872336E68F00222724 /* MapBoxMapView.swift */,
+				D371B6892336E6AB00222724 /* GenericMap.swift */,
+				D371B68B2336E6BD00222724 /* GenericMapViewController.swift */,
+				D371B6902336E8A900222724 /* Utils.swift */,
+			);
+			path = NativeModules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -87,6 +115,7 @@
 				TargetAttributes = {
 					58B511DA1A9E6C8500147676 = {
 						CreatedOnToolsVersion = 6.1.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -95,6 +124,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -113,6 +143,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3E7B58A1CC2AC0600A0062D /* RNMBReactNativeMapbox.m in Sources */,
+				D371B6862336E67B00222724 /* MapBoxViewController.swift in Sources */,
+				D371B68A2336E6AB00222724 /* GenericMap.swift in Sources */,
+				D371B6912336E8A900222724 /* Utils.swift in Sources */,
+				D371B6882336E68F00222724 /* MapBoxMapView.swift in Sources */,
+				D371B6832336E66800222724 /* NativeBridge.m in Sources */,
+				D371B68C2336E6BD00222724 /* GenericMapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,32 +251,41 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-				"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../../React/**",
-					"$(SRCROOT)/../../react-native/React/**",
-				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = RNMBReactNativeMapbox;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		58B511F11A9E6C8500147676 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
 				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RNMBReactNativeMapbox;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "NativeModules/RNMBReactNativeMapbox-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		58B511F11A9E6C8500147676 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = RNMBReactNativeMapbox;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "NativeModules/RNMBReactNativeMapbox-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
