@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 
 public abstract class GenericMapViewController extends SimpleViewManager<GenericMapLayout> {
     private static final int COMMAND_LOCATE_USER = 0;
+    private static final int PICK_LOCATION = 1;
 
     @ReactProp(name = "region")
     public void setRegion(GenericMapLayout mapLayout, @Nullable ReadableMap coords) {
@@ -67,6 +68,8 @@ public abstract class GenericMapViewController extends SimpleViewManager<Generic
         switch (commandId) {
             case COMMAND_LOCATE_USER:
                 mapLayout.locateUser(args);
+            case PICK_LOCATION:
+                mapLayout.pickLocation(args);
                 break;
         }
     }

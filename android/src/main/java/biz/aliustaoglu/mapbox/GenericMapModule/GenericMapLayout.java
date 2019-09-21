@@ -12,9 +12,12 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
+import biz.aliustaoglu.mapbox.Utility.AssetsUtility;
+
 public class GenericMapLayout extends LinearLayout{
     public Boolean isMapReady = false;
     public Activity activity;
+    public AssetsUtility assetsUtility;
 
     // Props - Start
     public Double lat;
@@ -28,6 +31,7 @@ public class GenericMapLayout extends LinearLayout{
     public GenericMapLayout(Context context) {
         super(context);
         this.activity = getActivity(context);
+        this.assetsUtility = new AssetsUtility(context);
     }
 
 
@@ -55,9 +59,13 @@ public class GenericMapLayout extends LinearLayout{
 
         this.markers = markers;
     }
-    
+
 
     public void locateUser(ReadableArray args) {
+
+    }
+
+    public void pickLocation(ReadableArray args){
 
     }
 

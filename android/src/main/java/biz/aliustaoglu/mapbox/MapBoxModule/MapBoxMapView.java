@@ -18,12 +18,15 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-
-import biz.aliustaoglu.mapbox.GenericMapModule.GenericMapLayout;
-import biz.aliustaoglu.mapbox.R;
-
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
+
+import java.net.URL;
+
+import biz.aliustaoglu.mapbox.GenericMapModule.GenericMapLayout;
+import biz.aliustaoglu.mapbox.Utility.BitmapDownloader;
+import biz.aliustaoglu.mapbox.Utility.OnAsyncTaskListener;
+
 
 
 public class MapBoxMapView extends GenericMapLayout implements OnMapReadyCallback, Style.OnStyleLoaded {
@@ -47,7 +50,7 @@ public class MapBoxMapView extends GenericMapLayout implements OnMapReadyCallbac
         mapInstance = mapboxMap;
         mapInstance.setStyle(Style.MAPBOX_STREETS);
         reactNativeEvent("onMapReady", null);
-
+        mapInstance.getStyle(this);
 
 
         // Init props
@@ -100,27 +103,54 @@ public class MapBoxMapView extends GenericMapLayout implements OnMapReadyCallbac
     public void setMarkers(ReadableArray markers) {
         super.setMarkers(markers);
 
-        if (this.isMapReady && this.style!=null) {
+        if (this.isMapReady && this.style != null) {
             symbolManager = new SymbolManager(mapView, mapInstance, this.style);
 
-            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.mapbox_compass_icon);
-            mapInstance.getStyle().addImage("my-marker", bm);
-            symbolManager.create(new SymbolOptions()
-                    .withLatLng(new LatLng(-36, 174))
-                    //set the below attributes according to your requirements
-                    .withIconImage("my-marker")
-                    .withIconSize(1.5f)
-                    .withIconOffset(new Float[] {0f,-1.5f})
-                    .withTextField("DENEME")
-                    .withTextHaloColor("rgba(255, 255, 255, 100)")
-                    .withTextHaloWidth(5.0f)
-                    .withTextAnchor("top")
-                    .withTextOffset(new Float[] {0f, 1.5f})
-            );
+            for (int i = 0; i < markers.size(); i++) {
+                ReadableMap marker = markers.getMap(i);
+                final LatLng latLng = new LatLng(marker.getDouble("lat"), marker.getDouble("lng"));
+                final String label = marker.getString("label");
+                String strIcon = marker.getMap("icon").getString("uri");
 
+                // DEBUG
+                if (strIcon.startsWith("http")) {
+                    BitmapDownloader bd = new BitmapDownloader(new OnAsyncTaskListener<Bitmap>() {
+                        @Override
+                        public void onAsyncTaskSuccess(Bitmap bm) {
+                            setSymbolIcon(bm, latLng, label, 2f);
+                        }
+
+                        @Override
+                        public void onAsyncTaskFailure(Exception e) {
+
+                        }
+                    });
+                    bd.execute(strIcon);
+                } else {
+                    int resourceId = this.assetsUtility.getAssetFromResource(strIcon);
+                    Bitmap bm = BitmapFactory.decodeResource(getResources(), resourceId);
+                    setSymbolIcon(bm, latLng, label, 0.5f);
+                }
+            }
 
 
         }
+    }
+
+    private void setSymbolIcon(Bitmap bm, LatLng latLng, String label, Float iconSize) {
+        mapInstance.getStyle().addImage("my-marker", bm);
+        symbolManager.create(new SymbolOptions()
+                .withLatLng(latLng)
+                //set the below attributes according to your requirements
+                .withIconImage("my-marker")
+                .withIconSize(iconSize)
+                .withIconOffset(new Float[]{0f, -1.5f})
+                .withTextField(label)
+                .withTextHaloColor("rgba(255, 255, 255, 100)")
+                .withTextHaloWidth(5.0f)
+                .withTextAnchor("top")
+                .withTextOffset(new Float[]{0f, 0.5f})
+        );
     }
 
 
@@ -149,4 +179,6 @@ public class MapBoxMapView extends GenericMapLayout implements OnMapReadyCallbac
 
         if (this.markers != null) this.setMarkers(this.markers);
     }
+
+
 }
