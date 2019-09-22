@@ -6,7 +6,7 @@ import biz.aliustaoglu.mapbox.MapBoxModule.MapBoxViewController;
 
 public class RNMBReactNativeMapboxManager extends MapBoxViewController {
 
-    public static final String REACT_CLASS = "RNMBReactNativeMapbox";
+    public static final String REACT_CLASS = "MapBoxViewController";
 
     @Override
     public String getName() {
