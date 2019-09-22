@@ -5,13 +5,21 @@ import marker from './img/marker.png'
 
 export default class App extends Component {
   render () {
-    return <RNMapBox zoom={7} region={{ lat: -36, lng: 174 }} style={StyleSheet.absoluteFillObject} mapStyle='DEFAULT' markers={[
-      {
-        lat: -36,
-        lng: 174,
-        label: 'deneme',
-        icon: Image.resolveAssetSource(marker)
-      }
-    ]} />
+    return (
+      <RNMapBox
+        zoom={7}
+        region={{ lat: 40.9175, lng: 38.3927 }}
+        style={StyleSheet.absoluteFillObject}
+        mapStyle='DEFAULT'
+        markers={[
+          {
+            lat: 40.9175,
+            lng: 38.3927,
+            label: 'Giresun',
+            icon: Image.resolveAssetSource(marker)
+          }
+        ]}
+      />
+    )
   }
 }

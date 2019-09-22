@@ -1,4 +1,4 @@
-import { requireNativeComponent } from 'react-native';
+import { requireNativeComponent, Image } from 'react-native';
 
 const RNMBReactNativeMapbox = requireNativeComponent('MapBoxViewController', null);
 
