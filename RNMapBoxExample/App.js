@@ -1,28 +1,33 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image} from 'react-native';
-import RNMapBox, { RNMBMarker } from 'react-native-mapbox';
-import marker from './img/marker.png';
+import {Platform, StyleSheet, Text, ScrollView, View, Image, TouchableOpacity} from 'react-native';
+import Btn from './src/Btn';
+import Simple from './src/Screens/Simple';
 
 export default class App extends Component {
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeRoute: 'App',
+    };
+    this.onBtnClick = this.onBtnClick.bind(this);
+  }
+
+  onBtnClick(activeRoute) {
+    this.setState({activeRoute});
+  }
+
   render() {
     return (
-      <RNMapBox
-        zoom={7}
-        region={{lat: 40.9175, lng: 38.3927}}
-        style={StyleSheet.absoluteFillObject}
-        mapStyle="DEFAULT"
-        markers={[
-          {
-            lat: 40.9175,
-            lng: 38.3927,
-            label: 'Giresun',
-            icon: Image.resolveAssetSource(marker),
-          },
-        ]}
-      >
-        <RNMBMarker />
-      </RNMapBox>
+      <>
+        {this.state.activeRoute === 'App' && (
+          <View style={{marginTop: 50, height: '100%'}}>
+            <ScrollView>
+              <Btn text="Simple" onClick={() => this.onBtnClick('Simple')} />
+            </ScrollView>
+          </View>
+        )}
+        {this.state.activeRoute === 'Simple' && <Simple onGoBack={() => this.setState({activeRoute: 'App'})} />}
+      </>
     );
   }
 }
