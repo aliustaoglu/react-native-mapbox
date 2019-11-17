@@ -8,7 +8,7 @@ class MapBoxMapView: GenericMap {
     private var mapView: MGLMapView?
     
     override init(frame:CGRect) {
-        super.init(frame: frame)
+        super.init(frame: UIScreen.main.bounds)
         util = Utils()
     }
     
@@ -20,9 +20,9 @@ class MapBoxMapView: GenericMap {
         self.isMapReady = true
         let url = URL(string: "mapbox://styles/mapbox/streets-v11")
         mapView = MGLMapView(frame: self.bounds, styleURL: url)
-        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.autoresizesSubviews = true
-        mapView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        //self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        //self.autoresizesSubviews = true
+        //mapView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView!.setCenter(CLLocationCoordinate2D(latitude: self.lat, longitude: self.lng), zoomLevel: self.zoom, animated: true)
         mapView!.showsUserHeadingIndicator = true
         updateMarkers()

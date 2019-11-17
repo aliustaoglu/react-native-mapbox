@@ -19,3 +19,6 @@ RCT_EXTERN_METHOD(locateUser:(nonnull NSArray *)location resolve:(RCTPromiseReso
 
 @end
 
+@interface RCT_EXTERN_MODULE(RNMBMarker, RCTViewManager)
+
+@end

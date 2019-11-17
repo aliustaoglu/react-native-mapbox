@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B3E7B58A1CC2AC0600A0062D /* RNMBReactNativeMapbox.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNMBReactNativeMapbox.m */; };
+		D32A7ACA2380DE130019C75D /* RNMBMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32A7AC92380DE130019C75D /* RNMBMarker.swift */; };
 		D371B6832336E66800222724 /* NativeBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D371B6822336E66800222724 /* NativeBridge.m */; };
 		D371B6862336E67B00222724 /* MapBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6852336E67B00222724 /* MapBoxViewController.swift */; };
 		D371B6882336E68F00222724 /* MapBoxMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6872336E68F00222724 /* MapBoxMapView.swift */; };
@@ -32,6 +33,7 @@
 		134814201AA4EA6300B7C361 /* libRNMBReactNativeMapbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNMBReactNativeMapbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E7B5881CC2AC0600A0062D /* RNMBReactNativeMapbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNMBReactNativeMapbox.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNMBReactNativeMapbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNMBReactNativeMapbox.m; sourceTree = "<group>"; };
+		D32A7AC92380DE130019C75D /* RNMBMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBMarker.swift; sourceTree = "<group>"; };
 		D371B6822336E66800222724 /* NativeBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeBridge.m; sourceTree = "<group>"; };
 		D371B6842336E67B00222724 /* RNMBReactNativeMapbox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNMBReactNativeMapbox-Bridging-Header.h"; sourceTree = "<group>"; };
 		D371B6852336E67B00222724 /* MapBoxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBoxViewController.swift; sourceTree = "<group>"; };
@@ -70,9 +72,18 @@
 			);
 			sourceTree = "<group>";
 		};
+		D32A7AC82380DE010019C75D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D32A7AC92380DE130019C75D /* RNMBMarker.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		D371B6812336E64900222724 /* NativeModules */ = {
 			isa = PBXGroup;
 			children = (
+				D32A7AC82380DE010019C75D /* Components */,
 				D371B6822336E66800222724 /* NativeBridge.m */,
 				D371B6852336E67B00222724 /* MapBoxViewController.swift */,
 				D371B6842336E67B00222724 /* RNMBReactNativeMapbox-Bridging-Header.h */,
@@ -146,6 +157,7 @@
 				D371B6862336E67B00222724 /* MapBoxViewController.swift in Sources */,
 				D371B68A2336E6AB00222724 /* GenericMap.swift in Sources */,
 				D371B6912336E8A900222724 /* Utils.swift in Sources */,
+				D32A7ACA2380DE130019C75D /* RNMBMarker.swift in Sources */,
 				D371B6882336E68F00222724 /* MapBoxMapView.swift in Sources */,
 				D371B6832336E66800222724 /* NativeBridge.m in Sources */,
 				D371B68C2336E6BD00222724 /* GenericMapViewController.swift in Sources */,
