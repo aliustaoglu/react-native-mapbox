@@ -4,7 +4,7 @@ import Mapbox
 import CoreLocation
 import UserNotifications
 
-class MapBoxMapView: GenericMap {
+class MapBoxMapView: GenericMap, MGLMapViewDelegate {
     private var mapView: MGLMapView?
     
     override init(frame:CGRect) {
@@ -20,16 +20,18 @@ class MapBoxMapView: GenericMap {
         self.isMapReady = true
         let url = URL(string: "mapbox://styles/mapbox/streets-v11")
         mapView = MGLMapView(frame: self.bounds, styleURL: url)
-        //self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        //self.autoresizesSubviews = true
-        //mapView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView!.setCenter(CLLocationCoordinate2D(latitude: self.lat, longitude: self.lng), zoomLevel: self.zoom, animated: true)
-        mapView!.showsUserHeadingIndicator = true
+        mapView!.delegate = self
+        
+        // JS props
+        updateRegion()
         updateMarkers()
+        updateOptions()
+        
+        // JS events
         if self.onMapReady != nil {
             self.onMapReady!([:])
         }
-        //let uiImage = UIImage(named: "assets/icons/maps/pin.png")
+        
         self.addSubview(mapView!)
     }
     
@@ -38,7 +40,7 @@ class MapBoxMapView: GenericMap {
     }
     
     override func updateRegion() {
-        mapView!.setCenter(CLLocationCoordinate2D(latitude: CLLocationDegrees(self.lat), longitude: CLLocationDegrees(self.lng)), zoomLevel: self.zoom, animated: true)
+        mapView!.setCenter(CLLocationCoordinate2D(latitude: self.lat, longitude: self.lng), zoomLevel: self.zoom, animated: true)
     }
     
     override func updateMarkers() {
@@ -46,16 +48,24 @@ class MapBoxMapView: GenericMap {
             let marker = m as! NSDictionary
             let lat = marker.value(forKey: "lat") as! Double
             let lng = marker.value(forKey: "lng") as! Double
-            let title = marker.value(forKey: "label") as! String
+            let title = marker.value(forKey: "title") as! String
+            let subTitle = marker.value(forKey: "subTitle") as! String
             
             let pin = MGLPointAnnotation()
             pin.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
             pin.title = title
-            pin.subtitle = title
+            pin.subtitle = subTitle
             mapView!.addAnnotation(pin)
             
         }
         
+    }
+
+    override func updateOptions() {
+        mapView!.showsUserHeadingIndicator = true
+        mapView!.showsScale = true
+        mapView!.showsHeading = true
+        mapView!.showsUserLocation = true
     }
     
     public func locateUser(location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
@@ -63,6 +73,10 @@ class MapBoxMapView: GenericMap {
         
         mapView!.setCenter(CLLocationCoordinate2D(latitude: CLLocationDegrees(self.lat), longitude: CLLocationDegrees(self.lng)), zoomLevel: self.zoom, animated: true)
         util?.returnPromise(success: true, response: true, resolve: resolve, reject: reject)
+    }
+    
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+    return true
     }
     
 }

@@ -1,10 +1,11 @@
 import Foundation
 
+
 @objc(RNMBMarker)
 class RNMBMarker: RCTViewManager {
-    
     override func view() -> UIView? {
-        return UIView()
+        let uvv = UIView()
+        return uvv
     }
     
     

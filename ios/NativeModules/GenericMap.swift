@@ -13,6 +13,7 @@ class GenericMap: UIView{
     @objc var region: NSDictionary = [:]
     @objc var onMapReady: RCTDirectEventBlock?
     @objc var markers: NSArray = []
+    @objc var options: NSDictionary = [:]
     
     var lat: Double = 0
     var lng: Double = 0
@@ -35,6 +36,10 @@ class GenericMap: UIView{
     
     func updateMarkers(){
         preconditionFailure("updateMarkers must be overridden")
+    }
+    
+    func updateOptions(){
+        preconditionFailure("updateOptions must be overridden")
     }
     
     override func didSetProps(_ changedProps: [String]!) {
