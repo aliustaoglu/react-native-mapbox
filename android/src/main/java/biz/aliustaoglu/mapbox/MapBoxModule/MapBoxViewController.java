@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
 
     private MapboxMap mapboxMap;
-    private Context context;
+    private ThemedReactContext context;
     private MapBoxMapView mapView;
 
     @Nonnull
@@ -31,7 +31,7 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
     @Nonnull
     @Override
     protected MapBoxMapView createViewInstance(@Nonnull ThemedReactContext reactContext) {
-        context = reactContext;
+        this.context = reactContext;
         return new MapBoxMapView(reactContext);
     }
 
@@ -47,14 +47,14 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
 
     @ReactProp(name="camera")
     public void setCamera(MapBoxMapView mapBoxMapView, @Nullable ReadableMap camera){
-        mapBoxMapView.camera = camera;
-        if (mapBoxMapView.isMapReady) mapBoxMapView.setCamera(camera);
+        mapBoxMapView.camera = new RNMBCamera(camera);
+        if (mapBoxMapView.isMapReady) mapBoxMapView.setCamera();
     }
 
     @ReactProp(name="options")
     public void setOptions(MapBoxMapView mapBoxMapView, @Nullable ReadableMap options){
-        mapBoxMapView.options = options;
-        //if (mapBoxMapView.isMapReady) mapBoxMapView.setOptions(options);
+        mapBoxMapView.options = new RNMBOptions(options);
+        if (mapBoxMapView.isMapReady) mapBoxMapView.setOptions();
     }
 
 

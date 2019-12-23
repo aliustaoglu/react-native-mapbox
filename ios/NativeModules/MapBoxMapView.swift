@@ -4,40 +4,29 @@ import Mapbox
 import CoreLocation
 import UserNotifications
 
-struct RNMBCamera {
-    struct Target {
-        var lat: Double?
-        var lng: Double?
-    }
-    
-    var target: Target?
-    var bearing: Double?
-    var zoom: Double?
-    var tilt: Double?
-    
-    init(_ dict:NSDictionary){
-        let target = dict["target"] as? Dictionary<String, Double>
-        self.target = Target(lat:target?["lng"], lng: target?["lng"])
-        self.bearing = dict["bearing"] as? Double
-        self.zoom = dict["zoom"] as? Double
-        self.tilt = dict["tilt"] as? Double
-    }
-    
-}
-
-struct Props {
-    var camera: RNMBCamera?
-}
 
 class MapBoxMapView: UIView {
-    private var mapView: MGLMapView?
+    private var mapView: MGLMapView!
+    private var isMapReady = false
+    
     private var util = Utils()
     private var props = Props()
-    
     
     @objc var camera: NSDictionary = [:] {
         didSet{
             props.camera = RNMBCamera(camera)
+            if (self.isMapReady){
+                updateCamera()
+            }
+        }
+    }
+    
+    @objc var options: NSDictionary = [:] {
+        didSet{
+            props.options = RNMBOptions(options)
+            if (self.isMapReady){
+                props.options?.update(self.mapView)
+            }
         }
     }
     
@@ -45,15 +34,17 @@ class MapBoxMapView: UIView {
         super.init(frame: UIScreen.main.bounds)
     }
     
+    override func didMoveToWindow() {
+        initMap()
+    }
+    
     func initMap(){
         self.mapView = MGLMapView(frame: self.bounds)
         self.addSubview(mapView!)
+        self.isMapReady = true
         
         updateCamera()
-    }
-    
-    override func didMoveToWindow() {
-        initMap()
+        props.options?.update(mapView)
     }
     
     func updateCamera(){
@@ -63,7 +54,6 @@ class MapBoxMapView: UIView {
         } else {
             mapView?.setCenter(center, animated: true)
         }
-        
     }
     
     required init?(coder: NSCoder) {
