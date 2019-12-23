@@ -1,42 +1,34 @@
 package biz.aliustaoglu.mapbox.MapBoxModule;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.ContextWrapper;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.location.LocationComponent;
-import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
-import com.mapbox.mapboxsdk.location.modes.RenderMode;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 
-import java.net.URL;
-
-import biz.aliustaoglu.mapbox.GenericMapModule.GenericMapLayout;
-import biz.aliustaoglu.mapbox.Utility.BitmapDownloader;
-import biz.aliustaoglu.mapbox.Utility.OnAsyncTaskListener;
+public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, Style.OnStyleLoaded {
+    public boolean isMapReady = false;
+    public final MapView mapView;
+    public MapboxMap mapboxMap;
 
 
+    // Props
+    public ReadableMap camera;
+    public ReadableMap options;
 
-public class MapBoxMapView extends GenericMapLayout implements OnMapReadyCallback, Style.OnStyleLoaded {
-    MapboxMap mapInstance = null;
-    MapView mapView = null;
-    ReadableMap coords;
-    Style style;
-    SymbolManager symbolManager;
-
-    public MapBoxMapView(@NonNull Context context) {
+    public MapBoxMapView(@NonNull ReactContext context) {
         super(context);
         mapView = new MapView(context);
         this.addView(mapView);
@@ -44,141 +36,56 @@ public class MapBoxMapView extends GenericMapLayout implements OnMapReadyCallbac
         mapView.getMapAsync(this);
     }
 
+
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
-        this.isMapReady = true;
-        mapInstance = mapboxMap;
-        mapInstance.setStyle(Style.MAPBOX_STREETS);
+        this.mapboxMap = mapboxMap;
+        isMapReady = true;
+        mapboxMap.setStyle(Style.MAPBOX_STREETS);
+        mapboxMap.getStyle(this);
         reactNativeEvent("onMapReady", null);
-        mapInstance.getStyle(this);
 
-
-        // Init props
-        if (this.zoom != null) setZoom(this.zoom);
-        if (this.lat != null && this.lng != null) setRegion(this.lat, this.lng);
-        if (this.mapStyle != null) setMapStyle(this.mapStyle);
+            if (this.camera != null) this.setCamera(this.camera);
     }
 
     @Override
-    public void setZoom(Integer zoom) {
-        super.setZoom(zoom);
-        if (this.isMapReady) {
-            CameraPosition position = new CameraPosition.Builder().zoom(this.zoom).build();
-            mapInstance.setCameraPosition(position);
+    public void onStyleLoaded(@NonNull Style style) {
+    }
+
+
+    public void setCamera(ReadableMap camera){
+        CameraPosition.Builder cameraBuilder = new CameraPosition.Builder();
+
+        if (camera.hasKey("target")) {
+            ReadableMap target = camera.getMap("target");
+            cameraBuilder.target(new LatLng(target.getDouble("lat"), target.getDouble("lng")));
         }
+        if (camera.hasKey("zoom")) cameraBuilder = cameraBuilder.zoom(camera.getDouble("zoom"));
+        if (camera.hasKey("bearing")) cameraBuilder = cameraBuilder.bearing(camera.getDouble("bearing"));
+        if (camera.hasKey("tilt")) cameraBuilder = cameraBuilder.tilt(camera.getDouble("tilt"));
+
+        CameraPosition position = cameraBuilder.build();
+        mapboxMap.setCameraPosition(position);
     }
 
-    @Override
-    public void setRegion(Double lat, Double lng) {
-        super.setRegion(lat, lng);
-        if (this.isMapReady) {
-            CameraPosition position = new CameraPosition.Builder().target(new LatLng(this.lat, this.lng)).build();
-            mapInstance.setCameraPosition(position);
-        }
+    protected void reactNativeEvent(String eventName, WritableMap eventParams) {
+        ReactContext reactContext = (ReactContext) this.getContext();
+        reactContext
+                .getJSModule(RCTEventEmitter.class)
+                .receiveEvent(this.getId(), eventName, eventParams);
     }
 
-    @Override
-    public void setData(ReadableMap data) {
-        super.setData(data);
-    }
-
-    @Override
-    public void setMapStyle(String mapStyle) {
-        super.setMapStyle(mapStyle);
-        if (this.isMapReady) {
-            try {
-                String strStyle = this.mapStyle;
-                if (!this.mapStyle.startsWith("mapbox://style")) {
-                    strStyle = Style.class.getField(this.mapStyle).get(new Object()).toString();
-                }
-                mapInstance.setStyle(strStyle);
-            } catch (Exception e) {
-
+    public Activity getActivity(Context context) {
+        if (context == null) {
+            return null;
+        } else if (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            } else {
+                return getActivity(((ContextWrapper) context).getBaseContext());
             }
-            mapInstance.getStyle(this);
         }
+
+        return null;
     }
-
-    @Override
-    public void setMarkers(ReadableArray markers) {
-        super.setMarkers(markers);
-
-        if (this.isMapReady && this.style != null) {
-            symbolManager = new SymbolManager(mapView, mapInstance, this.style);
-
-            for (int i = 0; i < markers.size(); i++) {
-                ReadableMap marker = markers.getMap(i);
-                final LatLng latLng = new LatLng(marker.getDouble("lat"), marker.getDouble("lng"));
-                final String label = marker.getString("label");
-                String strIcon = marker.getMap("icon").getString("uri");
-
-                // DEBUG
-                if (strIcon.startsWith("http")) {
-                    BitmapDownloader bd = new BitmapDownloader(new OnAsyncTaskListener<Bitmap>() {
-                        @Override
-                        public void onAsyncTaskSuccess(Bitmap bm) {
-                            setSymbolIcon(bm, latLng, label, 2f);
-                        }
-
-                        @Override
-                        public void onAsyncTaskFailure(Exception e) {
-
-                        }
-                    });
-                    bd.execute(strIcon);
-                } else {
-                    int resourceId = this.assetsUtility.getAssetFromResource(strIcon);
-                    Bitmap bm = BitmapFactory.decodeResource(getResources(), resourceId);
-                    setSymbolIcon(bm, latLng, label, 0.5f);
-                }
-            }
-
-
-        }
-    }
-
-    private void setSymbolIcon(Bitmap bm, LatLng latLng, String label, Float iconSize) {
-        mapInstance.getStyle().addImage("my-marker", bm);
-        symbolManager.create(new SymbolOptions()
-                .withLatLng(latLng)
-                //set the below attributes according to your requirements
-                .withIconImage("my-marker")
-                .withIconSize(iconSize)
-                .withIconOffset(new Float[]{0f, -1.5f})
-                .withTextField(label)
-                .withTextHaloColor("rgba(255, 255, 255, 100)")
-                .withTextHaloWidth(5.0f)
-                .withTextAnchor("top")
-                .withTextOffset(new Float[]{0f, 0.5f})
-        );
-    }
-
-
-    @Override
-    public void locateUser(ReadableArray args) {
-        coords = args.getMap(0);
-        if (this.style != null && this.isMapReady) {
-            LocationComponent locationComponent = mapInstance.getLocationComponent();
-            locationComponent.activateLocationComponent(
-                    LocationComponentActivationOptions.builder(activity, style).build());
-            locationComponent.setLocationComponentEnabled(true);
-            locationComponent.setCameraMode(CameraMode.TRACKING);
-            locationComponent.setRenderMode(RenderMode.COMPASS);
-            CameraPosition position = new CameraPosition.Builder().target(new LatLng(coords.getDouble("latitude"), coords.getDouble("longitude"))).zoom(zoom).build();
-            mapInstance.setCameraPosition(position);
-        }
-    }
-
-    @Override
-    public void onStyleLoaded(@NonNull Style style) throws SecurityException {
-        this.style = style;
-
-
-        //symbolManager.setIconAllowOverlap(true);
-        //symbolManager.setTextAllowOverlap(true);
-
-        if (this.markers != null) this.setMarkers(this.markers);
-    }
-
-
 }

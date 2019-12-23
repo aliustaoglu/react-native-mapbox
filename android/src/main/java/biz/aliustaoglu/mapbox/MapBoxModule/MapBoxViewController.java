@@ -2,15 +2,21 @@ package biz.aliustaoglu.mapbox.MapBoxModule;
 
 
 import android.content.Context;
+
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.common.MapBuilder;
+import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
+
+import java.util.Map;
+
 import javax.annotation.Nonnull;
-
-import biz.aliustaoglu.mapbox.GenericMapModule.GenericMapLayout;
-import biz.aliustaoglu.mapbox.GenericMapModule.GenericMapViewController;
+import javax.annotation.Nullable;
 
 
-public class MapBoxViewController extends GenericMapViewController {
+public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
 
     private MapboxMap mapboxMap;
     private Context context;
@@ -24,13 +30,32 @@ public class MapBoxViewController extends GenericMapViewController {
 
     @Nonnull
     @Override
-    protected GenericMapLayout createViewInstance(@Nonnull ThemedReactContext reactContext) {
+    protected MapBoxMapView createViewInstance(@Nonnull ThemedReactContext reactContext) {
         context = reactContext;
-        mapView = new MapBoxMapView(reactContext);
-        mapView.mapView.onCreate(null);
-        return mapView;
+        return new MapBoxMapView(reactContext);
     }
 
+    // @ReactProp cannot be used for events. All events should be built here and then called using RCTEventEmitter (see reactNativeEvent)
+    @Nullable
+    @Override
+    public Map getExportedCustomBubblingEventTypeConstants() {
+        return MapBuilder.builder()
+                .put("onMapReady", MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", "onMapReady")))
+                .put("onMarkerClick", MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", "onMarkerClick")))
+                .build();
+    }
+
+    @ReactProp(name="camera")
+    public void setCamera(MapBoxMapView mapBoxMapView, @Nullable ReadableMap camera){
+        mapBoxMapView.camera = camera;
+        if (mapBoxMapView.isMapReady) mapBoxMapView.setCamera(camera);
+    }
+
+    @ReactProp(name="options")
+    public void setOptions(MapBoxMapView mapBoxMapView, @Nullable ReadableMap options){
+        mapBoxMapView.options = options;
+        //if (mapBoxMapView.isMapReady) mapBoxMapView.setOptions(options);
+    }
 
 
 }

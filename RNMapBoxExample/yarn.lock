@@ -5168,9 +5168,6 @@ react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
 "react-native-mapbox@file:..":
   version "0.0.3"
 
-"react-native-mapbox@file:../":
-  version "0.0.3"
-
 react-native@0.60.5:
   version "0.60.5"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.60.5.tgz#3c1d9c06a0fbab9807220b6acac09488d39186ee"
