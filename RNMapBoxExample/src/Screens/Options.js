@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-did-mount-set-state */
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, PermissionsAndroid, Button} from 'react-native';
@@ -51,7 +52,7 @@ export default class Simple extends Component {
           camera={{
             target: {lat: 40.9175, lng: 38.3927},
             bearing: 1,
-            zoom: 8,
+            zoom: 16,
             tilt: 7,
           }}
           style={StyleSheet.absoluteFillObject}
@@ -61,7 +62,10 @@ export default class Simple extends Component {
             showsHeading: this.state.showsHeading,
             showsUserLocation: this.state.showsUserLocation,
           }}
-          mapStyle="DARK"
+          mapStyle={{
+            styleName: 'OUTDOORS',
+            buildings: true,
+          }}
         />
         <View style={styleSheet.backButton}>
           <Button title="<Back" onPress={this.props.onGoBack} />

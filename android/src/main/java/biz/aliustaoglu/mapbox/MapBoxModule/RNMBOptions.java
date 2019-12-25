@@ -53,8 +53,6 @@ public class RNMBOptions implements PermissionListener {
             locationComponent.setCameraMode(CameraMode.TRACKING);
             locationComponent.setRenderMode(RenderMode.COMPASS);
         }
-
-
     }
 
     @Override

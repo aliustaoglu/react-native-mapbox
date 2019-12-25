@@ -1,15 +1,21 @@
 package biz.aliustaoglu.mapbox.MapBoxModule;
 
+import com.facebook.react.bridge.ReadableMap;
+import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.building.BuildingPlugin;
 
 
 public class RNMBMapStyle {
     String mapStyle;
 
+    public RNMBMapStyle() {
+        this.mapStyle = "DEFAULT";
+    }
 
-    public RNMBMapStyle(String mapStyle){
-        this.mapStyle = mapStyle;
+    public RNMBMapStyle(ReadableMap mapStyle){
+        this.mapStyle = mapStyle.hasKey("styleName") ? mapStyle.getString("styleName") : "DEFAULT";
     }
 
     public void update(MapboxMap mapboxMap){
@@ -23,5 +29,11 @@ public class RNMBMapStyle {
             default: mapboxMap.setStyle(Style.MAPBOX_STREETS);
         }
 
+
+    }
+
+    public void update(MapboxMap mapboxMap, MapView mapView, Style style){
+        BuildingPlugin buildingPlugin = new BuildingPlugin(mapView, mapboxMap, style);
+        buildingPlugin.setVisibility(true);
     }
 }

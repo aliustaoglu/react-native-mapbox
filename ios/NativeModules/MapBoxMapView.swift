@@ -5,7 +5,7 @@ import CoreLocation
 import UserNotifications
 
 
-class MapBoxMapView: UIView {
+class MapBoxMapView: UIView, MGLMapViewDelegate {
     private var mapView: MGLMapView!
     private var isMapReady = false
     
@@ -31,11 +31,13 @@ class MapBoxMapView: UIView {
         }
     }
     
-    @objc var mapStyle: NSString = "DEFAULT" {
+    @objc var mapStyle: NSDictionary = [:] {
         didSet{
-            props.mapStyle = RNMBMapStyle(styleName: mapStyle as String)
+            props.mapStyle = RNMBMapStyle(mapStyle)
         }
     }
+    
+    @objc var onMapReady: RCTDirectEventBlock?
     
     init() {
         super.init(frame: UIScreen.main.bounds)
@@ -51,10 +53,19 @@ class MapBoxMapView: UIView {
             MGLMapView(frame: self.bounds, styleURL: props.mapStyle?.getStyle())
         self.addSubview(mapView!)
         self.isMapReady = true
+        self.mapView.delegate = self
         
         props.camera?.update(mapView)
         props.options?.update(mapView)
     }
+    
+    func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
+        if self.onMapReady != nil {
+          self.onMapReady!([:])
+        }
+        props.mapStyle?.updateBuildings(style: style)
+    }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

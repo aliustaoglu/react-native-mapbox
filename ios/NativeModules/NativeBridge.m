@@ -7,7 +7,7 @@
 @interface RCT_EXTERN_MODULE(MapBoxViewController, RCTViewManager)
 RCT_EXPORT_VIEW_PROPERTY(camera, NSDictionary)
 RCT_EXPORT_VIEW_PROPERTY(options, NSDictionary)
-RCT_EXPORT_VIEW_PROPERTY(mapStyle, NSString)
+RCT_EXPORT_VIEW_PROPERTY(mapStyle, NSDictionary)
 
 RCT_EXPORT_VIEW_PROPERTY(zoom, double)
 RCT_EXPORT_VIEW_PROPERTY(onMapReady, RCTDirectEventBlock)

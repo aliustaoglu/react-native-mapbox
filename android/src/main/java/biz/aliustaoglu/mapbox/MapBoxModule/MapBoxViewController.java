@@ -58,7 +58,7 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
     }
 
     @ReactProp(name="mapStyle")
-    public void setMapStyle(MapBoxMapView mapBoxMapView, @Nullable String mapStyle){
+    public void setMapStyle(MapBoxMapView mapBoxMapView, @Nullable ReadableMap mapStyle){
         mapBoxMapView.mapStyle = new RNMBMapStyle(mapStyle);
         if (mapBoxMapView.isMapReady) mapBoxMapView.setMapStyle();
     }

@@ -54,6 +54,7 @@ export default class Simple extends Component {
             tilt: this.state.tilt,
           }}
           style={StyleSheet.absoluteFillObject}
+          onMapReady={() => console.log('onMapReady callback')}
         />
         <View style={styleSheet.backButton}>
           <Button title="<Back" onPress={this.props.onGoBack} />

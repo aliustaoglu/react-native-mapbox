@@ -59,7 +59,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
 
         mapboxMap.getStyle(this);
 
-        if (mapStyle == null) mapStyle = new RNMBMapStyle("DEFAULT");
+        if (mapStyle == null) mapStyle = new RNMBMapStyle();
         setMapStyle();
         reactNativeEvent("onMapReady", null);
     }
@@ -81,9 +81,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         this.isStyleLoaded = true;
         if (this.camera != null) this.camera.update(mapboxMap);
         if (this.options != null) this.options.update(mapboxMap, mapView, this.getContext());
-
-//        BuildingPlugin buildingPlugin = new BuildingPlugin(mapView, mapboxMap, style);
-//        buildingPlugin.setVisibility(true);
+        if (this.mapStyle != null) this.mapStyle.update(mapboxMap, mapView, style);
     }
 
 
