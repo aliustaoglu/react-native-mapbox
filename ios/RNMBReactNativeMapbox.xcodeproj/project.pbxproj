@@ -11,6 +11,7 @@
 		D329AD8423B04F900029177B /* RNMBCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329AD8323B04F900029177B /* RNMBCamera.swift */; };
 		D329AD8623B04FB20029177B /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329AD8523B04FB20029177B /* Props.swift */; };
 		D329AD8823B04FBD0029177B /* RNMBOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329AD8723B04FBD0029177B /* RNMBOptions.swift */; };
+		D329AD8A23B2CCD00029177B /* RNMBMapStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329AD8923B2CCD00029177B /* RNMBMapStyle.swift */; };
 		D32A7ACA2380DE130019C75D /* RNMBMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32A7AC92380DE130019C75D /* RNMBMarker.swift */; };
 		D371B6832336E66800222724 /* NativeBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D371B6822336E66800222724 /* NativeBridge.m */; };
 		D371B6862336E67B00222724 /* MapBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6852336E67B00222724 /* MapBoxViewController.swift */; };
@@ -37,6 +38,7 @@
 		D329AD8323B04F900029177B /* RNMBCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBCamera.swift; sourceTree = "<group>"; };
 		D329AD8523B04FB20029177B /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
 		D329AD8723B04FBD0029177B /* RNMBOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBOptions.swift; sourceTree = "<group>"; };
+		D329AD8923B2CCD00029177B /* RNMBMapStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBMapStyle.swift; sourceTree = "<group>"; };
 		D32A7AC92380DE130019C75D /* RNMBMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBMarker.swift; sourceTree = "<group>"; };
 		D371B6822336E66800222724 /* NativeBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeBridge.m; sourceTree = "<group>"; };
 		D371B6842336E67B00222724 /* RNMBReactNativeMapbox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNMBReactNativeMapbox-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				D329AD8323B04F900029177B /* RNMBCamera.swift */,
 				D329AD8523B04FB20029177B /* Props.swift */,
 				D329AD8723B04FBD0029177B /* RNMBOptions.swift */,
+				D329AD8923B2CCD00029177B /* RNMBMapStyle.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 				D371B6912336E8A900222724 /* Utils.swift in Sources */,
 				D32A7ACA2380DE130019C75D /* RNMBMarker.swift in Sources */,
 				D371B6882336E68F00222724 /* MapBoxMapView.swift in Sources */,
+				D329AD8A23B2CCD00029177B /* RNMBMapStyle.swift in Sources */,
 				D371B6832336E66800222724 /* NativeBridge.m in Sources */,
 				D329AD8823B04FBD0029177B /* RNMBOptions.swift in Sources */,
 			);

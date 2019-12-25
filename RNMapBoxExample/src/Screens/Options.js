@@ -51,7 +51,7 @@ export default class Simple extends Component {
           camera={{
             target: {lat: 40.9175, lng: 38.3927},
             bearing: 1,
-            zoom: 6,
+            zoom: 8,
             tilt: 7,
           }}
           style={StyleSheet.absoluteFillObject}
@@ -61,7 +61,7 @@ export default class Simple extends Component {
             showsHeading: this.state.showsHeading,
             showsUserLocation: this.state.showsUserLocation,
           }}
-          mapStyle="DEFAULT"
+          mapStyle="DARK"
         />
         <View style={styleSheet.backButton}>
           <Button title="<Back" onPress={this.props.onGoBack} />

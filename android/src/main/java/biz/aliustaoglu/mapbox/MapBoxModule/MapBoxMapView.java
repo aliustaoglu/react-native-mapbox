@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.Color;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.building.BuildingPlugin;
 
 import java.util.List;
 
@@ -30,6 +32,8 @@ import biz.aliustaoglu.mapbox.Utility.SystemUtility;
 
 public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, Style.OnStyleLoaded {
     public boolean isMapReady = false;
+    public boolean isStyleLoaded = false;
+
     public final MapView mapView;
     public MapboxMap mapboxMap;
 
@@ -37,6 +41,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     // Props
     public RNMBOptions options;
     public RNMBCamera camera;
+    public RNMBMapStyle mapStyle;
 
     public MapBoxMapView(@NonNull ReactContext context) {
         super(context);
@@ -51,11 +56,12 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
         isMapReady = true;
-        mapboxMap.setStyle(Style.MAPBOX_STREETS);
+
         mapboxMap.getStyle(this);
+
+        if (mapStyle == null) mapStyle = new RNMBMapStyle("DEFAULT");
+        setMapStyle();
         reactNativeEvent("onMapReady", null);
-
-
     }
 
     public void setOptions(){
@@ -66,11 +72,18 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         this.camera.update(mapboxMap);
     }
 
+    public void setMapStyle(){
+        this.mapStyle.update(mapboxMap);
+    }
+
     @Override
     public void onStyleLoaded(@NonNull Style style) {
-
+        this.isStyleLoaded = true;
         if (this.camera != null) this.camera.update(mapboxMap);
         if (this.options != null) this.options.update(mapboxMap, mapView, this.getContext());
+
+//        BuildingPlugin buildingPlugin = new BuildingPlugin(mapView, mapboxMap, style);
+//        buildingPlugin.setVisibility(true);
     }
 
 

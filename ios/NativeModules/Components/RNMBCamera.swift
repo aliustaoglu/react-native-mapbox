@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mapbox
 
 struct RNMBCamera {
     struct Target {
@@ -21,10 +22,19 @@ struct RNMBCamera {
     
     init(_ dict:NSDictionary){
         let target = dict["target"] as? Dictionary<String, Double>
-        self.target = Target(lat:target?["lng"], lng: target?["lng"])
+        self.target = Target(lat:target?["lat"], lng: target?["lng"])
         self.bearing = dict["bearing"] as? Double
         self.zoom = dict["zoom"] as? Double
         self.tilt = dict["tilt"] as? Double
+    }
+    
+    public func update(_ mapView: MGLMapView){
+        let center = CLLocationCoordinate2D(latitude: target!.lat!, longitude: target!.lng!)
+        if (zoom != nil) {
+            mapView.setCenter(center, zoomLevel: zoom!, animated: true)
+        } else {
+            mapView.setCenter(center, animated: true)
+        }
     }
     
 }

@@ -11,4 +11,5 @@ import Foundation
 struct Props {
     var camera: RNMBCamera?
     var options: RNMBOptions?
+    var mapStyle: RNMBMapStyle?
 }

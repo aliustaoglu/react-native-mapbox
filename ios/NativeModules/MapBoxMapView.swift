@@ -15,8 +15,9 @@ class MapBoxMapView: UIView {
     @objc var camera: NSDictionary = [:] {
         didSet{
             props.camera = RNMBCamera(camera)
+            // Probably no need this
             if (self.isMapReady){
-                updateCamera()
+                props.camera?.update(mapView)
             }
         }
     }
@@ -30,6 +31,12 @@ class MapBoxMapView: UIView {
         }
     }
     
+    @objc var mapStyle: NSString = "DEFAULT" {
+        didSet{
+            props.mapStyle = RNMBMapStyle(styleName: mapStyle as String)
+        }
+    }
+    
     init() {
         super.init(frame: UIScreen.main.bounds)
     }
@@ -39,21 +46,14 @@ class MapBoxMapView: UIView {
     }
     
     func initMap(){
-        self.mapView = MGLMapView(frame: self.bounds)
+        self.mapView = props.mapStyle == nil ?
+            MGLMapView(frame: self.bounds) :
+            MGLMapView(frame: self.bounds, styleURL: props.mapStyle?.getStyle())
         self.addSubview(mapView!)
         self.isMapReady = true
         
-        updateCamera()
+        props.camera?.update(mapView)
         props.options?.update(mapView)
-    }
-    
-    func updateCamera(){
-        let center = CLLocationCoordinate2D(latitude: props.camera!.target!.lat!, longitude: props.camera!.target!.lng!)
-        if let zoom = props.camera?.zoom {
-            mapView?.setCenter(center, zoomLevel: zoom, animated: true)
-        } else {
-            mapView?.setCenter(center, animated: true)
-        }
     }
     
     required init?(coder: NSCoder) {
