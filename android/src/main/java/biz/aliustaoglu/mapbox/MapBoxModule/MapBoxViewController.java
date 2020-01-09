@@ -42,25 +42,33 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
         return MapBuilder.builder()
                 .put("onMapReady", MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", "onMapReady")))
                 .put("onMarkerClick", MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", "onMarkerClick")))
+                .put("onCameraMove", MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", "onCameraMove")))
+                .put("onCameraMoveEnd", MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", "onCameraMoveEnd")))
                 .build();
     }
 
-    @ReactProp(name="camera")
-    public void setCamera(MapBoxMapView mapBoxMapView, @Nullable ReadableMap camera){
+    @ReactProp(name = "camera")
+    public void setCamera(MapBoxMapView mapBoxMapView, @Nullable ReadableMap camera) {
         mapBoxMapView.camera = new RNMBCamera(camera);
         if (mapBoxMapView.isMapReady) mapBoxMapView.setCamera();
     }
 
-    @ReactProp(name="options")
-    public void setOptions(MapBoxMapView mapBoxMapView, @Nullable ReadableMap options){
+    @ReactProp(name = "options")
+    public void setOptions(MapBoxMapView mapBoxMapView, @Nullable ReadableMap options) {
         mapBoxMapView.options = new RNMBOptions(options);
         if (mapBoxMapView.isMapReady) mapBoxMapView.setOptions();
     }
 
-    @ReactProp(name="mapStyle")
-    public void setMapStyle(MapBoxMapView mapBoxMapView, @Nullable ReadableMap mapStyle){
+    @ReactProp(name = "mapStyle")
+    public void setMapStyle(MapBoxMapView mapBoxMapView, @Nullable ReadableMap mapStyle) {
         mapBoxMapView.mapStyle = new RNMBMapStyle(mapStyle);
         if (mapBoxMapView.isMapReady) mapBoxMapView.setMapStyle();
+    }
+
+    @ReactProp(name = "locationPicker")
+    public void setLocationPicker(MapBoxMapView mapBoxMapView, @Nullable Boolean locationPicker) {
+        mapBoxMapView.locationPicker = new RNMBLocationPicker(locationPicker, mapBoxMapView);
+        if (mapBoxMapView.isMapReady) mapBoxMapView.setLocationPicker();
     }
 
 

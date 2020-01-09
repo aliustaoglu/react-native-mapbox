@@ -31,7 +31,10 @@ export default class LocationPicker extends Component {
             tilt: this.state.tilt,
           }}
           style={StyleSheet.absoluteFillObject}
+          locationPicker={true}
           onMapReady={() => console.log('onMapReady callback')}
+          onCameraMoveEnd={e=>console.log(e.nativeEvent)}
+          onCameraMove={e=>console.log(e.nativeEvent)}
         />
         <View style={commonStyles.backButton}>
           <Button title="<Back" onPress={this.props.onGoBack} />

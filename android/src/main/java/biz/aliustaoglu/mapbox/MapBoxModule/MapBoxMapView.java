@@ -1,36 +1,22 @@
 package biz.aliustaoglu.mapbox.MapBoxModule;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.ContextWrapper;
-import android.graphics.Color;
+
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.core.PermissionAwareActivity;
-import com.facebook.react.modules.core.PermissionListener;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
-import com.mapbox.android.core.permissions.PermissionsListener;
-import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.android.gestures.MoveGestureDetector;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.plugins.building.BuildingPlugin;
 
-import java.util.List;
 
-import biz.aliustaoglu.mapbox.R;
-import biz.aliustaoglu.mapbox.Utility.SystemUtility;
-
-public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, Style.OnStyleLoaded {
+public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, Style.OnStyleLoaded, MapboxMap.OnCameraMoveListener, MapboxMap.OnCameraIdleListener {
     public boolean isMapReady = false;
     public boolean isStyleLoaded = false;
 
@@ -42,6 +28,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     public RNMBOptions options;
     public RNMBCamera camera;
     public RNMBMapStyle mapStyle;
+    public RNMBLocationPicker locationPicker;
 
     public MapBoxMapView(@NonNull ReactContext context) {
         super(context);
@@ -58,10 +45,14 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         isMapReady = true;
 
         mapboxMap.getStyle(this);
+        mapboxMap.addOnCameraMoveListener(this);
+        mapboxMap.addOnCameraIdleListener(this);
 
         if (mapStyle == null) mapStyle = new RNMBMapStyle();
         setMapStyle();
         reactNativeEvent("onMapReady", null);
+
+        setLocationPicker();
     }
 
     public void setOptions(){
@@ -74,6 +65,9 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
 
     public void setMapStyle(){
         this.mapStyle.update(mapboxMap);
+    }
+    public void setLocationPicker(){
+        this.locationPicker.update(mapboxMap);
     }
 
     @Override
@@ -92,4 +86,24 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
                 .receiveEvent(this.getId(), eventName, eventParams);
     }
 
+
+    @Override
+    public void onCameraMove() {
+        WritableMap location = getLocation();
+        reactNativeEvent("onCameraMove", location);
+    }
+
+    @Override
+    public void onCameraIdle() {
+        WritableMap location = getLocation();
+        reactNativeEvent("onCameraMoveEnd", location);
+    }
+
+    private WritableMap getLocation(){
+        CameraPosition position = mapboxMap.getCameraPosition();
+        WritableMap location = Arguments.createMap();
+        location.putDouble("lat", position.target.getLatitude());
+        location.putDouble("lng", position.target.getLongitude());
+        return location;
+    }
 }
