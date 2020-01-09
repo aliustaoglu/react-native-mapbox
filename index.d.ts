@@ -1,54 +1,94 @@
-import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native'
+import React from "react";
+import { StyleProp, ViewStyle } from "react-native";
 
-type MarkersType = {
+type CameraTarget = {
   /**
-   * Latitude of the marker
+   * Latitude of camera
    */
   lat: Number;
   /**
-   * Longitude of the marker
+   * Longitude of camera
    */
   lng: Number;
-  /**
-   * Label of marker
-   */
-  label: String;
 };
 
-type RegionType = {
+
+type Camera = {
   /**
-   * Latitude of map object
+   * Camera target in {lat, lng} value
    */
-  lat: Number,
+  target: CameraTarget;
   /**
-   * Longitude of map object
+   * Bearing angle
    */
-  lng: Number
+  bearing: Number;
+  /**
+   * Zoom value
+   */
+  zoom: Number;
+  /**
+   * Tilt value
+   */
+  tilt: Number;
+};
+
+type Options = {
+  /**
+   * Whether to show user's orientation on map.
+   * IMPORTANT: This requires for you to get location permission first
+   */
+  showsUserHeadingIndicator: Boolean;
+  /**
+   * Whether to show map scale
+   */
+  showsScale: Boolean;
+  /**
+   * Whether to show heading 
+   */
+  showsHeading: Boolean;
+  /**
+   * Whether to show user's location on map
+   * IMPORTANT: This requires for you to get location permission first
+   */
+  showsUserLocation: Boolean;
 }
 
+type MapStyle = {
+  /**
+   * Predefined style name or url to custom style
+   */
+  styleName: "OUTDOORS" | "LIGHT" | "DARK" | "SATELLITE" | "SATELLITE_STREETS" | "TRAFFIC_DAY" | String,
+  /**
+   * Whether to show buildings on map
+   */
+  buildings: Boolean
+}
 
 export interface MapBoxProperties {
   /**
    * Callback when map is ready
    */
   onMapReady?(): void;
+
   /**
-   * Markers array
+   * Camera settings for map
    */
-  markers: Array<MarkersType>;
+  camera: Camera;
+
   /**
-   * Zoom level of map
+   * Map options
    */
-  zoom: Number;
+  options: Options;
+
   /**
-   * Map center in latLng
+   * Map style options
    */
-  region: RegionType;
+  mapStyle: MapStyle;
+  
   /**
-   * Map View style
+   * Map View Controller style
    */
-  style: StyleProp<ViewStyle>
+  style: StyleProp<ViewStyle>;
 }
 
 interface MapBoxStatic extends React.ComponentClass<MapBoxProperties> {}

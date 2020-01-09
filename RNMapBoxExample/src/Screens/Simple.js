@@ -1,30 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button, TextInput} from 'react-native';
 import RNMapBox from 'react-native-mapbox';
-
-const styleSheet = StyleSheet.create({
-  bottomView: {
-    position: 'absolute',
-    width: 100,
-    bottom: 30,
-    right: 10,
-    backgroundColor: '#fff',
-  },
-  bottomRow: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 30,
-    left: 10,
-  },
-  textInput: {
-    backgroundColor: 'lightgray',
-    width: 90,
-    height: 35,
-  },
-});
+import {commonStyles} from './styles';
 
 export default class Simple extends Component {
   constructor(props) {
@@ -56,32 +33,32 @@ export default class Simple extends Component {
           style={StyleSheet.absoluteFillObject}
           onMapReady={() => console.log('onMapReady callback')}
         />
-        <View style={styleSheet.backButton}>
+        <View style={commonStyles.backButton}>
           <Button title="<Back" onPress={this.props.onGoBack} />
         </View>
-        <View style={styleSheet.bottomView}>
-          <View style={styleSheet.bottomRow}>
+        <View style={commonStyles.bottomView}>
+          <View style={commonStyles.bottomRow}>
             <Text>Lat: </Text>
             <TextInput
               onChange={e => this.setState({lat: parseFloat(e.nativeEvent.text)})}
               value={this.state.lat.toString()}
-              style={styleSheet.textInput}
+              style={commonStyles.textInput}
             />
           </View>
-          <View style={styleSheet.bottomRow}>
+          <View style={commonStyles.bottomRow}>
             <Text>Lng: </Text>
             <TextInput
               onChange={e => this.setState({lng: parseFloat(e.nativeEvent.text)})}
               value={this.state.lng.toString()}
-              style={styleSheet.textInput}
+              style={commonStyles.textInput}
             />
           </View>
-          <View style={styleSheet.bottomRow}>
+          <View style={commonStyles.bottomRow}>
             <Text>Zoom: </Text>
             <TextInput
               onChange={e => this.setState({zoom: parseFloat(e.nativeEvent.text)})}
               value={(this.state.zoom || 1).toString()}
-              style={styleSheet.textInput}
+              style={commonStyles.textInput}
             />
           </View>
         </View>

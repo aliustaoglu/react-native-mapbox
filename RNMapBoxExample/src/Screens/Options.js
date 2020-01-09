@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-did-mount-set-state */
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, PermissionsAndroid, Button} from 'react-native';
+import {Platform, StyleSheet, Text, View, PermissionsAndroid, Button, Picker} from 'react-native';
 import RNMapBox from 'react-native-mapbox';
 
 const styleSheet = StyleSheet.create({
@@ -9,6 +9,13 @@ const styleSheet = StyleSheet.create({
     position: 'absolute',
     top: 30,
     left: 10,
+  },
+  bottomView: {
+    position: 'absolute',
+    width: 200,
+    bottom: 30,
+    right: 10,
+    backgroundColor: '#fff',
   },
 });
 
@@ -20,7 +27,13 @@ export default class Simple extends Component {
       showsScale: false,
       showsHeading: false,
       showsUserLocation: false,
+      mapStyleName: 'OUTDOORS',
     };
+    this.onMapStyleChange = this.onMapStyleChange.bind(this);
+  }
+
+  onMapStyleChange(val, ind) {
+    this.setState({mapStyleName: val});
   }
 
   async componentDidMount() {
@@ -63,12 +76,22 @@ export default class Simple extends Component {
             showsUserLocation: this.state.showsUserLocation,
           }}
           mapStyle={{
-            styleName: 'OUTDOORS',
+            styleName: this.state.mapStyleName,
             buildings: true,
           }}
         />
         <View style={styleSheet.backButton}>
           <Button title="<Back" onPress={this.props.onGoBack} />
+        </View>
+        <View style={styleSheet.bottomView}>
+          <Picker onValueChange={this.onMapStyleChange}>
+            <Picker.Item label="OUTDOORS" value="OUTDOORS" />
+            <Picker.Item label="LIGHT" value="LIGHT" />
+            <Picker.Item label="DARK" value="DARK" />
+            <Picker.Item label="SATELLITE" value="SATELLITE" />
+            <Picker.Item label="SATELLITE_STREETS" value="SATELLITE_STREETS" />
+            <Picker.Item label="TRAFFIC_DAY" value="TRAFFIC_DAY" />
+          </Picker>
         </View>
       </>
     );
