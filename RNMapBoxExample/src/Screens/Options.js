@@ -84,7 +84,7 @@ export default class Simple extends Component {
           <Button title="<Back" onPress={this.props.onGoBack} />
         </View>
         <View style={styleSheet.bottomView}>
-          <Picker onValueChange={this.onMapStyleChange}>
+          <Picker mode="dropdown" onValueChange={this.onMapStyleChange} selectedValue={this.state.mapStyleName}>
             <Picker.Item label="OUTDOORS" value="OUTDOORS" />
             <Picker.Item label="LIGHT" value="LIGHT" />
             <Picker.Item label="DARK" value="DARK" />

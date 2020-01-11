@@ -19,7 +19,7 @@ struct RNMBMapStyle{
     }
     
     public func update(_ mapView: MGLMapView){
-        
+        mapView.styleURL = getStyle()
     }
     
     public func updateBuildings(style:MGLStyle){

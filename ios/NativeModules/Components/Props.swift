@@ -12,4 +12,5 @@ struct Props {
     var camera: RNMBCamera?
     var options: RNMBOptions?
     var mapStyle: RNMBMapStyle?
+    var locationPicker: RNMBLocationPicker?
 }

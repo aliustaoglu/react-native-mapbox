@@ -12,6 +12,10 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     private var util = Utils()
     private var props = Props()
     
+    // =========================================
+    // PROPS start
+    
+    // Property Props Start
     @objc var camera: NSDictionary = [:] {
         didSet{
             props.camera = RNMBCamera(camera)
@@ -34,10 +38,31 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     @objc var mapStyle: NSDictionary = [:] {
         didSet{
             props.mapStyle = RNMBMapStyle(mapStyle)
+            if (self.isMapReady){
+                props.mapStyle?.update(self.mapView)
+            }
         }
     }
     
+    @objc var locationPicker: Bool = false {
+        didSet{
+            props.locationPicker = RNMBLocationPicker(locationPicker)
+            if (self.isMapReady){
+                props.options?.update(self.mapView)
+            }
+        }
+    }
+    // Property Props End
+    
+    // Event Props Start
     @objc var onMapReady: RCTDirectEventBlock?
+    @objc var onCameraMove: RCTDirectEventBlock?
+    @objc var onCameraMoveEnd: RCTDirectEventBlock?
+    // Event Props End
+    
+    // PROPS End
+    // =========================================
+    
     
     init() {
         super.init(frame: UIScreen.main.bounds)
@@ -57,6 +82,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         
         props.camera?.update(mapView)
         props.options?.update(mapView)
+        props.locationPicker?.update(mapView)
     }
     
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
@@ -64,6 +90,20 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
           self.onMapReady!([:])
         }
         props.mapStyle?.updateBuildings(style: style)
+    }
+    
+    func mapViewRegionIsChanging(_ mapView: MGLMapView) {
+        if (self.onCameraMove == nil) {
+            return
+        }
+        self.onCameraMove!(["lat": mapView.latitude, "lng": mapView.longitude])
+    }
+    
+    func mapView(_ mapView: MGLMapView, regionDidChangeAnimated animated: Bool) {
+        if (self.onCameraMoveEnd == nil) {
+            return
+        }
+        self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude])
     }
     
     

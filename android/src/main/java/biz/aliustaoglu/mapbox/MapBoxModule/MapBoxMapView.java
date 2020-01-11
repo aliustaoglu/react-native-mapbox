@@ -67,6 +67,8 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         this.mapStyle.update(mapboxMap);
     }
     public void setLocationPicker(){
+        if (this.locationPicker == null) return;
+        
         this.locationPicker.update(mapboxMap);
     }
 

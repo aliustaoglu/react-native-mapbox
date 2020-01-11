@@ -18,6 +18,9 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
+  #s.resources = "ios/MapAssets.xcassets"
+  # To store assets such as pin.png etc.
+  s.resource_bundles = {'MapAssets' => ['ios/MapAssets.xcassets']}
 
   s.dependency "React"
   s.dependency 'Mapbox-iOS-SDK', '~> 5.5'
