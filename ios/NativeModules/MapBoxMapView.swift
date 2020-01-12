@@ -19,7 +19,6 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     @objc var camera: NSDictionary = [:] {
         didSet{
             props.camera = RNMBCamera(camera)
-            // Probably no need this
             if (self.isMapReady){
                 props.camera?.update(mapView)
             }
@@ -50,6 +49,12 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
             if (self.isMapReady){
                 props.options?.update(self.mapView)
             }
+        }
+    }
+    
+    @objc var markers: NSArray = [] {
+        didSet{
+            props.markers = RNMBMarkers(markers)
         }
     }
     // Property Props End
@@ -83,6 +88,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         props.camera?.update(mapView)
         props.options?.update(mapView)
         props.locationPicker?.update(mapView)
+        props.markers?.update(mapView)
     }
     
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
@@ -105,6 +111,14 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
         self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude])
     }
+    
+//    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+//        let url = URL(string: "https://icons8.com/vue-static/landings/primary-landings/favs/icons8_fav_196%C3%97196.png")
+//        let data = try? Data(contentsOf: url!)
+//        //Data(base64Encoded: "")
+//        let img = UIImage(data: data!)!
+//        return MGLAnnotationImage(image: img, reuseIdentifier: "data")
+//    }
     
     
     required init?(coder: NSCoder) {

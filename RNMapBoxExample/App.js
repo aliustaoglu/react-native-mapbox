@@ -5,6 +5,7 @@ import Btn from './src/Btn';
 import Simple from './src/Screens/Simple';
 import Options from './src/Screens/Options';
 import LocationPicker from './src/Screens/LocationPicker';
+import Markers from './src/Screens/Markers';
 
 export default class App extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class App extends Component {
               <Btn text="Simple" onClick={() => this.onBtnClick('Simple')} />
               <Btn text="Options" onClick={() => this.onBtnClick('Options')} />
               <Btn text="Location Picker" onClick={() => this.onBtnClick('LocationPicker')} />
+              <Btn text="Markers" onClick={() => this.onBtnClick('Markers')} />
             </ScrollView>
           </View>
         )}
@@ -36,6 +38,7 @@ export default class App extends Component {
         {this.state.activeRoute === 'LocationPicker' && (
           <LocationPicker onGoBack={() => this.setState({activeRoute: 'App'})} />
         )}
+        {this.state.activeRoute === 'Markers' && <Markers onGoBack={() => this.setState({activeRoute: 'App'})} />}
       </>
     );
   }

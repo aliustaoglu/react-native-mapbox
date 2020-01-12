@@ -12,6 +12,7 @@ export default class LocationPicker extends Component {
       zoom: 6,
       bearing: 1,
       tilt: 7,
+      selectedCoordinates: ''
     };
   }
 
@@ -33,11 +34,14 @@ export default class LocationPicker extends Component {
           style={StyleSheet.absoluteFillObject}
           locationPicker={true}
           onMapReady={() => console.log('onMapReady callback')}
-          onCameraMoveEnd={e=>console.log(e.nativeEvent)}
+          onCameraMoveEnd={e=>this.setState({selectedCoordinates : e.nativeEvent.lat + "," + e.nativeEvent.lng})}
           onCameraMove={e=>console.log(e.nativeEvent)}
         />
         <View style={commonStyles.backButton}>
           <Button title="<Back" onPress={this.props.onGoBack} />
+        </View>
+        <View style={{...commonStyles.bottomView, width: '90%'}}>
+          <Text>{this.state.selectedCoordinates}</Text>
         </View>
       </>
     );

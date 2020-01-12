@@ -13,4 +13,5 @@ struct Props {
     var options: RNMBOptions?
     var mapStyle: RNMBMapStyle?
     var locationPicker: RNMBLocationPicker?
+    var markers: RNMBMarkers?
 }
