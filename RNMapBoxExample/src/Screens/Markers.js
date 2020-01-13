@@ -1,11 +1,48 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, NativeModules} from 'react-native';
 import RNMapBox from 'react-native-mapbox';
-import img from '../assets/marker.png'
 
-//const img = require('../../screenshots/screenshot.png')
+import bus from '../assets/bus.png';
+import train from '../assets/train.png';
 
 export default class Markers extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      marker1: {
+        id: 'Marker1',
+        lat: 40.9175,
+        lng: 38.3927,
+        title: 'Custom',
+        subtitle: 'Sub1',
+        icon: Image.resolveAssetSource(bus),
+      },
+      marker2: {
+        id: 'Marker2',
+        lat: 40.9175,
+        lng: 39.3927,
+        title: 'Custom2',
+        subtitle: 'Sub2',
+        icon: Image.resolveAssetSource(train),
+      },
+    };
+  }
+
+  componentDidMount() {
+    window.setInterval(() => {
+      this.setState({
+        marker1: {
+          id: 'Marker1',
+          lat: this.state.marker1.lat + 1,
+          lng: this.state.marker1.lng + 1,
+          title: 'Custom',
+          subtitle: 'Sub1',
+          icon: Image.resolveAssetSource(bus),
+        },
+      });
+    }, 1000);
+  }
+
   render() {
     // const k = NativeModules.ConvertUtil.getBase64FromImageURL(Image.resolveAssetSource(img))
     // k.then(a=>console.log(a))
@@ -20,10 +57,7 @@ export default class Markers extends React.Component {
         }}
         style={StyleSheet.absoluteFillObject}
         onMapReady={() => console.log('onMapReady callback')}
-        markers={[
-          {id: 'Marker1', lat: 40.9175, lng: 38.3927, title: 'Custom', subtitle: 'Sub1', icon: Image.resolveAssetSource(img)},
-          {id: 'Marker2', lat: 40.9175, lng: 39.3927, title: 'Custom2', subtitle: 'Sub2', icon: Image.resolveAssetSource(img)}
-        ]}
+        markers={[this.state.marker1, this.state.marker2]}
       />
     );
   }

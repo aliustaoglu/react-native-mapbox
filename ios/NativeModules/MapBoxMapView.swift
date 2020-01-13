@@ -55,6 +55,9 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     @objc var markers: NSArray = [] {
         didSet{
             props.markers = RNMBMarkers(markers)
+            if (self.isMapReady){
+                props.markers?.update(self.mapView)
+            }
         }
     }
     // Property Props End
@@ -114,7 +117,6 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     
     func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
         if let rnmbAnnotation = annotation as? RNMBPointAnnotation {
-            print(rnmbAnnotation)
             return rnmbAnnotation.annotationImage
         } else {
             return nil

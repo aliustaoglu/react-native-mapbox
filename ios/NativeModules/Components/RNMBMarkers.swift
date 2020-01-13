@@ -14,20 +14,22 @@ class RNMBPointAnnotation: MGLPointAnnotation {
     var lng: CLLocationDegrees
     var icon: NSDictionary?
     var annotationImage: MGLAnnotationImage?
+    var id: String
     
     init(_ marker: NSDictionary){
         self.lat = marker.object(forKey: "lat") as! CLLocationDegrees
         self.lng = marker.object(forKey: "lng") as! CLLocationDegrees
+        self.id = marker.object(forKey: "id") as! String
         
         if let ico = marker.object(forKey: "icon") {
             let icon = ico as? NSDictionary
             self.icon = icon
             let uri = icon?.object(forKey: "uri") as! String
-                        
+            
             let url = URL(string: uri)
             let data = try? Data(contentsOf: url!)
             let img = UIImage(data: data!)!
-            self.annotationImage = MGLAnnotationImage(image: img, reuseIdentifier: "data")
+            self.annotationImage = MGLAnnotationImage(image: img, reuseIdentifier: self.id)
         }
         
         super.init()
@@ -54,11 +56,20 @@ class RNMBMarkers{
     public func update(_ mapView: MGLMapView){
         for m in self.markers {
             let marker = m as! NSDictionary
-            let pin = RNMBPointAnnotation(marker)
-            mapView.addAnnotation(pin)
+            let id = marker.object(forKey: "id") as! String
+            
+            
+            let existingAnnotation = mapView.annotations?.first{ ann in
+                let annotation = ann as! RNMBPointAnnotation
+                return annotation.id == id
+                } as? RNMBPointAnnotation
+            
+            if (existingAnnotation == nil) {
+                mapView.addAnnotation(RNMBPointAnnotation(marker))
+            } else {
+                let pin = RNMBPointAnnotation(marker)
+                existingAnnotation!.coordinate = pin.coordinate
+            }
         }
-        
     }
-    
-    
 }
