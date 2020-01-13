@@ -1,9 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, NativeModules} from 'react-native';
+import {View, Text, StyleSheet, Image, Button} from 'react-native';
 import RNMapBox from 'react-native-mapbox';
 
 import bus from '../assets/bus.png';
 import train from '../assets/train.png';
+import { commonStyles } from './styles';
 
 export default class Markers extends React.Component {
   constructor(props) {
@@ -47,6 +48,7 @@ export default class Markers extends React.Component {
     // const k = NativeModules.ConvertUtil.getBase64FromImageURL(Image.resolveAssetSource(img))
     // k.then(a=>console.log(a))
     return (
+      <>
       <RNMapBox
         camera={{
           target: {
@@ -59,6 +61,10 @@ export default class Markers extends React.Component {
         onMapReady={() => console.log('onMapReady callback')}
         markers={[this.state.marker1, this.state.marker2]}
       />
+      <View style={commonStyles.backButton}>
+          <Button title="<Back" onPress={this.props.onGoBack} />
+        </View>
+      </>
     );
   }
 }

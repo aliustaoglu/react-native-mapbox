@@ -3,6 +3,7 @@ package biz.aliustaoglu.mapbox.MapBoxModule;
 
 import android.content.Context;
 
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -69,6 +70,12 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
     public void setLocationPicker(MapBoxMapView mapBoxMapView, @Nullable Boolean locationPicker) {
         mapBoxMapView.locationPicker = new RNMBLocationPicker(locationPicker, mapBoxMapView);
         if (mapBoxMapView.isMapReady) mapBoxMapView.setLocationPicker();
+    }
+
+    @ReactProp(name = "markers")
+    public void setMarkers(MapBoxMapView mapBoxMapView, @Nullable ReadableArray markers){
+        mapBoxMapView.markers = new RNMBMarkers(markers);
+        if (mapBoxMapView.isStyleLoaded) mapBoxMapView.setMarkers();
     }
 
 

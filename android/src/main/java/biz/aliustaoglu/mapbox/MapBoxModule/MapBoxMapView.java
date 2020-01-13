@@ -14,6 +14,7 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 
 
 public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, Style.OnStyleLoaded, MapboxMap.OnCameraMoveListener, MapboxMap.OnCameraIdleListener {
@@ -22,6 +23,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
 
     public final MapView mapView;
     public MapboxMap mapboxMap;
+    public SymbolManager symbolManager;
 
 
     // Props
@@ -29,6 +31,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     public RNMBCamera camera;
     public RNMBMapStyle mapStyle;
     public RNMBLocationPicker locationPicker;
+    public RNMBMarkers markers;
 
     public MapBoxMapView(@NonNull ReactContext context) {
         super(context);
@@ -48,6 +51,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         mapboxMap.addOnCameraMoveListener(this);
         mapboxMap.addOnCameraIdleListener(this);
 
+
         if (mapStyle == null) mapStyle = new RNMBMapStyle();
         setMapStyle();
         reactNativeEvent("onMapReady", null);
@@ -56,11 +60,11 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     }
 
     public void setOptions(){
-        this.options.update(mapboxMap, mapView, this.getContext());
+        if (this.options != null) this.options.update(mapboxMap, mapView, this.getContext());
     }
 
     public void setCamera(){
-        this.camera.update(mapboxMap);
+        if (this.camera != null) this.camera.update(mapboxMap);
     }
 
     public void setMapStyle(){
@@ -72,12 +76,20 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         this.locationPicker.update(mapboxMap);
     }
 
+    public void setMarkers(){
+        if (this.markers != null) this.markers.update(mapboxMap, this.getContext(), this.symbolManager);
+    }
+
     @Override
     public void onStyleLoaded(@NonNull Style style) {
         this.isStyleLoaded = true;
-        if (this.camera != null) this.camera.update(mapboxMap);
-        if (this.options != null) this.options.update(mapboxMap, mapView, this.getContext());
+        this.symbolManager = new SymbolManager(mapView, mapboxMap, style);
+
         if (this.mapStyle != null) this.mapStyle.update(mapboxMap, mapView, style);
+
+        setCamera();
+        setOptions();
+        setMarkers();
     }
 
 
