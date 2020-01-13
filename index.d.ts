@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle, ImageResolvedAssetSource } from "react-native";
 
 type CameraTarget = {
   /**
@@ -64,6 +64,39 @@ type MapStyle = {
   buildings: Boolean
 }
 
+type Marker = {
+  /**
+   * Unique id for marker
+   */
+  id: String;
+
+  /**
+   * Latitude of the marker
+   */
+  lat: Number;
+
+  /**
+   * Longitude of the marker
+   */
+  lng: Number;
+
+  /**
+   * Title for the marker
+   */
+  title: String;
+
+  /**
+   * Subtitle for the marker
+   */
+  subtitle: String;
+
+  /**
+   * Resolved asset for the image
+   * eg. Image.resolveAssetSource(require('foo.png'))
+   */
+  icon: ImageResolvedAssetSource;
+}
+
 export interface MapBoxProperties {
   /**
    * Callback when map is ready
@@ -89,6 +122,8 @@ export interface MapBoxProperties {
    * Map View Controller style
    */
   style: StyleProp<ViewStyle>;
+
+  markers: Array<Marker>
 }
 
 interface MapBoxStatic extends React.ComponentClass<MapBoxProperties> {}
