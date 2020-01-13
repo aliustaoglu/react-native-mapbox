@@ -12,13 +12,13 @@
 		D329AD8623B04FB20029177B /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329AD8523B04FB20029177B /* Props.swift */; };
 		D329AD8823B04FBD0029177B /* RNMBOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329AD8723B04FBD0029177B /* RNMBOptions.swift */; };
 		D329AD8A23B2CCD00029177B /* RNMBMapStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329AD8923B2CCD00029177B /* RNMBMapStyle.swift */; };
-		D32A7ACA2380DE130019C75D /* RNMBMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32A7AC92380DE130019C75D /* RNMBMarker.swift */; };
 		D371B6832336E66800222724 /* NativeBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D371B6822336E66800222724 /* NativeBridge.m */; };
 		D371B6862336E67B00222724 /* MapBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6852336E67B00222724 /* MapBoxViewController.swift */; };
 		D371B6882336E68F00222724 /* MapBoxMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6872336E68F00222724 /* MapBoxMapView.swift */; };
 		D371B6912336E8A900222724 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D371B6902336E8A900222724 /* Utils.swift */; };
 		D383DB0623CAAC3800A167EE /* RNMBMarkers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D383DB0523CAAC3800A167EE /* RNMBMarkers.swift */; };
 		D3C3272223C7E68C00F5115A /* RNMBLocationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C3272123C7E68C00F5115A /* RNMBLocationPicker.swift */; };
+		D3D2AFFD23CBC80E005FBDD9 /* ConvertUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D2AFFC23CBC80E005FBDD9 /* ConvertUtil.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,7 +41,6 @@
 		D329AD8523B04FB20029177B /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
 		D329AD8723B04FBD0029177B /* RNMBOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBOptions.swift; sourceTree = "<group>"; };
 		D329AD8923B2CCD00029177B /* RNMBMapStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBMapStyle.swift; sourceTree = "<group>"; };
-		D32A7AC92380DE130019C75D /* RNMBMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBMarker.swift; sourceTree = "<group>"; };
 		D371B6822336E66800222724 /* NativeBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeBridge.m; sourceTree = "<group>"; };
 		D371B6842336E67B00222724 /* RNMBReactNativeMapbox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNMBReactNativeMapbox-Bridging-Header.h"; sourceTree = "<group>"; };
 		D371B6852336E67B00222724 /* MapBoxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBoxViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		D383DB0523CAAC3800A167EE /* RNMBMarkers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBMarkers.swift; sourceTree = "<group>"; };
 		D3C3272123C7E68C00F5115A /* RNMBLocationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNMBLocationPicker.swift; sourceTree = "<group>"; };
 		D3D234C523C88E3E00B0D03A /* MapAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MapAssets.xcassets; sourceTree = "<group>"; };
+		D3D2AFFC23CBC80E005FBDD9 /* ConvertUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertUtil.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +85,6 @@
 		D32A7AC82380DE010019C75D /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				D32A7AC92380DE130019C75D /* RNMBMarker.swift */,
 				D329AD8323B04F900029177B /* RNMBCamera.swift */,
 				D329AD8523B04FB20029177B /* Props.swift */,
 				D329AD8723B04FBD0029177B /* RNMBOptions.swift */,
@@ -99,6 +98,7 @@
 		D371B6812336E64900222724 /* NativeModules */ = {
 			isa = PBXGroup;
 			children = (
+				D3D2AFFB23CBC7C7005FBDD9 /* MapUtil */,
 				D32A7AC82380DE010019C75D /* Components */,
 				D371B6822336E66800222724 /* NativeBridge.m */,
 				D371B6852336E67B00222724 /* MapBoxViewController.swift */,
@@ -107,6 +107,14 @@
 				D371B6902336E8A900222724 /* Utils.swift */,
 			);
 			path = NativeModules;
+			sourceTree = "<group>";
+		};
+		D3D2AFFB23CBC7C7005FBDD9 /* MapUtil */ = {
+			isa = PBXGroup;
+			children = (
+				D3D2AFFC23CBC80E005FBDD9 /* ConvertUtil.swift */,
+			);
+			path = MapUtil;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,8 +181,8 @@
 				D329AD8623B04FB20029177B /* Props.swift in Sources */,
 				D371B6862336E67B00222724 /* MapBoxViewController.swift in Sources */,
 				D371B6912336E8A900222724 /* Utils.swift in Sources */,
-				D32A7ACA2380DE130019C75D /* RNMBMarker.swift in Sources */,
 				D371B6882336E68F00222724 /* MapBoxMapView.swift in Sources */,
+				D3D2AFFD23CBC80E005FBDD9 /* ConvertUtil.swift in Sources */,
 				D3C3272223C7E68C00F5115A /* RNMBLocationPicker.swift in Sources */,
 				D329AD8A23B2CCD00029177B /* RNMBMapStyle.swift in Sources */,
 				D371B6832336E66800222724 /* NativeBridge.m in Sources */,

@@ -9,43 +9,53 @@
 import Foundation
 import Mapbox
 
-struct RNMBMarkers{
+class RNMBPointAnnotation: MGLPointAnnotation {
+    var lat: CLLocationDegrees
+    var lng: CLLocationDegrees
+    var icon: NSDictionary?
+    var annotationImage: MGLAnnotationImage?
+    
+    init(_ marker: NSDictionary){
+        self.lat = marker.object(forKey: "lat") as! CLLocationDegrees
+        self.lng = marker.object(forKey: "lng") as! CLLocationDegrees
+        
+        if let ico = marker.object(forKey: "icon") {
+            let icon = ico as? NSDictionary
+            self.icon = icon
+            let uri = icon?.object(forKey: "uri") as! String
+                        
+            let url = URL(string: uri)
+            let data = try? Data(contentsOf: url!)
+            let img = UIImage(data: data!)!
+            self.annotationImage = MGLAnnotationImage(image: img, reuseIdentifier: "data")
+        }
+        
+        super.init()
+        
+        self.title = marker.object(forKey: "title") as? String
+        self.subtitle = marker.object(forKey: "subtitle") as? String
+        self.coordinate = CLLocationCoordinate2D(latitude: self.lat, longitude: self.lng)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class RNMBMarkers{
     var markers: NSArray = []
+    var imgAnnotation: MGLAnnotationImage!
     
     init(_ markers: NSArray) {
         self.markers = markers
         
     }
     
-    public mutating func update(_ mapView: MGLMapView){
-        var pointAnnotations = [MGLAnnotationImage]()
+    public func update(_ mapView: MGLMapView){
         for m in self.markers {
             let marker = m as! NSDictionary
-            let lat = marker.object(forKey: "lat") as! CLLocationDegrees
-            let lng = marker.object(forKey: "lng") as! CLLocationDegrees
-            
-            if let ico = marker.object(forKey: "icon") {
-                let icon = ico as! NSDictionary
-                
-                //let iconWidth = icon.object(forKey: "width") as! Double
-                //let iconHeight = icon.object(forKey: "height")  as! Double
-                let iconUri = icon.object(forKey: "uri") as! String
-                
-                let url = URL(string: iconUri)
-                let data = try? Data(contentsOf: url!)
-                let img = UIImage(data: data!)!
-                let anno = MGLAnnotationImage(image: img, reuseIdentifier: "data")
-                
-                
-                let pin = MGLPointAnnotation()
-                pin.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-                
-                
-                mapView.addAnnotation(pin)
-                
-                
-                
-            }
+            let pin = RNMBPointAnnotation(marker)
+            mapView.addAnnotation(pin)
         }
         
     }

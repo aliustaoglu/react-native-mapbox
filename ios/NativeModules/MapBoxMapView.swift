@@ -112,13 +112,14 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude])
     }
     
-//    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
-//        let url = URL(string: "https://icons8.com/vue-static/landings/primary-landings/favs/icons8_fav_196%C3%97196.png")
-//        let data = try? Data(contentsOf: url!)
-//        //Data(base64Encoded: "")
-//        let img = UIImage(data: data!)!
-//        return MGLAnnotationImage(image: img, reuseIdentifier: "data")
-//    }
+    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+        if let rnmbAnnotation = annotation as? RNMBPointAnnotation {
+            print(rnmbAnnotation)
+            return rnmbAnnotation.annotationImage
+        } else {
+            return nil
+        }
+    }
     
     
     required init?(coder: NSCoder) {
