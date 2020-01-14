@@ -96,7 +96,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
         if self.onMapReady != nil {
-          self.onMapReady!([:])
+            self.onMapReady!([:])
         }
         props.mapStyle?.updateBuildings(style: style)
     }
@@ -115,9 +115,17 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude])
     }
     
-    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+    //    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+    //        if let rnmbAnnotation = annotation as? RNMBPointAnnotation {
+    //            return rnmbAnnotation.annotationImage
+    //        } else {
+    //            return nil
+    //        }
+    //    }
+    
+    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
         if let rnmbAnnotation = annotation as? RNMBPointAnnotation {
-            return rnmbAnnotation.annotationImage
+            return rnmbAnnotation.annotationView
         } else {
             return nil
         }

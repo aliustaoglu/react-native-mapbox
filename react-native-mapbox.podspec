@@ -24,7 +24,6 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
   s.dependency 'Mapbox-iOS-SDK', '~> 5.5'
-  #s.dependency 'AFNetworking', '~> 3.0'
-  # s.dependency "..."
+  s.dependency 'Pulsator'
 end
 

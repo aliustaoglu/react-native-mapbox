@@ -8,13 +8,16 @@
 
 import Foundation
 import Mapbox
+import Pulsator
 
 class RNMBPointAnnotation: MGLPointAnnotation {
     var lat: CLLocationDegrees
     var lng: CLLocationDegrees
     var icon: NSDictionary?
-    var annotationImage: MGLAnnotationImage?
+    //var annotationImage: MGLAnnotationImage?
+    var annotationView: MGLAnnotationView?
     var id: String
+    
     
     init(_ marker: NSDictionary){
         self.lat = marker.object(forKey: "lat") as! CLLocationDegrees
@@ -29,7 +32,15 @@ class RNMBPointAnnotation: MGLPointAnnotation {
             let url = URL(string: uri)
             let data = try? Data(contentsOf: url!)
             let img = UIImage(data: data!)!
-            self.annotationImage = MGLAnnotationImage(image: img, reuseIdentifier: self.id)
+            let imgView = UIImageView(image: img)
+            let pulsator = Pulsator()
+            
+            pulsator.backgroundColor = UIColor(red: 0.1, green: 0.24, blue: 1, alpha: 1).cgColor
+            imgView.layer.addSublayer(pulsator)
+            self.annotationView = MGLAnnotationView(reuseIdentifier: self.id)
+            self.annotationView?.addSubview(imgView)
+            pulsator.start()
+            
         }
         
         super.init()
