@@ -1,8 +1,14 @@
 package biz.aliustaoglu.mapbox.MapBoxModule;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.collection.LongSparseArray;
 
@@ -11,22 +17,48 @@ import com.facebook.react.bridge.ReadableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.annotation.Annotation;
+import com.mapbox.mapboxsdk.plugins.annotation.Circle;
+import com.mapbox.mapboxsdk.plugins.annotation.CircleManager;
+import com.mapbox.mapboxsdk.plugins.annotation.CircleOptions;
+import com.mapbox.mapboxsdk.plugins.annotation.Fill;
+import com.mapbox.mapboxsdk.plugins.annotation.FillManager;
+import com.mapbox.mapboxsdk.plugins.annotation.LineManager;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerView;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager;
+import com.mapbox.mapboxsdk.style.layers.FillLayer;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import biz.aliustaoglu.mapbox.R;
 import biz.aliustaoglu.mapbox.Utility.AssetsUtility;
 import biz.aliustaoglu.mapbox.Utility.BitmapDownloader;
 import biz.aliustaoglu.mapbox.Utility.OnAsyncTaskListener;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
 
 public class RNMBMarkers {
     ReadableArray markers;
     MapboxMap mapboxMap;
     SymbolManager symbolManager;
+    CircleManager circleManager;
+    FillManager fillManager;
+    LineManager lineManager;
+
     Context context;
+    Style style;
 
     JsonParser parser = new JsonParser();
 
@@ -34,10 +66,14 @@ public class RNMBMarkers {
         this.markers = markers;
     }
 
-    public void update(MapboxMap mapboxMap, Context context, SymbolManager symbolManager){
-        this.mapboxMap = mapboxMap;
-        this.symbolManager = symbolManager;
-        this.context = context;
+    public void update(MapBoxMapView mapBoxMapView){
+        this.mapboxMap = mapBoxMapView.mapboxMap;
+        this.symbolManager = mapBoxMapView.symbolManager;
+        this.circleManager = mapBoxMapView.circleManager;
+        this.lineManager = mapBoxMapView.lineManager;
+        this.fillManager = mapBoxMapView.fillManager;
+        this.context = mapBoxMapView.getContext();
+        this.style = mapBoxMapView.style;
 
         for (int i = 0; i < markers.size(); i++) {
             ReadableMap marker = markers.getMap(i);
@@ -85,6 +121,34 @@ public class RNMBMarkers {
         }
     }
 
+    private void setSymbolIcon1(String id, String iconName, Bitmap bm, LatLng latLng, String label, Float iconSize, Float[] iconOffset) {
+        ValueAnimator circleAnimator = ValueAnimator.ofFloat(0f,20f);
+        circleAnimator.setDuration(1500);
+        circleAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        circleAnimator.setRepeatMode(ValueAnimator.RESTART);
+        circleAnimator.start();
+
+        final Circle circle = this.circleManager.create(new CircleOptions()
+                .withCircleStrokeWidth(1f)
+                .withCircleStrokeColor("red")
+                .withCircleColor("red")
+                .withCircleOpacity(0.05f)
+                .withGeometry(Point.fromLngLat(174, -36))
+        );
+
+
+        circleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Float val = Float.valueOf((float)animation.getAnimatedValue());
+                circle.setCircleRadius(val);
+                circleManager.update(circle);
+            }
+        });
+
+
+    }
+
     /**
      * Set symbol icon for annotation. Before creating a new one first check if symbol exits. If so update the existing one
      * @param id Marker id - comes from props
@@ -97,15 +161,22 @@ public class RNMBMarkers {
      */
     private void setSymbolIcon(String id, String iconName, Bitmap bm, LatLng latLng, String label, Float iconSize, Float[] iconOffset) {
         this.mapboxMap.getStyle().addImage(iconName, bm);
-
         LongSparseArray<Symbol> annotations = this.symbolManager.getAnnotations();
         Boolean hasSymbol = false;
 
+        final ValueAnimator circleAnimator = ValueAnimator.ofFloat(0f,20f);
+        circleAnimator.setDuration(1500);
+        circleAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        circleAnimator.setRepeatMode(ValueAnimator.RESTART);
+        circleAnimator.start();
+
         Symbol currentAnnotation = null;
+        Circle currentCircle = null;
 
         for (int i=0;i<annotations.size();i++){
             JsonObject data = (JsonObject) annotations.valueAt(i).getData();
             currentAnnotation = annotations.get(i);
+            currentCircle = this.circleManager.getAnnotations().get(i);
             if (data.get("id").getAsString().equals(id)){
                 hasSymbol = true;
                 break;
@@ -118,13 +189,14 @@ public class RNMBMarkers {
                     .withLatLng(latLng)
                     .withIconImage(iconName)
                     .withIconSize(iconSize)
-                    .withIconOffset(iconOffset)
-                    .withTextField(label)
-                    .withTextHaloColor("rgba(255, 255, 255, 100)")
-                    .withTextHaloWidth(5.0f)
-                    .withTextAnchor("top")
-                    .withTextOffset(new Float[]{0f, 0.5f})
                     .withData(symbolData)
+            );
+            final Circle circle = this.circleManager.create(new CircleOptions()
+                    .withCircleStrokeWidth(1f)
+                    .withCircleStrokeColor("red")
+                    .withCircleColor("red")
+                    .withCircleOpacity(0.05f)
+                    .withGeometry(Point.fromLngLat(latLng.getLongitude(), latLng.getLatitude()))
             );
         } else {
             currentAnnotation.setLatLng(latLng);
@@ -132,8 +204,27 @@ public class RNMBMarkers {
             currentAnnotation.setIconSize(iconSize);
             currentAnnotation.setTextField(label);
 
+            currentCircle.setGeometry(Point.fromLngLat(latLng.getLongitude(), latLng.getLatitude()));
+
             symbolManager.update(currentAnnotation);
         }
+
+
+
+
+
+
+
+        circleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Float val = Float.valueOf((float)animation.getAnimatedValue());
+                Circle circle = circleManager.getAnnotations().get(0);
+                circle.setCircleRadius(val);
+                circleManager.update(circle);
+            }
+        });
+
 
     }
 

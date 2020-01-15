@@ -12,16 +12,16 @@ export default class Markers extends React.Component {
     this.state = {
       marker1: {
         id: 'Marker1',
-        lat: 40.9175,
-        lng: 38.3927,
+        lat: -36,
+        lng: 174,
         title: 'Custom',
         subtitle: 'Sub1',
         icon: Image.resolveAssetSource(bus),
       },
       marker2: {
         id: 'Marker2',
-        lat: 40.9175,
-        lng: 39.3927,
+        lat: -36,
+        lng: 173,
         title: 'Custom2',
         subtitle: 'Sub2',
         icon: Image.resolveAssetSource(train),
@@ -34,8 +34,8 @@ export default class Markers extends React.Component {
       this.setState({
         marker1: {
           id: 'Marker1',
-          lat: this.state.marker1.lat + 1,
-          lng: this.state.marker1.lng + 1,
+          lat: this.state.marker1.lat + 0.1,
+          lng: this.state.marker1.lng + 0.1,
           title: 'Custom',
           subtitle: 'Sub1',
           icon: Image.resolveAssetSource(bus),
@@ -52,8 +52,8 @@ export default class Markers extends React.Component {
       <RNMapBox
         camera={{
           target: {
-            lat: 40.9175,
-            lng: 38.3927,
+            lat: -36,
+            lng: 174,
           },
           zoom: 6,
         }}

@@ -14,16 +14,26 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.annotation.CircleManager;
+import com.mapbox.mapboxsdk.plugins.annotation.FillManager;
+import com.mapbox.mapboxsdk.plugins.annotation.LineManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager;
 
 
 public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, Style.OnStyleLoaded, MapboxMap.OnCameraMoveListener, MapboxMap.OnCameraIdleListener {
     public boolean isMapReady = false;
     public boolean isStyleLoaded = false;
 
-    public final MapView mapView;
+    public MapView mapView;
     public MapboxMap mapboxMap;
+    public MarkerViewManager markerViewManager;
     public SymbolManager symbolManager;
+    public CircleManager circleManager;
+    public FillManager fillManager;
+    public LineManager lineManager;
+
+    public Style style;
 
 
     // Props
@@ -35,7 +45,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
 
     public MapBoxMapView(@NonNull ReactContext context) {
         super(context);
-        mapView = new MapView(context);
+        this.mapView = new MapView(context);
         this.addView(mapView);
         mapView.onCreate(null);
         mapView.getMapAsync(this);
@@ -45,6 +55,8 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+        this.markerViewManager = new MarkerViewManager(this.mapView, mapboxMap);
+
         isMapReady = true;
 
         mapboxMap.getStyle(this);
@@ -77,13 +89,18 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     }
 
     public void setMarkers(){
-        if (this.markers != null) this.markers.update(mapboxMap, this.getContext(), this.symbolManager);
+        if (this.markers != null) this.markers.update(this);
     }
 
     @Override
     public void onStyleLoaded(@NonNull Style style) {
         this.isStyleLoaded = true;
         this.symbolManager = new SymbolManager(mapView, mapboxMap, style);
+        this.circleManager = new CircleManager(mapView, mapboxMap, style);
+        this.lineManager = new LineManager(mapView, mapboxMap, style);
+        this.fillManager= new FillManager(mapView, mapboxMap, style);
+
+        this.style = style;
 
         if (this.mapStyle != null) this.mapStyle.update(mapboxMap, mapView, style);
 

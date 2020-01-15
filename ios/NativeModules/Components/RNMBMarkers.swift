@@ -35,6 +35,10 @@ class RNMBPointAnnotation: MGLPointAnnotation {
             let imgView = UIImageView(image: img)
             let pulsator = Pulsator()
             
+            let posX = imgView.frame.size.width/2
+            let posY = imgView.frame.size.height/2
+            pulsator.position = CGPoint(x: posX, y: posY)
+            
             pulsator.backgroundColor = UIColor(red: 0.1, green: 0.24, blue: 1, alpha: 1).cgColor
             imgView.layer.addSublayer(pulsator)
             self.annotationView = MGLAnnotationView(reuseIdentifier: self.id)
