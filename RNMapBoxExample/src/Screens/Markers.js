@@ -17,11 +17,7 @@ export default class Markers extends React.Component {
         title: 'Custom',
         subtitle: 'Sub1',
         icon: Image.resolveAssetSource(bus),
-        pulsator: {
-          color: '#ff00ff',
-          radius: 20,
-          duration: 1500
-        }
+        
       },
       marker2: {
         id: 'Marker2',
@@ -31,9 +27,7 @@ export default class Markers extends React.Component {
         subtitle: 'Sub2',
         icon: Image.resolveAssetSource(train),
         pulsator: {
-          color: '#00ff00',
-          radius: 20,
-          duration: 1500
+          color: '#00ff00'
         }
       },
     };

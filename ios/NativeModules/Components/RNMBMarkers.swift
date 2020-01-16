@@ -17,12 +17,14 @@ class RNMBPointAnnotation: MGLPointAnnotation {
     //var annotationImage: MGLAnnotationImage?
     var annotationView: MGLAnnotationView?
     var id: String
+    var puls: NSDictionary?
     
     
     init(_ marker: NSDictionary){
         self.lat = marker.object(forKey: "lat") as! CLLocationDegrees
         self.lng = marker.object(forKey: "lng") as! CLLocationDegrees
         self.id = marker.object(forKey: "id") as! String
+        self.puls = marker.object(forKey: "pulsator") as? NSDictionary
         
         if let ico = marker.object(forKey: "icon") {
             let icon = ico as? NSDictionary
@@ -33,17 +35,34 @@ class RNMBPointAnnotation: MGLPointAnnotation {
             let data = try? Data(contentsOf: url!)
             let img = UIImage(data: data!)!
             let imgView = UIImageView(image: img)
-            let pulsator = Pulsator()
+            if (self.puls != nil){
+                let pulsator = Pulsator()
+                
+                let posX = imgView.frame.size.width/2
+                let posY = imgView.frame.size.height/2
+                pulsator.position = CGPoint(x: posX, y: posY)
+                
+                if let pulsColor = puls!.object(forKey: "color") {
+                    pulsator.backgroundColor = hexStringToCGColor(hex: pulsColor as! String)
+                } else {
+                    pulsator.backgroundColor = UIColor(red: 0.1, green: 0.24, blue: 1, alpha: 1).cgColor
+                }
+                
+                if let pulsRadius = puls!.object(forKey: "radius") {
+                    pulsator.radius = CGFloat(pulsRadius as! Float)
+                }
+                
+                if let pulsDuration = puls!.object(forKey: "duration") {
+                    pulsator.duration = CFTimeInterval(pulsDuration as! Float)
+                }
+                
+                imgView.layer.addSublayer(pulsator)
+                
+                pulsator.start()
+            }
             
-            let posX = imgView.frame.size.width/2
-            let posY = imgView.frame.size.height/2
-            pulsator.position = CGPoint(x: posX, y: posY)
-            
-            pulsator.backgroundColor = UIColor(red: 0.1, green: 0.24, blue: 1, alpha: 1).cgColor
-            imgView.layer.addSublayer(pulsator)
             self.annotationView = MGLAnnotationView(reuseIdentifier: self.id)
             self.annotationView?.addSubview(imgView)
-            pulsator.start()
             
         }
         
@@ -87,4 +106,31 @@ class RNMBMarkers{
             }
         }
     }
+    
+}
+
+func hexStringToCGColor (hex:String) -> CGColor {
+    return hexStringToUIColor(hex: hex).cgColor
+}
+
+func hexStringToUIColor (hex:String) -> UIColor {
+    var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    
+    if (cString.hasPrefix("#")) {
+        cString.remove(at: cString.startIndex)
+    }
+    
+    if ((cString.count) != 6) {
+        return UIColor.gray
+    }
+    
+    var rgbValue:UInt64 = 0
+    Scanner(string: cString).scanHexInt64(&rgbValue)
+    
+    return UIColor(
+        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+        alpha: CGFloat(1.0)
+    )
 }

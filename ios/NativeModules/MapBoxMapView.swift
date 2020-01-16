@@ -115,13 +115,6 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude])
     }
     
-    //    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
-    //        if let rnmbAnnotation = annotation as? RNMBPointAnnotation {
-    //            return rnmbAnnotation.annotationImage
-    //        } else {
-    //            return nil
-    //        }
-    //    }
     
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
         if let rnmbAnnotation = annotation as? RNMBPointAnnotation {
