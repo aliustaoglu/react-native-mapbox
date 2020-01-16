@@ -10,6 +10,7 @@ RCT_EXPORT_VIEW_PROPERTY(options, NSDictionary)
 RCT_EXPORT_VIEW_PROPERTY(mapStyle, NSDictionary)
 RCT_EXPORT_VIEW_PROPERTY(locationPicker, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(markers, NSArray)
+RCT_EXPORT_VIEW_PROPERTY(polylines, NSDictionary)
 
 RCT_EXPORT_VIEW_PROPERTY(onMapReady, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onCameraMove, RCTDirectEventBlock)

@@ -60,6 +60,12 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
             }
         }
     }
+    
+    @objc var polylines: NSDictionary = [:] {
+        didSet{
+            props.polylines = RNMBPolylines(polylines)
+        }
+    }
     // Property Props End
     
     // Event Props Start
@@ -92,6 +98,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         props.options?.update(mapView)
         props.locationPicker?.update(mapView)
         props.markers?.update(mapView)
+        props.polylines?.update(mapView)
     }
     
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
