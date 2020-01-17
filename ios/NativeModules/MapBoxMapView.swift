@@ -61,9 +61,12 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
     }
     
-    @objc var polylines: NSDictionary = [:] {
+    @objc var polylines: NSArray = [] {
         didSet{
             props.polylines = RNMBPolylines(polylines)
+            if (self.isMapReady){
+                props.polylines?.update(self.mapView)
+            }
         }
     }
     // Property Props End
@@ -98,7 +101,6 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         props.options?.update(mapView)
         props.locationPicker?.update(mapView)
         props.markers?.update(mapView)
-        props.polylines?.update(mapView)
     }
     
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
@@ -106,6 +108,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
             self.onMapReady!([:])
         }
         props.mapStyle?.updateBuildings(style: style)
+        props.polylines?.update(mapView)
     }
     
     func mapViewRegionIsChanging(_ mapView: MGLMapView) {
