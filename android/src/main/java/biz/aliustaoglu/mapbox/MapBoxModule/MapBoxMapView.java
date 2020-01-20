@@ -42,6 +42,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     public RNMBMapStyle mapStyle;
     public RNMBLocationPicker locationPicker;
     public RNMBMarkers markers;
+    public RNMBPolylines polylines;
 
     public MapBoxMapView(@NonNull ReactContext context) {
         super(context);
@@ -92,6 +93,10 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         if (this.markers != null) this.markers.update(this);
     }
 
+    public void setPolylines(){
+        if (this.polylines != null) this.polylines.update(this);
+    }
+
     @Override
     public void onStyleLoaded(@NonNull Style style) {
         this.isStyleLoaded = true;
@@ -107,6 +112,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         setCamera();
         setOptions();
         setMarkers();
+        setPolylines();
     }
 
 

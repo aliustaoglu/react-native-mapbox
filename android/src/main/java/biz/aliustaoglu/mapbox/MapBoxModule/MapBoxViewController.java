@@ -78,5 +78,11 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
         if (mapBoxMapView.isStyleLoaded) mapBoxMapView.setMarkers();
     }
 
+    @ReactProp(name = "polylines")
+    public void setPolylines(MapBoxMapView mapBoxMapView, @Nullable ReadableArray polylines){
+        mapBoxMapView.polylines = new RNMBPolylines(polylines);
+        if (mapBoxMapView.isStyleLoaded) mapBoxMapView.setPolylines();
+    }
+
 
 }

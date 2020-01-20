@@ -46,13 +46,25 @@ export default class Polylines extends React.Component {
               properties: {
                 name: 'AA',
                 lineWidth: 3.0,
-                lineColor: '#000000'
+                lineColor: '#ff0000'
               },
               coordinates: [
                 [174, -33],
                 [173, -32],
               ],
             },
+            {
+              id: 'poly3',
+              properties: {
+                name: 'AA',
+                lineWidth: 3.0,
+                lineColor: '#ff00ff'
+              },
+              coordinates: [
+                [170, -30],
+                [172, -31],
+              ],
+            }
           ]}
         />
         <View style={commonStyles.backButton}>

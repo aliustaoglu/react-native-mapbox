@@ -42,7 +42,7 @@ class RNMBPolylines {
         let width = properties.object(forKey: "lineWidth") as? Float ?? 1.0
         if let pattern = properties.object(forKey: "lineType") {
             if (pattern as! String) == "dash" {
-                layer.lineDashPattern = NSExpression(forConstantValue: [1, 1.5])
+                layer.lineDashPattern = NSExpression(forConstantValue: [0.75, 0.75])
             }
         }
         
