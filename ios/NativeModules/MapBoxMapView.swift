@@ -63,7 +63,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     
     @objc var polylines: NSArray = [] {
         didSet{
-            props.polylines = RNMBPolylines(polylines)
+            props.polylines = RNMBPolylines(polylines, oldValue)
             if (self.isMapReady){
                 props.polylines?.update(self.mapView)
             }

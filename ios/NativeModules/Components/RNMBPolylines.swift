@@ -11,17 +11,39 @@ import Mapbox
 
 class RNMBPolylines {
     let polylines: NSArray!
+    let oldPolylines: NSArray!
     var mapView: MGLMapView!
+    var removedIDs: [String] = []
     
-    init(_ polylines: NSArray) {
+    
+    init(_ polylines: NSArray, _ oldValue: NSArray) {
         self.polylines = polylines
+        self.oldPolylines = oldValue
+        
+        oldPolylines.forEach { oldPoly in
+            let oldDic = oldPoly as! NSDictionary
+            let id = (oldDic.object(forKey: "properties") as! NSDictionary).object(forKey: "id") as! String
+            let con = polylines.contains{ p in
+                let poly = p as! NSDictionary
+                let containsID = id == (poly.object(forKey: "properties") as! NSDictionary).object(forKey: "id") as! String
+                return containsID
+            }
+            if !con {
+                removedIDs.insert(id, at: 0)
+            }
+        }
+        
+        
     }
     
     public func update(_ mapView: MGLMapView){
         self.mapView = mapView
         guard let style = self.mapView.style else { return }
         
+        
         self.polylines.forEach{ p in
+            
+            
             let polyline = p as! NSDictionary
             let properties = polyline.object(forKey: "properties") as! NSDictionary
             let id = properties.object(forKey: "id") as! String
@@ -29,9 +51,25 @@ class RNMBPolylines {
             guard let shapeFromGeoJSON = try? MGLShape(data: jsonData!, encoding: String.Encoding.utf8.rawValue) else {
                 fatalError("Could not generate MGLShape")
             }
-            let source = MGLShapeSource(identifier: "shape\(id)", shape: shapeFromGeoJSON, options: nil)
-            style.addSource(source)
-            addLayer(id, polyline, properties, source)
+            
+            if let existingSource = style.source(withIdentifier: "RNMB-shape-\(id)") as? MGLShapeSource {
+                existingSource.shape = shapeFromGeoJSON
+            } else {
+                let source = MGLShapeSource(identifier: "RNMB-shape-\(id)", shape: shapeFromGeoJSON, options: nil)
+                style.addSource(source)
+                addLayer(id, polyline, properties, source)
+            }
+        }
+        
+        // Remove layers (if removed from props)
+        removeLayers(style)
+    }
+    
+    private func removeLayers(_ style: MGLStyle){
+        self.removedIDs.forEach{ id in
+            if let existingSource = style.source(withIdentifier: "RNMB-shape-\(id)") as? MGLShapeSource {
+                existingSource.shape = nil
+            }
         }
     }
     
@@ -48,7 +86,7 @@ class RNMBPolylines {
         
         layer.lineWidth = NSExpression(forConstantValue: width)
         layer.lineColor = NSExpression(forConstantValue: hexStringToUIColor(hex: color) )
-
+        
         style?.addLayer(layer)
         
     }
