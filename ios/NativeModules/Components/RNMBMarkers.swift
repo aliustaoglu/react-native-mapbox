@@ -135,6 +135,7 @@ class RNMBMarkers{
             }
             mapView.removeAnnotation(annotationToDelete!)
         }
+        self.removedIDs = []
     }
 }
 

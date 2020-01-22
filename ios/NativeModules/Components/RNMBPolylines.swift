@@ -70,6 +70,7 @@ class RNMBPolylines {
                 existingSource.shape = nil
             }
         }
+        self.removedIDs = []
     }
     
     private func addLayer(_ id: String, _ dict: NSDictionary, _ properties: NSDictionary, _ source: MGLShapeSource){
