@@ -54,7 +54,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     
     @objc var markers: NSArray = [] {
         didSet{
-            props.markers = RNMBMarkers(markers)
+            props.markers = RNMBMarkers(markers, oldValue)
             if (self.isMapReady){
                 props.markers?.update(self.mapView)
             }

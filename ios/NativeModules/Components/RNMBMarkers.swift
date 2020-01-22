@@ -80,10 +80,27 @@ class RNMBPointAnnotation: MGLPointAnnotation {
 
 class RNMBMarkers{
     var markers: NSArray = []
+    var oldMarkers: NSArray = []
     var imgAnnotation: MGLAnnotationImage!
+    var removedIDs: [String] = []
     
-    init(_ markers: NSArray) {
+    init(_ markers: NSArray, _ oldValue: NSArray) {
         self.markers = markers
+        self.oldMarkers = oldValue
+        
+        self.oldMarkers.forEach{ oldMarker in
+            let oldDic = oldMarker as! NSDictionary
+            let id = oldDic.object(forKey: "id") as! String
+            let containsId = markers.contains { m in
+                let marker = m as! NSDictionary
+                let containsId = id == (marker.object(forKey: "id") as! String)
+                return containsId
+            }
+            if !containsId {
+                self.removedIDs.append(id)
+            }
+        }
+        
         
     }
     
@@ -105,8 +122,20 @@ class RNMBMarkers{
                 existingAnnotation!.coordinate = pin.coordinate
             }
         }
+        
+        // If removed from props, remove from map as well
+        removeMarkers(mapView)
     }
     
+    private func removeMarkers(_ mapView: MGLMapView){
+        self.removedIDs.forEach{ id in
+            let annotationToDelete = mapView.annotations?.first{ann in
+                let annotation = ann as! RNMBPointAnnotation
+                return annotation.id == id
+            }
+            mapView.removeAnnotation(annotationToDelete!)
+        }
+    }
 }
 
 func hexStringToCGColor (hex:String) -> CGColor {

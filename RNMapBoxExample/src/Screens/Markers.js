@@ -6,46 +6,44 @@ import bus from '../assets/bus.png';
 import train from '../assets/train.png';
 import { commonStyles } from './styles';
 
+const marker1 = {
+  id: 'Marker1',
+  lat: -36,
+  lng: 174,
+  title: 'Custom',
+  subtitle: 'Sub1',
+  icon: Image.resolveAssetSource(bus),
+  pulsator: {
+    color: '#00ff00'
+  }
+}
+
+const marker2 = {
+  id: 'Marker2',
+  lat: -36,
+  lng: 173,
+  title: 'Custom2',
+  subtitle: 'Sub2',
+  icon: Image.resolveAssetSource(train),
+  pulsator: {
+    color: '#00ff00'
+  }
+}
+
 export default class Markers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      marker1: {
-        id: 'Marker1',
-        lat: -36,
-        lng: 174,
-        title: 'Custom',
-        subtitle: 'Sub1',
-        icon: Image.resolveAssetSource(bus),
-        
-      },
-      marker2: {
-        id: 'Marker2',
-        lat: -36,
-        lng: 173,
-        title: 'Custom2',
-        subtitle: 'Sub2',
-        icon: Image.resolveAssetSource(train),
-        pulsator: {
-          color: '#00ff00'
-        }
-      },
+      markers: [marker1]
     };
   }
 
   componentDidMount() {
-    window.setInterval(() => {
+    window.setTimeout(() => {
       this.setState({
-        marker1: {
-          id: 'Marker1',
-          lat: this.state.marker1.lat + 0.1,
-          lng: this.state.marker1.lng + 0.1,
-          title: 'Custom',
-          subtitle: 'Sub1',
-          icon: Image.resolveAssetSource(bus),
-        },
+        markers: [marker2]
       });
-    }, 1000);
+    }, 3000);
   }
 
   render() {
@@ -63,7 +61,7 @@ export default class Markers extends React.Component {
         }}
         style={StyleSheet.absoluteFillObject}
         onMapReady={() => console.log('onMapReady callback')}
-        markers={[this.state.marker1, this.state.marker2]}
+        markers={this.state.markers}
       />
       <View style={commonStyles.backButton}>
           <Button title="<Back" onPress={this.props.onGoBack} />

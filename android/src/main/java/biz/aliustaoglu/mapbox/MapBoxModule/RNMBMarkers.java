@@ -4,6 +4,8 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.SparseArray;
+
 import androidx.collection.LongSparseArray;
 
 import com.facebook.react.bridge.ReadableArray;
@@ -23,6 +25,10 @@ import com.mapbox.mapboxsdk.plugins.annotation.LineManager;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import biz.aliustaoglu.mapbox.Utility.AssetsUtility;
 import biz.aliustaoglu.mapbox.Utility.BitmapDownloader;
 import biz.aliustaoglu.mapbox.Utility.OnAsyncTaskListener;
@@ -53,10 +59,61 @@ public class RNMBMarkers {
         this.context = mapBoxMapView.getContext();
         this.style = mapBoxMapView.style;
 
+
+        List<String> symbolIDs = getSymbolIDs();
+
         for (int i = 0; i < markers.size(); i++) {
             ReadableMap marker = markers.getMap(i);
-
+            String markerID = marker.getString("id");
+            symbolIDs.remove(markerID);
             setMarker(marker);
+            setPulsator(marker);
+        }
+
+        removeMarkers(symbolIDs);
+    }
+
+    private List<String> getSymbolIDs() {
+        LongSparseArray<Symbol> sparseArray = this.symbolManager.getAnnotations();
+        List<String> symbolIDs = new ArrayList<>();
+        for (int i = 0; i < sparseArray.size(); i++) {
+            String s = sparseArray.valueAt(i).getData().getAsJsonObject().get("id").getAsString();
+            symbolIDs.add(s);
+        }
+        return symbolIDs;
+    }
+
+    private void setPulsator(ReadableMap marker) {
+        final String id = marker.getString("id");
+        final Double lat = marker.getDouble("lat");
+        final Double lng = marker.getDouble("lng");
+        final String title = marker.getString("title");
+        final String subtitle = marker.getString("subtitle");
+        final String strIcon = marker.getMap("icon").getString("uri");
+        final Boolean canPulse = marker.hasKey("pulsator");
+        final ReadableMap pulsator = canPulse ? marker.getMap("pulsator") : null;
+
+        float circleRadius = pulsator != null && pulsator.hasKey("radius") ? (float) pulsator.getDouble("radius") : 20f;
+
+        CircleOptions circleOptions = new CircleOptions().withGeometry(Point.fromLngLat(lng, lat)).withCircleOpacity(0f);
+        Circle circle = this.circleManager.create(circleOptions);
+
+    }
+
+    // If removed from props, remove from map as well
+    private void removeMarkers(List<String> symbolIDs) {
+        LongSparseArray<Symbol> symbols = this.symbolManager.getAnnotations().clone();
+        LongSparseArray<Circle> pulsators = this.circleManager.getAnnotations().clone();
+        for (int i = 0; i < symbolIDs.size(); i++) {
+            for(int j=0; j< symbols.size();j++){
+                Symbol symbol = symbols.get(j);
+                Circle pulsator = pulsators.get(j);
+                String id = symbol.getData().getAsJsonObject().get("id").getAsString();
+                if (id.equals(symbolIDs.get(i))){
+                    this.symbolManager.delete(symbol);
+                    this.circleManager.delete(pulsator);
+                }
+            }
         }
     }
 
@@ -119,22 +176,12 @@ public class RNMBMarkers {
         LongSparseArray<Symbol> annotations = this.symbolManager.getAnnotations();
         Boolean hasSymbol = false;
 
-        float circleRadius = pulsator != null && pulsator.hasKey("radius") ? (float) pulsator.getDouble("radius") : 20f;
-
-        final ValueAnimator circleAnimator = ValueAnimator.ofFloat(0f, circleRadius);
-        circleAnimator.setDuration(1500);
-        circleAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        circleAnimator.setRepeatMode(ValueAnimator.RESTART);
-        circleAnimator.start();
-
 
         Symbol currentAnnotation = null;
-        Circle currentCircle = null;
 
         for (int i = 0; i < annotations.size(); i++) {
             JsonObject data = (JsonObject) annotations.valueAt(i).getData();
             currentAnnotation = annotations.get(i);
-            currentCircle = this.circleManager.getAnnotations().get(i);
             if (data.get("id").getAsString().equals(id)) {
                 hasSymbol = true;
                 break;
@@ -149,41 +196,16 @@ public class RNMBMarkers {
                     .withIconSize(iconSize)
                     .withData(symbolData)
             );
-            CircleOptions circleOptions = new CircleOptions()
-                    .withGeometry(Point.fromLngLat(latLng.getLongitude(), latLng.getLatitude()))
-                    .withCircleOpacity(0.05f)
-                    .withCircleStrokeWidth(1f);
-            if (pulsator != null) {
-                String color = pulsator.hasKey("color") ? pulsator.getString("color") : null;
-                Float radius = pulsator.hasKey("radius") ? (float) pulsator.getDouble("radius") : null;
-                if (color != null)
-                    circleOptions.withCircleStrokeColor(color).withCircleColor(color);
 
 
-            }
-            final Circle circle = this.circleManager.create(circleOptions);
         } else {
             currentAnnotation.setLatLng(latLng);
             currentAnnotation.setIconImage(iconName);
             currentAnnotation.setIconSize(iconSize);
             currentAnnotation.setTextField(label);
 
-            currentCircle.setGeometry(Point.fromLngLat(latLng.getLongitude(), latLng.getLatitude()));
 
             symbolManager.update(currentAnnotation);
-        }
-
-
-        final Circle animatedCircle = currentCircle;
-        if (currentCircle != null && pulsator != null) {
-            circleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    Float val = Float.valueOf((float) animation.getAnimatedValue());
-                    animatedCircle.setCircleRadius(val);
-                    circleManager.update(animatedCircle);
-                }
-            });
         }
 
 

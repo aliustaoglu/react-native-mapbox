@@ -20,6 +20,7 @@ class RNMBPolylines {
         self.polylines = polylines
         self.oldPolylines = oldValue
         
+        // Detect removed polylines(from props) and clear them off the map too
         oldPolylines.forEach { oldPoly in
             let oldDic = oldPoly as! NSDictionary
             let id = (oldDic.object(forKey: "properties") as! NSDictionary).object(forKey: "id") as! String
@@ -32,8 +33,6 @@ class RNMBPolylines {
                 removedIDs.insert(id, at: 0)
             }
         }
-        
-        
     }
     
     public func update(_ mapView: MGLMapView){
