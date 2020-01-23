@@ -4,7 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.SparseArray;
+import android.graphics.Color;
 
 import androidx.collection.LongSparseArray;
 
@@ -37,7 +37,7 @@ public class RNMBMarkers {
     ReadableArray markers;
     MapboxMap mapboxMap;
     SymbolManager symbolManager;
-    CircleManager circleManager;
+    CircleManager pulsatorManager;
     FillManager fillManager;
     LineManager lineManager;
 
@@ -53,7 +53,7 @@ public class RNMBMarkers {
     public void update(MapBoxMapView mapBoxMapView) {
         this.mapboxMap = mapBoxMapView.mapboxMap;
         this.symbolManager = mapBoxMapView.symbolManager;
-        this.circleManager = mapBoxMapView.circleManager;
+        this.pulsatorManager = mapBoxMapView.pulsatorManager;
         this.lineManager = mapBoxMapView.lineManager;
         this.fillManager = mapBoxMapView.fillManager;
         this.context = mapBoxMapView.getContext();
@@ -71,6 +71,7 @@ public class RNMBMarkers {
         }
 
         removeMarkers(symbolIDs);
+        removePulsators(symbolIDs);
     }
 
     private List<String> getSymbolIDs() {
@@ -93,25 +94,79 @@ public class RNMBMarkers {
         final Boolean canPulse = marker.hasKey("pulsator");
         final ReadableMap pulsator = canPulse ? marker.getMap("pulsator") : null;
 
+        if (!canPulse) return;
+
         float circleRadius = pulsator != null && pulsator.hasKey("radius") ? (float) pulsator.getDouble("radius") : 20f;
 
-        CircleOptions circleOptions = new CircleOptions().withGeometry(Point.fromLngLat(lng, lat)).withCircleOpacity(0f);
-        Circle circle = this.circleManager.create(circleOptions);
+        Circle currentPulsator = null;
+        LongSparseArray<Circle> pulsators = this.pulsatorManager.getAnnotations();
+        for (int i = 0; i < pulsators.size(); i++) {
+            String pulsatorId = pulsators.valueAt(i).getData().getAsJsonObject().get("id").getAsString();
+            if (pulsatorId.equals(id)) {
+                currentPulsator = pulsators.valueAt(i);
+                break;
+            }
+        }
+        if (currentPulsator == null) {
+            JsonElement pulsatorData = parser.parse("{\"id\":\"" + id + "\"}");
+            CircleOptions pulsatorOptions = new CircleOptions()
+                    .withGeometry(Point.fromLngLat(lng, lat))
+                    .withData(pulsatorData)
+                    .withCircleOpacity(0.3f)
+                    .withCircleBlur(0.1f)
+                    ;
+
+            if (pulsator.hasKey("color")) pulsatorOptions = pulsatorOptions.withCircleColor(pulsator.getString("color"));
+
+
+
+            final Circle pulsatorCircle = this.pulsatorManager.create(pulsatorOptions);
+
+            ValueAnimator pulseAnimator = ValueAnimator.ofFloat(0f,20f);
+            pulseAnimator.setDuration(1500);
+            pulseAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            pulseAnimator.setRepeatMode(ValueAnimator.RESTART);
+            pulseAnimator.start();
+
+            pulseAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    Float val = Float.valueOf((float)animation.getAnimatedValue());
+                    pulsatorCircle.setCircleRadius(val);
+                    pulsatorManager.update(pulsatorCircle);
+                }
+            });
+
+        } else {
+            currentPulsator.setGeometry(Point.fromLngLat(lng, lat));
+            this.pulsatorManager.update(currentPulsator);
+        }
+
 
     }
 
     // If removed from props, remove from map as well
     private void removeMarkers(List<String> symbolIDs) {
         LongSparseArray<Symbol> symbols = this.symbolManager.getAnnotations().clone();
-        LongSparseArray<Circle> pulsators = this.circleManager.getAnnotations().clone();
         for (int i = 0; i < symbolIDs.size(); i++) {
-            for(int j=0; j< symbols.size();j++){
+            for (int j = 0; j < symbols.size(); j++) {
                 Symbol symbol = symbols.get(j);
-                Circle pulsator = pulsators.get(j);
                 String id = symbol.getData().getAsJsonObject().get("id").getAsString();
-                if (id.equals(symbolIDs.get(i))){
+                if (id.equals(symbolIDs.get(i))) {
                     this.symbolManager.delete(symbol);
-                    this.circleManager.delete(pulsator);
+                }
+            }
+        }
+    }
+
+    private void removePulsators(List<String> symbolIDs) {
+        LongSparseArray<Circle> pulsators = this.pulsatorManager.getAnnotations().clone();
+        for (int i = 0; i < symbolIDs.size(); i++) {
+            for (int j = 0; j < pulsators.size(); j++) {
+                Circle circle = pulsators.get(j);
+                String id = circle.getData().getAsJsonObject().get("id").getAsString();
+                if (id.equals(symbolIDs.get(i))) {
+                    this.pulsatorManager.delete(circle);
                 }
             }
         }
@@ -181,7 +236,7 @@ public class RNMBMarkers {
 
         for (int i = 0; i < annotations.size(); i++) {
             JsonObject data = (JsonObject) annotations.valueAt(i).getData();
-            currentAnnotation = annotations.get(i);
+            currentAnnotation = annotations.valueAt(i);
             if (data.get("id").getAsString().equals(id)) {
                 hasSymbol = true;
                 break;

@@ -8,7 +8,6 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
-import com.mapbox.android.gestures.MoveGestureDetector;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -29,7 +28,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     public MapboxMap mapboxMap;
     public MarkerViewManager markerViewManager;
     public SymbolManager symbolManager;
-    public CircleManager circleManager;
+    public CircleManager pulsatorManager;
     public FillManager fillManager;
     public LineManager lineManager;
 
@@ -101,7 +100,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     public void onStyleLoaded(@NonNull Style style) {
         this.isStyleLoaded = true;
         this.symbolManager = new SymbolManager(mapView, mapboxMap, style);
-        this.circleManager = new CircleManager(mapView, mapboxMap, style);
+        this.pulsatorManager = new CircleManager(mapView, mapboxMap, style);
         this.lineManager = new LineManager(mapView, mapboxMap, style);
         this.fillManager= new FillManager(mapView, mapboxMap, style);
 
