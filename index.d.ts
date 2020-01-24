@@ -64,6 +64,23 @@ type MapStyle = {
   buildings: Boolean
 }
 
+type Pulsator = {
+  /**
+   * Pulsating color in hex
+   */
+  color: String;
+
+  /**
+   * Radius of pulsator
+   */
+  radius: Number;
+
+  /**
+   * Duration for each pulsating effect
+   */
+  duration: Number;
+}
+
 type Marker = {
   /**
    * Unique id for marker
@@ -95,6 +112,11 @@ type Marker = {
    * eg. Image.resolveAssetSource(require('foo.png'))
    */
   icon: ImageResolvedAssetSource;
+
+  /**
+   * Pass either pulse parameters. Or just pass boolean to use it with default values
+   */
+  pulsator: Pulsator | Boolean
 }
 
 export interface MapBoxProperties {

@@ -30,6 +30,75 @@ Add your API key to MGLMapboxAccessToken in info.plist file.
 
 And you're done with installation.
 
+# PROPS
+
+|Prop Name|Description|
+|---------|-----------|
+|camera|[Camera Props](#camera-props)|
+|options|[Option Props](#option-props)|
+|mapStyle|[MapStyle Props](#mapstyle-props)|
+|markers|Array of [Marker Props](#marker-props)|
+|polylines|Array of [Polyline Props](#polyline-props)|
+|locationPicker|Boolean - Whether to show the location picker in the centre of map|
+|onMapReady|Callback when MapBox is ready|
+|onCameraMove|Callback when camera is moving|
+|onCameraMoveEnd|Callback when camera move action is ended|
+
+
+## Camera Props
+|Prop Name|Description|
+|---------|-----------|
+|target|{lat, lng} for latitude and longitude|
+|zoom|Zoom value in numbers|
+|bearing|Bearing value in numbers|
+|tilt|Tilt value in numbers|
+
+## Option Props
+|Prop Name|Description|
+|---------|-----------|
+|showsUserHeadingIndicator|Boolean|
+|showsScale|Boolean|
+|showsHeading|Boolean|
+|showsUserLocation|Boolean| 
+
+## MapStyle Props
+|Prop Name|Description|
+|---------|-----------|
+|styleName|String - OOne of "OUTDOORS", "LIGHT", "DARK", "SATELLITE", "SATELLITE_STREETS", "TRAFFIC_DAY" |
+|buildings|Boolean|
+
+## Marker Props
+|Prop Name|Description|
+|---------|-----------|
+|id|String - Identifier for marker. Has to be unique|
+|lat|Number - Latitude for marker|
+|lng|Number - Longitude for marker|
+|title|String - Title for marker|
+|Subtitle|String - Subtitle for marker|
+|icon|Object - Resolved image asset eg. Image.resolveAssetSource(require('img.png'))|
+|pulsator|Boolean or [Pulsator Props](#pulsator-props)|
+
+### Pulsator Props
+|Prop Name|Description|
+|---------|-----------|
+|color|String - hex colour|
+|radius|Number - radius of pulsator|
+|duration|Number - how many milliseconds the pulsating effect will take|
+
+## Polyline Props
+|Prop Name|Description|
+|---------|-----------|
+|id|String - Identifier for polyline. Has to be unique|
+|coordinates|Array of numbers in Longitude, Latitude format|
+|properties|Object of [Polyline Properties Prop](#polyline-properties-props)|
+
+### Polyline Properties Props
+|Prop Name|Description|
+|---------|-----------|
+|name|String - Polyline name|
+|lineWidth|Number|
+|lineColor|String - Hex of colour|
+|lineType|String - dash or don't include for solid|
 
 ## Usage
 ```javascript
