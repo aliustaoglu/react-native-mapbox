@@ -136,4 +136,9 @@ import bus from '../images/bus.png'
 ```
 
 ## Screenshots
-![MapBox](https://raw.githubusercontent.com/aliustaoglu/react-native-mapbox/master/RNMapBoxExample/screenshots/screenshot.png)
+
+|Options|LocationPicker|
+|![Options](https://raw.githubusercontent.com/aliustaoglu/react-native-mapbox/master/RNMapBoxExample/screenshots/Options.gif)|![LocationPicker](https://raw.githubusercontent.com/aliustaoglu/react-native-mapbox/master/RNMapBoxExample/screenshots/LocationPicker.png)|
+|Markers|Polylines|
+|Markers|Polylines|
+|![Markers](https://raw.githubusercontent.com/aliustaoglu/react-native-mapbox/master/RNMapBoxExample/screenshots/Markers.gif)|![Polylines](https://raw.githubusercontent.com/aliustaoglu/react-native-mapbox/master/RNMapBoxExample/screenshots/Polylines.png)|

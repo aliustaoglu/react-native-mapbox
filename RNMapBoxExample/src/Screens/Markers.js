@@ -13,7 +13,6 @@ const marker1 = {
   title: 'Custom',
   subtitle: 'Sub1',
   icon: Image.resolveAssetSource(bus),
-  
 };
 
 const marker2 = {
@@ -25,8 +24,42 @@ const marker2 = {
   icon: Image.resolveAssetSource(train),
   pulsator: {
     color: '#3089d3',
-
   },
+};
+
+const marker3 = {
+  id: 'Marker3',
+  lat: -37.971794,
+  lng: 174.794618,
+  icon: Image.resolveAssetSource(train),
+};
+
+const marker4 = {
+  id: 'Marker4',
+  lat: -39.071666,
+  lng: 174.161978,
+  icon: Image.resolveAssetSource(train),
+};
+
+const marker5 = {
+  id: 'Marker5',
+  lat: -38.720623,
+  lng: 176.089187,
+  icon: Image.resolveAssetSource(train),
+};
+
+const marker6 = {
+  id: 'Marker6',
+  lat: -38.174694,
+  lng: 176.259062,
+  icon: Image.resolveAssetSource(train),
+};
+
+const marker7 = {
+  id: 'Marker7',
+  lat: -37.860884,
+  lng: 176.616387,
+  icon: Image.resolveAssetSource(train),
 };
 
 export default class Markers extends React.Component {
@@ -55,6 +88,11 @@ export default class Markers extends React.Component {
               color: '#3089d3',
             },
           },
+          marker3,
+          marker4,
+          marker5,
+          marker6,
+          marker7,
         ],
       });
     }, 1000);
@@ -65,7 +103,7 @@ export default class Markers extends React.Component {
       this.setState({
         markers: [marker2],
       });
-      this.updateMarkers()
+      this.updateMarkers();
     }, 3000);
   }
 
