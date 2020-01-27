@@ -33,8 +33,17 @@ public class RNMBLocationPicker {
 
     }
 
-    public void update(MapboxMap mapboxMap){
-        if (this.locationPicker.equals(true)){
+    public void update(MapboxMap mapboxMap) {
+        if (this.locationPicker.equals(true)) {
+            hoveringMarker.setVisibility(View.VISIBLE);
+        } else {
+            hoveringMarker.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void update(MapboxMap mapboxMap, Boolean locationPicker) {
+        if (locationPicker != null) this.locationPicker = locationPicker;
+        if (this.locationPicker.equals(true)) {
             hoveringMarker.setVisibility(View.VISIBLE);
         } else {
             hoveringMarker.setVisibility(View.INVISIBLE);

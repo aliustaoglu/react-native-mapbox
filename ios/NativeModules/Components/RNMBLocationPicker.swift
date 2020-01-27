@@ -20,16 +20,21 @@ struct RNMBLocationPicker{
         
     }
     
+    public mutating func update(_ mapView: MGLMapView, _ isPickerEnabled: Bool){
+        self.isPickerEnabled = isPickerEnabled
+        if (self.locationPickerView == nil) {
+            mountLocationPickerView(mapView)
+        }
+        
+        self.locationPickerView?.isHidden = !self.isPickerEnabled
+    }
+    
     public mutating func update(_ mapView: MGLMapView){
         if (self.locationPickerView == nil) {
             mountLocationPickerView(mapView)
         }
         
-        if (self.isPickerEnabled) {
-            self.locationPickerView?.isHidden = !self.isPickerEnabled
-        }
-        
-
+        self.locationPickerView?.isHidden = !self.isPickerEnabled
     }
     
     private mutating func mountLocationPickerView(_ mapView: MGLMapView){
@@ -45,5 +50,6 @@ struct RNMBLocationPicker{
         
         self.locationPickerView?.center = mapView.center
         mapView.addSubview(self.locationPickerView!)
+        self.locationPickerView?.isHidden = !self.isPickerEnabled
     }
 }

@@ -45,9 +45,12 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     
     @objc var locationPicker: Bool = false {
         didSet{
-            props.locationPicker = RNMBLocationPicker(locationPicker)
+            if (props.locationPicker == nil) {
+                props.locationPicker = RNMBLocationPicker(locationPicker)
+            }
+            print(locationPicker)
             if (self.isMapReady){
-                props.options?.update(self.mapView)
+                props.locationPicker?.update(self.mapView, locationPicker)
             }
         }
     }
