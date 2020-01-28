@@ -137,6 +137,14 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
     }
     
+    func locateUser(_ location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+        let coords = location[0] as! NSDictionary
+        let longitude = coords.value(forKey: "longitude") as! Double
+        let latitude = coords.value(forKey: "latitude") as! Double
+        
+        self.mapView!.setCenter(CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude)), animated: true)
+    }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

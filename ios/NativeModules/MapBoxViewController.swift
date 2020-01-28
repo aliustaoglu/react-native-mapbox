@@ -9,5 +9,10 @@ class MapBoxViewController: RCTViewManager {
         return mapBoxMap
     }
     
+    @objc
+    func locateUser(_ location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+        mapBoxMap.locateUser(location, resolve: resolve, reject: reject)
+    }
+    
 
 }

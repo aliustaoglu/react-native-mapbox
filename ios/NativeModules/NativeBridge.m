@@ -16,9 +16,9 @@ RCT_EXPORT_VIEW_PROPERTY(onMapReady, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onCameraMove, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onCameraMoveEnd, RCTDirectEventBlock)
 
+RCT_EXTERN_METHOD(locateUser:(nonnull NSArray *)location resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 @end
 
-//RCT_EXTERN_METHOD(locateUser:(nonnull NSArray *)location resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 
 @interface RCT_EXTERN_MODULE(ConvertUtil, NSObject)
    RCT_EXTERN_METHOD(getBase64FromImageURL: (NSDictionary)assetSource resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)

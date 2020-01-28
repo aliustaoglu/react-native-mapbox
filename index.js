@@ -1,5 +1,5 @@
 import React from 'react'
-import { requireNativeComponent, UIManager, findNodeHandle } from 'react-native'
+import { requireNativeComponent, UIManager, findNodeHandle, NativeModules } from 'react-native'
 import { mergePolylines } from './lib/polylines'
 
 const moduleName = 'MapBoxViewController'
