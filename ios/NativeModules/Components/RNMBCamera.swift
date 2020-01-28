@@ -35,6 +35,9 @@ struct RNMBCamera {
         } else {
             mapView.setCenter(center, animated: true)
         }
+        let currentCamera = mapView.camera
+        let newCamera = MGLMapCamera(lookingAtCenter: currentCamera.centerCoordinate, acrossDistance: currentCamera.viewingDistance, pitch: currentCamera.pitch, heading: currentCamera.heading)
+        mapView.setCamera(newCamera, animated: true)
     }
     
 }

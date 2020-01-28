@@ -143,6 +143,9 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         let latitude = coords.value(forKey: "latitude") as! Double
         
         self.mapView!.setCenter(CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude)), animated: true)
+        let currentCamera = mapView!.camera
+        let newCamera = MGLMapCamera(lookingAtCenter: currentCamera.centerCoordinate, acrossDistance: currentCamera.viewingDistance, pitch: currentCamera.pitch, heading: currentCamera.heading)
+        self.mapView!.setCamera(newCamera, animated: true)
     }
     
     
