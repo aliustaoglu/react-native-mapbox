@@ -113,16 +113,15 @@ public class RNMBMarkers {
                     .withGeometry(Point.fromLngLat(lng, lat))
                     .withData(pulsatorData)
                     .withCircleOpacity(0.3f)
-                    .withCircleBlur(0.1f)
-                    ;
+                    .withCircleBlur(0.1f);
 
-            if (pulsator.hasKey("color")) pulsatorOptions = pulsatorOptions.withCircleColor(pulsator.getString("color"));
-
+            if (pulsator.hasKey("color"))
+                pulsatorOptions = pulsatorOptions.withCircleColor(pulsator.getString("color"));
 
 
             final Circle pulsatorCircle = this.pulsatorManager.create(pulsatorOptions);
 
-            ValueAnimator pulseAnimator = ValueAnimator.ofFloat(0f,20f);
+            ValueAnimator pulseAnimator = ValueAnimator.ofFloat(0f, 20f);
             pulseAnimator.setDuration(1500);
             pulseAnimator.setRepeatCount(ValueAnimator.INFINITE);
             pulseAnimator.setRepeatMode(ValueAnimator.RESTART);
@@ -131,7 +130,7 @@ public class RNMBMarkers {
             pulseAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    Float val = Float.valueOf((float)animation.getAnimatedValue());
+                    Float val = Float.valueOf((float) animation.getAnimatedValue());
                     pulsatorCircle.setCircleRadius(val);
                     pulsatorManager.update(pulsatorCircle);
                 }
@@ -189,10 +188,12 @@ public class RNMBMarkers {
 
         final LatLng latLng = new LatLng(lat, lng);
 
-        final Float[] iconOffset = new Float[]{-1.5f, -15f};
+        final Float[] iconOffset = marker.hasKey("centerOffset") ?
+                new Float[]{(float) marker.getArray("centerOffset").getDouble(0), (float) marker.getArray("centerOffset").getDouble(1)}
+                : new Float[]{0f, 0f};
         // Debug
         if (strIcon.startsWith("http")) {
-
+ 
             BitmapDownloader bd = new BitmapDownloader(new OnAsyncTaskListener<Bitmap>() {
                 @Override
                 public void onAsyncTaskSuccess(Bitmap bm) {
@@ -250,6 +251,7 @@ public class RNMBMarkers {
                     .withIconImage(iconName)
                     .withIconSize(iconSize)
                     .withData(symbolData)
+                    .withIconOffset(iconOffset)
             );
 
 
