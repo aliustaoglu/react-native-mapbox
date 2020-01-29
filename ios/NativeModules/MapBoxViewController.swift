@@ -10,8 +10,8 @@ class MapBoxViewController: RCTViewManager {
     }
     
     @objc
-    func locateUser(_ location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
-        mapBoxMap.locateUser(location, resolve: resolve, reject: reject)
+    func setCamera(_ location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+        mapBoxMap.setCamera(location, resolve: resolve, reject: reject)
     }
     
 

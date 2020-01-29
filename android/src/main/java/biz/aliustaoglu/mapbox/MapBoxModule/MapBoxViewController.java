@@ -28,7 +28,7 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
     private MapBoxMapView mapView;
 
     // Native direct commands
-    private static final int LOCATE_USER = 0;
+    private static final int SET_CAMERA = 0;
 
     @Nonnull
     @Override
@@ -58,7 +58,7 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
     @Override
     public Map<String, Integer> getCommandsMap() {
         Map<String, Integer> commandsMap = new HashMap();
-        commandsMap.put("locateUser", LOCATE_USER);
+        commandsMap.put("setCamera", SET_CAMERA);
         return commandsMap;
     }
 
@@ -71,13 +71,13 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
     public void receiveCommand(MapBoxMapView mapLayout, String commandName, @Nullable ReadableArray args) {
         super.receiveCommand(mapLayout, commandName, args);
         switch (commandName) {
-            case "locateUser":
-                locateUser(mapLayout, args);
+            case "setCamera":
+            setCamera(mapLayout, args);
                 break;
         }
     }
 
-    private void locateUser(MapBoxMapView mapLayout, @Nullable ReadableArray args) {
+    private void setCamera(MapBoxMapView mapLayout, @Nullable ReadableArray args) {
         Double lat = args.getMap(0).getDouble("latitude");
         Double lng = args.getMap(0).getDouble("longitude");
 

@@ -137,7 +137,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
     }
     
-    func locateUser(_ location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+    func setCamera(_ location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
         let coords = location[0] as! NSDictionary
         let longitude = coords.value(forKey: "longitude") as! Double
         let latitude = coords.value(forKey: "latitude") as! Double
