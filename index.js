@@ -1,6 +1,7 @@
 import React from 'react'
 import { requireNativeComponent, UIManager, findNodeHandle, NativeModules } from 'react-native'
 import { mergePolylines } from './lib/polylines'
+import camera from './lib/camera'
 
 const moduleName = 'MapBoxViewController'
 
@@ -35,5 +36,7 @@ const invokeNativeUIFunction = (moduleName, functionName, ref, params) => {
 export const invokeMapFunction = (functionName, ref, params) => {
   invokeNativeUIFunction(moduleName, functionName, ref, params)
 }
+
+RNMBReactNativeMapbox.Camera = camera
 
 export default RNMBReactNativeMapbox

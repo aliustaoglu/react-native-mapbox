@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleProp, ViewStyle, ImageResolvedAssetSource } from "react-native";
+import { invokeMapFunction } from './index'
 
 type CameraTarget = {
   /**
@@ -154,4 +155,5 @@ declare var MapBox: MapBoxStatic;
 
 type MapBox = MapBoxStatic;
 
+export const invokeMapFunction = invokeMapFunction;
 export default MapBox;
