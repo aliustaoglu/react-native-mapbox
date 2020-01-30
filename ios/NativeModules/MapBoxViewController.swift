@@ -14,5 +14,10 @@ class MapBoxViewController: RCTViewManager {
         mapBoxMap.setCamera(location, resolve: resolve, reject: reject)
     }
     
+    @objc
+    func setBounds(_ bounds:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+        mapBoxMap.setBounds(bounds, resolve: resolve, reject: reject)
+    }
+    
 
 }

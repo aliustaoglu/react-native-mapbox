@@ -148,6 +148,17 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         self.mapView!.setCamera(newCamera, animated: true)
     }
     
+    func setBounds(_ bounds:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+        let edgePadding = UIEdgeInsets(top: 220, left: 20, bottom: 100, right: 20)
+        let boundSW = bounds[0] as! NSDictionary
+        let boundNE = bounds[1] as! NSDictionary
+        let bounds = MGLCoordinateBounds(
+            sw: CLLocationCoordinate2D(latitude: boundSW.object(forKey: "lat") as! CLLocationDegrees, longitude: boundSW.object(forKey: "lng") as! CLLocationDegrees),
+            ne: CLLocationCoordinate2D(latitude: boundNE.object(forKey: "lat") as! CLLocationDegrees, longitude: boundNE.object(forKey: "lng") as! CLLocationDegrees))
+        self.mapView.setVisibleCoordinateBounds(bounds, edgePadding: edgePadding, animated: true, completionHandler: {} )
+        
+    }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

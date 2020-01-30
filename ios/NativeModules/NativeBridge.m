@@ -17,6 +17,7 @@ RCT_EXPORT_VIEW_PROPERTY(onCameraMove, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onCameraMoveEnd, RCTDirectEventBlock)
 
 RCT_EXTERN_METHOD(setCamera:(nonnull NSArray *)location resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(setBounds:(nonnull NSArray *)location resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 @end
 
 
