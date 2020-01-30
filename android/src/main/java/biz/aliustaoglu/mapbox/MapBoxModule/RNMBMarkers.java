@@ -146,10 +146,10 @@ public class RNMBMarkers {
 
     // If removed from props, remove from map as well
     private void removeMarkers(List<String> symbolIDs) {
-        LongSparseArray<Symbol> symbols = this.symbolManager.getAnnotations().clone();
+        LongSparseArray<Symbol> symbols = this.symbolManager.getAnnotations();
         for (int i = 0; i < symbolIDs.size(); i++) {
             for (int j = 0; j < symbols.size(); j++) {
-                Symbol symbol = symbols.get(j);
+                Symbol symbol = symbols.get(symbols.keyAt(0));
                 String id = symbol.getData().getAsJsonObject().get("id").getAsString();
                 if (id.equals(symbolIDs.get(i))) {
                     this.symbolManager.delete(symbol);
@@ -159,10 +159,10 @@ public class RNMBMarkers {
     }
 
     private void removePulsators(List<String> symbolIDs) {
-        LongSparseArray<Circle> pulsators = this.pulsatorManager.getAnnotations().clone();
+        LongSparseArray<Circle> pulsators = this.pulsatorManager.getAnnotations();
         for (int i = 0; i < symbolIDs.size(); i++) {
             for (int j = 0; j < pulsators.size(); j++) {
-                Circle circle = pulsators.get(j);
+                Circle circle = pulsators.get(pulsators.keyAt(j));
                 String id = circle.getData().getAsJsonObject().get("id").getAsString();
                 if (id.equals(symbolIDs.get(i))) {
                     this.pulsatorManager.delete(circle);
