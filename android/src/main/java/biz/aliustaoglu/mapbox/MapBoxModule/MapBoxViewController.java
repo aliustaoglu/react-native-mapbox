@@ -14,7 +14,9 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -55,33 +57,53 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
                 .build();
     }
 
-    @Override
-    public Map<String, Integer> getCommandsMap() {
-        Map<String, Integer> commandsMap = new HashMap();
-        commandsMap.put("setCamera", SET_CAMERA);
-        return commandsMap;
-    }
+//    @Override
+//    public Map<String, Integer> getCommandsMap() {
+//        Map<String, Integer> commandsMap = new HashMap();
+//        commandsMap.put("setCamera", SET_CAMERA);
+//        return commandsMap;
+//    }
+//
+//    @Override
+//    public void receiveCommand(MapBoxMapView mapLayout, int commandId, @Nullable ReadableArray args) {
+//        super.receiveCommand(mapLayout, commandId, args);
+//    }
 
     @Override
-    public void receiveCommand(MapBoxMapView mapLayout, int commandId, @Nullable ReadableArray args) {
-        super.receiveCommand(mapLayout, commandId, args);
-    }
-
-    @Override
-    public void receiveCommand(MapBoxMapView mapLayout, String commandName, @Nullable ReadableArray args) {
-        super.receiveCommand(mapLayout, commandName, args);
+    public void receiveCommand(MapBoxMapView mapBoxMapView, String commandName, @Nullable ReadableArray args) {
+        super.receiveCommand(mapBoxMapView, commandName, args);
         switch (commandName) {
             case "setCamera":
-            setCamera(mapLayout, args);
+                setCamera(mapBoxMapView, args);
                 break;
+            case "setBounds":
+                setBounds(mapBoxMapView, args);
+                break;
+            default:
+                throw new IllegalArgumentException(String.format(
+                        "Unsupported command %s received by %s.",
+                        commandName,
+                        getClass().getSimpleName()));
         }
     }
 
-    private void setCamera(MapBoxMapView mapLayout, @Nullable ReadableArray args) {
+    private void setCamera(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
         Double lat = args.getMap(0).getDouble("latitude");
         Double lng = args.getMap(0).getDouble("longitude");
 
-        mapLayout.mapboxMap.easeCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)));
+        mapBoxMapView.mapboxMap.easeCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)));
+    }
+
+    private void setBounds(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args){
+        List<LatLng> latLngList = new ArrayList<>();
+
+        for (int i=0;i<args.size();i++){
+            ReadableMap ll = args.getMap(i);
+            latLngList.add(new LatLng(ll.getDouble("lat"), ll.getDouble("lng")));
+        }
+
+        LatLngBounds latLngBounds = new LatLngBounds.Builder().includes(latLngList).build();
+        mapBoxMapView.mapboxMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100), 1000);
     }
 
 
