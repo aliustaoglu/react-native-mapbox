@@ -22,12 +22,15 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import biz.aliustaoglu.mapbox.Utility.NativeEventsHelper;
+
 
 public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
 
     private MapboxMap mapboxMap;
     private ThemedReactContext context;
     private MapBoxMapView mapView;
+    private NativeEventsHelper nativeEventsHelper = new NativeEventsHelper();
 
     // Native direct commands
     private static final int SET_CAMERA = 0;
@@ -38,10 +41,12 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
         return "MapBoxViewController";
     }
 
+
     @Nonnull
     @Override
     protected MapBoxMapView createViewInstance(@Nonnull ThemedReactContext reactContext) {
         this.context = reactContext;
+        nativeEventsHelper.setContext(reactContext);
         return new MapBoxMapView(reactContext);
     }
 
@@ -57,27 +62,18 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
                 .build();
     }
 
-//    @Override
-//    public Map<String, Integer> getCommandsMap() {
-//        Map<String, Integer> commandsMap = new HashMap();
-//        commandsMap.put("setCamera", SET_CAMERA);
-//        return commandsMap;
-//    }
-//
-//    @Override
-//    public void receiveCommand(MapBoxMapView mapLayout, int commandId, @Nullable ReadableArray args) {
-//        super.receiveCommand(mapLayout, commandId, args);
-//    }
-
     @Override
     public void receiveCommand(MapBoxMapView mapBoxMapView, String commandName, @Nullable ReadableArray args) {
         super.receiveCommand(mapBoxMapView, commandName, args);
         switch (commandName) {
             case "setCamera":
-                setCamera(mapBoxMapView, args);
+                this.nativeEventsHelper.setCamera(mapBoxMapView, args);
                 break;
             case "setBounds":
-                setBounds(mapBoxMapView, args);
+                this.nativeEventsHelper.setBounds(mapBoxMapView, args);
+                break;
+            case "getCameraPosition":
+                this.nativeEventsHelper.getCameraPosition(mapBoxMapView);
                 break;
             default:
                 throw new IllegalArgumentException(String.format(
@@ -87,24 +83,7 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
         }
     }
 
-    private void setCamera(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
-        Double lat = args.getMap(0).getDouble("latitude");
-        Double lng = args.getMap(0).getDouble("longitude");
 
-        mapBoxMapView.mapboxMap.easeCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)));
-    }
-
-    private void setBounds(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args){
-        List<LatLng> latLngList = new ArrayList<>();
-
-        for (int i=0;i<args.size();i++){
-            ReadableMap ll = args.getMap(i);
-            latLngList.add(new LatLng(ll.getDouble("lat"), ll.getDouble("lng")));
-        }
-
-        LatLngBounds latLngBounds = new LatLngBounds.Builder().includes(latLngList).build();
-        mapBoxMapView.mapboxMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100), 1000);
-    }
 
 
     @ReactProp(name = "camera")

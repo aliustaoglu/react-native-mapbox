@@ -15,6 +15,7 @@ public class RNMBReactNativeMapboxManager extends MapBoxViewController {
 
     @Override
     public MapBoxMapView createViewInstance(ThemedReactContext c) {
+        super.createViewInstance(c);
         MapBoxMapView mapBoxMapView= new MapBoxMapView(c);
         return mapBoxMapView;
     }

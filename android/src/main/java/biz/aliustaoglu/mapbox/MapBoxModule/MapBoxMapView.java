@@ -3,10 +3,12 @@ package biz.aliustaoglu.mapbox.MapBoxModule;
 
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -142,4 +144,5 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         location.putDouble("lng", position.target.getLongitude());
         return location;
     }
+
 }
