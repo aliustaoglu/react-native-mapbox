@@ -26,7 +26,7 @@ class RNMBReactNativeMapbox extends React.Component {
 const invokeNativeUIFunction = (moduleName, functionName, ref, params) => {
   if (Platform.OS === 'ios') {
     const func = NativeModules[moduleName][functionName]
-    func(params)
+    return func(params)
   } else {
     const handle = findNodeHandle(ref)
     UIManager.dispatchViewManagerCommand(handle, functionName, params)
@@ -34,7 +34,7 @@ const invokeNativeUIFunction = (moduleName, functionName, ref, params) => {
 }
 
 export const invokeMapFunction = (functionName, ref, params) => {
-  invokeNativeUIFunction(moduleName, functionName, ref, params)
+  return invokeNativeUIFunction(moduleName, functionName, ref, params)
 }
 
 RNMBReactNativeMapbox.Camera = camera

@@ -42,7 +42,7 @@ public class NativeEventsHelper {
 
         CameraPosition cameraPosition = mapBoxMapView.mapboxMap.getCameraPosition();
         Double latitude = cameraPosition.target.getLatitude();
-        Double longitude = cameraPosition.target.getLatitude();
+        Double longitude = cameraPosition.target.getLongitude();
         Double altitude = cameraPosition.target.getAltitude();
         Double bearing = cameraPosition.bearing;
         Double tilt = cameraPosition.tilt;
