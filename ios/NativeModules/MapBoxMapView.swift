@@ -159,6 +159,18 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         
     }
     
+    func getCameraPosition(_ params:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+        if (self.mapView == nil){
+            reject("Map reference is not set", nil, nil)
+            return
+        }
+        let dict = [
+            "latitude": self.mapView.centerCoordinate.latitude,
+            "longitude": self.mapView.centerCoordinate.longitude
+        ]
+        resolve(dict)
+    }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
