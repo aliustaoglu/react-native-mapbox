@@ -88,8 +88,8 @@ public class RNMBMarkers {
         final String id = marker.getString("id");
         final Double lat = marker.getDouble("lat");
         final Double lng = marker.getDouble("lng");
-        final String title = marker.getString("title");
-        final String subtitle = marker.getString("subtitle");
+        final String title = marker.hasKey("title") ? marker.getString("title") : "";
+        final String subtitle = marker.hasKey("sibtitle") ? marker.getString("subtitle") : "";
         final String strIcon = marker.getMap("icon").getString("uri");
         final Boolean canPulse = marker.hasKey("pulsator");
         final ReadableMap pulsator = canPulse ? marker.getMap("pulsator") : null;
@@ -180,8 +180,8 @@ public class RNMBMarkers {
         final String id = marker.getString("id");
         final Double lat = marker.getDouble("lat");
         final Double lng = marker.getDouble("lng");
-        final String title = marker.getString("title");
-        final String subtitle = marker.getString("subtitle");
+        final String title = marker.hasKey("title") ? marker.getString("title") : "";
+        final String subtitle = marker.hasKey("subtitle") ? marker.getString("subtitle") : "";
         final String strIcon = marker.getMap("icon").getString("uri");
         final Boolean canPulse = marker.hasKey("pulsator");
         final ReadableMap pulsator = canPulse ? marker.getMap("pulsator") : null;
