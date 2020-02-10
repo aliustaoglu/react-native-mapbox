@@ -62,11 +62,11 @@ class RNMBPointAnnotation: MGLPointAnnotation {
             }
             
             self.annotationView = MGLAnnotationView(reuseIdentifier: self.id)
+            imgView.center = self.annotationView!.center
+            
             if let centerOffset = marker.object(forKey: "centerOffset") as? NSArray {
                 self.annotationView?.centerOffset = CGVector(dx: centerOffset[0] as! Double, dy: centerOffset[1] as! Double)
             }
-            
-            
             self.annotationView?.addSubview(imgView)
             
         }
@@ -169,3 +169,4 @@ func hexStringToUIColor (hex:String) -> UIColor {
         alpha: CGFloat(1.0)
     )
 }
+
