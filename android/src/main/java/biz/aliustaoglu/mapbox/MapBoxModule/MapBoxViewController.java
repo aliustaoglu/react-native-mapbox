@@ -2,6 +2,7 @@ package biz.aliustaoglu.mapbox.MapBoxModule;
 
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
@@ -88,7 +89,8 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
 
     @ReactProp(name = "camera")
     public void setCamera(MapBoxMapView mapBoxMapView, @Nullable ReadableMap camera) {
-        mapBoxMapView.camera = new RNMBCamera(camera);
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        mapBoxMapView.camera = new RNMBCamera(camera, displayMetrics);
         if (mapBoxMapView.isMapReady) mapBoxMapView.setCamera();
     }
 

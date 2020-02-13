@@ -17,6 +17,11 @@ export const commonStyles = StyleSheet.create({
     top: 30,
     left: 10,
   },
+  centerButton: {
+    position: 'absolute',
+    top: 30,
+    right: 10,
+  },
   textInput: {
     backgroundColor: 'lightgray',
     width: 90,
