@@ -1,5 +1,7 @@
 package biz.aliustaoglu.mapbox.Utility;
 
+import android.util.DisplayMetrics;
+
 import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.Arguments;
@@ -9,6 +11,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
@@ -60,10 +63,30 @@ public class NativeEventsHelper {
     }
 
     public void setCamera(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
-        Double lat = args.getMap(0).getDouble("latitude");
-        Double lng = args.getMap(0).getDouble("longitude");
+        CameraPosition.Builder cameraBuilder = new CameraPosition.Builder();
+        ReadableMap cameraArgs = args.getMap(0);
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
-        mapBoxMapView.mapboxMap.easeCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)));
+        if (cameraArgs.hasKey("latitude") && cameraArgs.hasKey("longitude")){
+            Double lat = cameraArgs.getDouble("latitude");
+            Double lng = cameraArgs.getDouble("longitude");
+            cameraBuilder.target(new LatLng(lat, lng));
+        }
+        if (cameraArgs.hasKey("zoom")) cameraBuilder = cameraBuilder.zoom(cameraArgs.getDouble("zoom"));
+        if (cameraArgs.hasKey("bearing"))
+            cameraBuilder = cameraBuilder.bearing(cameraArgs.getDouble("bearing"));
+        if (cameraArgs.hasKey("tilt")) cameraBuilder = cameraBuilder.tilt(cameraArgs.getDouble("tilt"));
+        if (cameraArgs.hasKey("padding")) {
+            Double[] listPadding = cameraArgs.getArray("padding").toArrayList().toArray(new Double[0]);
+            double[] arrPadding = new double[listPadding.length];
+            for (int i = 0; i < arrPadding.length; i++)
+                arrPadding[i] = listPadding[i] * displayMetrics.scaledDensity;
+            cameraBuilder.padding(arrPadding);
+        }
+        CameraPosition cameraPosition = cameraBuilder.build();
+        Integer duration = (cameraArgs.hasKey("duration")) ? cameraArgs.getInt("duration") : 2000;
+
+        mapBoxMapView.mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), duration);
     }
 
     public void setBounds(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
