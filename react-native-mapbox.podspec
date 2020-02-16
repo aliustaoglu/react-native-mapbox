@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   s.resource_bundles = {'MapAssets' => ['ios/MapAssets.xcassets']}
 
   s.dependency "React"
-  s.dependency 'Mapbox-iOS-SDK', '~> 5.5'
+  s.dependency 'Mapbox-iOS-SDK', '~> 5.7.0'
   s.dependency 'Pulsator'
 end
 

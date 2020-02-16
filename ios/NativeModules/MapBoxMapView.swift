@@ -141,15 +141,32 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         let coords = location[0] as! NSDictionary
         let longitude = coords.value(forKey: "longitude") as! Double
         let latitude = coords.value(forKey: "latitude") as! Double
-        
-        self.mapView!.setCenter(CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude)), animated: true)
-        let currentCamera = mapView!.camera
-        let newCamera = MGLMapCamera(lookingAtCenter: currentCamera.centerCoordinate, acrossDistance: currentCamera.viewingDistance, pitch: currentCamera.pitch, heading: currentCamera.heading)
-        self.mapView!.setCamera(newCamera, animated: true)
+        let duration = ((coords.value(forKey: "duration") as? Double) ?? 500) / 1000 // Android uses millisecs. So for consistency convert to msec
+        //let padding = (coords.value(forKey: "padding") as? NSArray) ?? [0, 0, 0, 0]
+        var paddingLeft = 0.0, paddingTop = 0.0, paddingRight = 0.0, paddingBottom = 0.0
+        if let padding = coords.value(forKey: "padding") as? NSArray {
+            paddingLeft = padding[0] as! Double
+            paddingTop = padding[1] as! Double
+            paddingRight = padding[2] as! Double
+            paddingBottom = padding[3] as! Double
+        }
+
+        DispatchQueue.main.async {
+            let onAfterInset = { ()->Void in
+                let currentCamera = self.mapView!.camera
+                let centerCoordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+                let newCamera = MGLMapCamera(lookingAtCenter: centerCoordinate, acrossDistance: currentCamera.viewingDistance, pitch: currentCamera.pitch, heading: currentCamera.heading)
+                let animationTimingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+                self.mapView!.setCamera(newCamera, withDuration: duration, animationTimingFunction: animationTimingFunction)
+            }
+            
+            let insets = UIEdgeInsets(top: CGFloat(paddingTop), left: CGFloat(paddingLeft), bottom: CGFloat(paddingBottom), right: CGFloat(paddingRight))
+            self.mapView!.setContentInset(insets, animated: true, completionHandler: onAfterInset)
+        }
     }
     
     func setBounds(_ bounds:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
-        let edgePadding = UIEdgeInsets(top: 220, left: 20, bottom: 100, right: 20)
+        let edgePadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         let boundSW = bounds[0] as! NSDictionary
         let boundNE = bounds[1] as! NSDictionary
         let bounds = MGLCoordinateBounds(
