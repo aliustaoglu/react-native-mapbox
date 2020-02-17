@@ -176,6 +176,22 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         
     }
     
+    func setPadding(_ padding:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+        if self.mapView == nil {
+            return
+        }
+        
+        let paddingLeft = padding[0] as! Double
+        let paddingTop = padding[1] as! Double
+        let paddingRight = padding[2] as! Double
+        let paddingBottom = padding[3] as! Double
+        
+        DispatchQueue.main.async {
+            let insets = UIEdgeInsets(top: CGFloat(paddingTop), left: CGFloat(paddingLeft), bottom: CGFloat(paddingBottom), right: CGFloat(paddingRight))
+            self.mapView!.setContentInset(insets, animated: true)
+        }
+    }
+    
     func getCameraPosition(_ params:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
         if (self.mapView == nil){
             reject("Map reference is not set", nil, nil)

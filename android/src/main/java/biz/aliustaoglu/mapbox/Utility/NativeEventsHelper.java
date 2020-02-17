@@ -15,6 +15,7 @@ import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +38,8 @@ public class NativeEventsHelper {
         this.context = context;
     }
 
-    public void getCameraPosition(MapBoxMapView mapBoxMapView){
-        if (mapBoxMapView.mapboxMap == null){
+    public void getCameraPosition(MapBoxMapView mapBoxMapView) {
+        if (mapBoxMapView.mapboxMap == null) {
             sendJSEvent("onGetCameraPosition", null);
             return;
         }
@@ -67,15 +68,17 @@ public class NativeEventsHelper {
         ReadableMap cameraArgs = args.getMap(0);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
-        if (cameraArgs.hasKey("latitude") && cameraArgs.hasKey("longitude")){
+        if (cameraArgs.hasKey("latitude") && cameraArgs.hasKey("longitude")) {
             Double lat = cameraArgs.getDouble("latitude");
             Double lng = cameraArgs.getDouble("longitude");
             cameraBuilder.target(new LatLng(lat, lng));
         }
-        if (cameraArgs.hasKey("zoom")) cameraBuilder = cameraBuilder.zoom(cameraArgs.getDouble("zoom"));
+        if (cameraArgs.hasKey("zoom"))
+            cameraBuilder = cameraBuilder.zoom(cameraArgs.getDouble("zoom"));
         if (cameraArgs.hasKey("bearing"))
             cameraBuilder = cameraBuilder.bearing(cameraArgs.getDouble("bearing"));
-        if (cameraArgs.hasKey("tilt")) cameraBuilder = cameraBuilder.tilt(cameraArgs.getDouble("tilt"));
+        if (cameraArgs.hasKey("tilt"))
+            cameraBuilder = cameraBuilder.tilt(cameraArgs.getDouble("tilt"));
         if (cameraArgs.hasKey("padding")) {
             Double[] listPadding = cameraArgs.getArray("padding").toArrayList().toArray(new Double[0]);
             double[] arrPadding = new double[listPadding.length];
@@ -87,6 +90,20 @@ public class NativeEventsHelper {
         Integer duration = (cameraArgs.hasKey("duration")) ? cameraArgs.getInt("duration") : 2000;
 
         mapBoxMapView.mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), duration);
+    }
+
+    public void setPadding(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
+        MapboxMap mapboxMap = mapBoxMapView.mapboxMap;
+        if (mapboxMap == null) return;
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+        Double[] listPadding = args.toArrayList().toArray(new Double[0]);
+        double[] arrPadding = new double[listPadding.length];
+        for (int i = 0; i < arrPadding.length; i++)
+            arrPadding[i] = listPadding[i] * displayMetrics.scaledDensity;
+        CameraUpdate cameraUpdate = CameraUpdateFactory.paddingTo(arrPadding);
+        mapboxMap.easeCamera(cameraUpdate);
     }
 
     public void setBounds(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {

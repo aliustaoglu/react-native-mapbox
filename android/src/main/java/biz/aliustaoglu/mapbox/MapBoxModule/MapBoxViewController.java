@@ -76,6 +76,9 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
             case "getCameraPosition":
                 this.nativeEventsHelper.getCameraPosition(mapBoxMapView);
                 break;
+            case "setPadding":
+                this.nativeEventsHelper.setPadding(mapBoxMapView, args);
+                break;
             default:
                 throw new IllegalArgumentException(String.format(
                         "Unsupported command %s received by %s.",

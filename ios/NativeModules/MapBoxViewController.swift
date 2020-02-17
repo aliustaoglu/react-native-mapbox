@@ -15,6 +15,11 @@ class MapBoxViewController: RCTViewManager {
     }
     
     @objc
+    func setPadding(_ padding:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+        mapBoxMap.setPadding(padding, resolve: resolve, reject: reject)
+    }
+    
+    @objc
     func setBounds(_ bounds:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
         mapBoxMap.setBounds(bounds, resolve: resolve, reject: reject)
     }
