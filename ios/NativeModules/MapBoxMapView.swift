@@ -200,9 +200,8 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
             "latitude": self.mapView.centerCoordinate.latitude,
             "longitude": self.mapView.centerCoordinate.longitude
         ]
-        MapBoxViewController.eventEmitter.sendEvent(withName: "onGetCameraPosition", body: dict)
         
-        
+        JSEmitter.eventEmitter.sendEvent(withName: "onGetCameraPosition", body: dict)
     }
     
     

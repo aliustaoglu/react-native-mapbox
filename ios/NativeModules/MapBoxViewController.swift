@@ -3,17 +3,12 @@ import Foundation
 @objc(MapBoxViewController)
 class MapBoxViewController: RCTViewManager {
     var mapBoxMap: MapBoxMapView!
-    public static var sharedInstance = MapBoxViewController()
-    public static var eventEmitter: ReactNativeEventEmitter!
-    
-    func registerEventEmitter(eventEmitter: ReactNativeEventEmitter) {
-        MapBoxViewController.eventEmitter = eventEmitter
-    }
     
     override func view() -> UIView? {
         mapBoxMap = MapBoxMapView()
         return mapBoxMap
     }
+    
     
     @objc
     func setCamera(_ node: NSNumber, location:NSArray){
@@ -36,17 +31,30 @@ class MapBoxViewController: RCTViewManager {
     }
 }
 
+class JSEmitter {
+
+    public static var sharedInstance = JSEmitter()
+    public static var eventEmitter: ReactNativeEventEmitter!
+    
+    init(){
+        
+    }
+    
+    func registerEventEmitter(eventEmitter: ReactNativeEventEmitter) {
+        JSEmitter.eventEmitter = eventEmitter
+    }
+    
+}
+
 @objc(ReactNativeEventEmitter)
 open class ReactNativeEventEmitter: RCTEventEmitter {
     
     override init() {
         super.init()
-        MapBoxViewController.sharedInstance.registerEventEmitter(eventEmitter: self)
+        JSEmitter.sharedInstance.registerEventEmitter(eventEmitter: self)
     }
     
-    /// Base overide for RCTEventEmitter.
-    ///
-    /// - Returns: all supported events
+    // Update this function after adding new listeners
     @objc open override func supportedEvents() -> [String] {
         return ["onGetCameraPosition"]
     }
