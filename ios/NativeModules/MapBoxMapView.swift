@@ -137,7 +137,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
     }
     
-    func setCamera(_ location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+    func setCamera(_ location:NSArray){
         let coords = location[0] as! NSDictionary
         let longitude = coords.value(forKey: "longitude") as! Double
         let latitude = coords.value(forKey: "latitude") as! Double
@@ -165,7 +165,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
     }
     
-    func setBounds(_ bounds:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+    func setBounds(_ bounds:NSArray){
         let edgePadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         let boundSW = bounds[0] as! NSDictionary
         let boundNE = bounds[1] as! NSDictionary
@@ -176,7 +176,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         
     }
     
-    func setPadding(_ padding:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+    func setPadding(_ padding:NSArray){
         if self.mapView == nil {
             return
         }
@@ -192,16 +192,17 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
     }
     
-    func getCameraPosition(_ params:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
+    func getCameraPosition(_ params:NSArray){
         if (self.mapView == nil){
-            reject("Map reference is not set", nil, nil)
             return
         }
         let dict = [
             "latitude": self.mapView.centerCoordinate.latitude,
             "longitude": self.mapView.centerCoordinate.longitude
         ]
-        resolve(dict)
+        MapBoxViewController.eventEmitter.sendEvent(withName: "onGetCameraPosition", body: dict)
+        
+        
     }
     
     

@@ -1,28 +1,26 @@
 #import <Foundation/Foundation.h>
+#import "React/RCTBridgeModule.h"
 #import "React/RCTViewManager.h"
-
-// All maps should export same properties. Only the module name should differ
-// Simply copy & paste.
+#import "React/RCTEventEmitter.h"
 
 @interface RCT_EXTERN_MODULE(MapBoxViewController, RCTViewManager)
-RCT_EXPORT_VIEW_PROPERTY(camera, NSDictionary)
-RCT_EXPORT_VIEW_PROPERTY(options, NSDictionary)
-RCT_EXPORT_VIEW_PROPERTY(mapStyle, NSDictionary)
-RCT_EXPORT_VIEW_PROPERTY(locationPicker, BOOL)
-RCT_EXPORT_VIEW_PROPERTY(markers, NSArray)
-RCT_EXPORT_VIEW_PROPERTY(polylines, NSArray)
+    RCT_EXPORT_VIEW_PROPERTY(camera, NSDictionary)
+    RCT_EXPORT_VIEW_PROPERTY(options, NSDictionary)
+    RCT_EXPORT_VIEW_PROPERTY(mapStyle, NSDictionary)
+    RCT_EXPORT_VIEW_PROPERTY(locationPicker, BOOL)
+    RCT_EXPORT_VIEW_PROPERTY(markers, NSArray)
+    RCT_EXPORT_VIEW_PROPERTY(polylines, NSArray)
 
-RCT_EXPORT_VIEW_PROPERTY(onMapReady, RCTDirectEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onCameraMove, RCTDirectEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onCameraMoveEnd, RCTDirectEventBlock)
+    RCT_EXPORT_VIEW_PROPERTY(onMapReady, RCTDirectEventBlock)
+    RCT_EXPORT_VIEW_PROPERTY(onCameraMove, RCTDirectEventBlock)
+    RCT_EXPORT_VIEW_PROPERTY(onCameraMoveEnd, RCTDirectEventBlock)
 
-RCT_EXTERN_METHOD(setCamera:(nonnull NSArray *)location resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(setPadding:(nonnull NSArray *)padding resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(setBounds:(nonnull NSArray *)bounds resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(getCameraPosition:(nonnull NSArray *)params resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+    RCT_EXTERN_METHOD(setCamera:(nonnull NSNumber *)node location:(nonnull NSArray *)location)
+    RCT_EXTERN_METHOD(setPadding:(nonnull NSNumber *)node padding:(nonnull NSArray *)padding)
+    RCT_EXTERN_METHOD(setBounds:(nonnull NSNumber *)node bounds:(nonnull NSArray *)bounds)
+    RCT_EXTERN_METHOD(getCameraPosition:(nonnull NSNumber *)node params:(nonnull NSArray *)params)
 @end
 
-
-@interface RCT_EXTERN_MODULE(ConvertUtil, NSObject)
-   RCT_EXTERN_METHOD(getBase64FromImageURL: (NSDictionary)assetSource resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+@interface RCT_EXTERN_MODULE(ReactNativeEventEmitter, RCTEventEmitter)
+    RCT_EXTERN_METHOD(supportedEvents)
 @end

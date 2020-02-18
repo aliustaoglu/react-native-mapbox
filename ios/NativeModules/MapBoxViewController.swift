@@ -3,6 +3,12 @@ import Foundation
 @objc(MapBoxViewController)
 class MapBoxViewController: RCTViewManager {
     var mapBoxMap: MapBoxMapView!
+    public static var sharedInstance = MapBoxViewController()
+    public static var eventEmitter: ReactNativeEventEmitter!
+    
+    func registerEventEmitter(eventEmitter: ReactNativeEventEmitter) {
+        MapBoxViewController.eventEmitter = eventEmitter
+    }
     
     override func view() -> UIView? {
         mapBoxMap = MapBoxMapView()
@@ -10,24 +16,39 @@ class MapBoxViewController: RCTViewManager {
     }
     
     @objc
-    func setCamera(_ location:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
-        mapBoxMap.setCamera(location, resolve: resolve, reject: reject)
+    func setCamera(_ node: NSNumber, location:NSArray){
+        mapBoxMap.setCamera(location)
     }
     
     @objc
-    func setPadding(_ padding:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
-        mapBoxMap.setPadding(padding, resolve: resolve, reject: reject)
+    func setPadding(_ node: NSNumber, padding:NSArray){
+        mapBoxMap.setPadding(padding)
     }
     
     @objc
-    func setBounds(_ bounds:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
-        mapBoxMap.setBounds(bounds, resolve: resolve, reject: reject)
+    func setBounds(_ node: NSNumber, bounds:NSArray){
+        mapBoxMap.setBounds(bounds)
     }
     
     @objc
-    func getCameraPosition(_ params:NSArray, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock){
-        mapBoxMap.getCameraPosition(params, resolve: resolve, reject: reject)
+    func getCameraPosition(_ node: NSNumber, params:NSArray){
+        mapBoxMap.getCameraPosition(params)
+    }
+}
+
+@objc(ReactNativeEventEmitter)
+open class ReactNativeEventEmitter: RCTEventEmitter {
+    
+    override init() {
+        super.init()
+        MapBoxViewController.sharedInstance.registerEventEmitter(eventEmitter: self)
     }
     
+    /// Base overide for RCTEventEmitter.
+    ///
+    /// - Returns: all supported events
+    @objc open override func supportedEvents() -> [String] {
+        return ["onGetCameraPosition"]
+    }
 
 }
