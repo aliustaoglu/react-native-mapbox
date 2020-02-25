@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -15,6 +16,7 @@ import com.mapbox.mapboxsdk.location.modes.CameraMode;
 import com.mapbox.mapboxsdk.location.modes.RenderMode;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.pluginscalebar.ScaleBarOptions;
 import com.mapbox.pluginscalebar.ScaleBarPlugin;
 
@@ -25,7 +27,7 @@ public class RNMBOptions implements PermissionListener {
         this.options = options;
     }
 
-    public void update(MapboxMap mapboxMap, MapView mapView, Context context) {
+    public void update(MapboxMap mapboxMap, MapView mapView, final Context context) {
         Boolean showsUserHeadingIndicator = false;
         Boolean showsScale = false;
         Boolean showsHeading = false;
@@ -46,13 +48,21 @@ public class RNMBOptions implements PermissionListener {
         if (!showsUserLocation) return;
 
 
-        LocationComponent locationComponent = mapboxMap.getLocationComponent();
-        locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(context, mapboxMap.getStyle()).build());
-        locationComponent.setLocationComponentEnabled(true);
-        if (showsUserHeadingIndicator) {
-            locationComponent.setCameraMode(CameraMode.TRACKING);
-            locationComponent.setRenderMode(RenderMode.COMPASS);
-        }
+        final LocationComponent locationComponent = mapboxMap.getLocationComponent();
+        final Boolean headingIndicator = showsUserHeadingIndicator;
+        mapboxMap.getStyle(new Style.OnStyleLoaded() {
+            @Override
+            public void onStyleLoaded(@NonNull Style style) {
+                locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(context, style).build());
+                locationComponent.setLocationComponentEnabled(true);
+                if (headingIndicator) {
+                    locationComponent.setCameraMode(CameraMode.TRACKING);
+                    locationComponent.setRenderMode(RenderMode.COMPASS);
+                }
+            }
+        });
+
+
     }
 
     @Override

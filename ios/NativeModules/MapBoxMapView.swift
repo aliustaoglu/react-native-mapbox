@@ -43,12 +43,11 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
     }
     
-    @objc var locationPicker: Bool = false {
+    @objc var locationPicker: NSDictionary = [:] {
         didSet{
             if (props.locationPicker == nil) {
-                props.locationPicker = RNMBLocationPicker(locationPicker)
+                props.locationPicker = RNMBLocationPicker(false)
             }
-            print(locationPicker)
             if (self.isMapReady){
                 props.locationPicker?.update(self.mapView, locationPicker)
             }
@@ -150,7 +149,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
             paddingRight = padding[2] as! Double
             paddingBottom = padding[3] as! Double
         }
-
+        
         DispatchQueue.main.async {
             let onAfterInset = { ()->Void in
                 let currentCamera = self.mapView!.camera
@@ -165,10 +164,21 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         }
     }
     
-    func setBounds(_ bounds:NSArray){
-        let edgePadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        let boundSW = bounds[0] as! NSDictionary
-        let boundNE = bounds[1] as! NSDictionary
+    func setBounds(_ mapBounds:NSArray){
+        var edgePadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        let boundSW = mapBounds[0] as! NSDictionary
+        let boundNE = mapBounds[1] as! NSDictionary
+        // Optional extra paddings
+        if (mapBounds.count>2) {
+            let padding = mapBounds[2] as! NSDictionary
+            let left = padding.object(forKey: "paddingLeft") ?? 0
+            let top = padding.object(forKey: "paddingTop") ?? 0
+            let right = padding.object(forKey: "paddingRight") ?? 0
+            let bottom = padding.object(forKey: "paddingBottom") ?? 0
+            edgePadding = UIEdgeInsets(top: top as! CGFloat, left: left as! CGFloat, bottom: bottom as! CGFloat, right: right as! CGFloat)
+            print (padding)
+        }
+        
         let bounds = MGLCoordinateBounds(
             sw: CLLocationCoordinate2D(latitude: boundSW.object(forKey: "lat") as! CLLocationDegrees, longitude: boundSW.object(forKey: "lng") as! CLLocationDegrees),
             ne: CLLocationCoordinate2D(latitude: boundNE.object(forKey: "lat") as! CLLocationDegrees, longitude: boundNE.object(forKey: "lng") as! CLLocationDegrees))

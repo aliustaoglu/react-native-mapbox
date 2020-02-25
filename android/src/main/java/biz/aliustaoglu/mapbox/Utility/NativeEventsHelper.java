@@ -109,13 +109,23 @@ public class NativeEventsHelper {
     public void setBounds(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
         List<LatLng> latLngList = new ArrayList<>();
 
-        for (int i = 0; i < args.size(); i++) {
+        for (int i = 0; i < 2; i++) {
             ReadableMap ll = args.getMap(i);
             latLngList.add(new LatLng(ll.getDouble("lat"), ll.getDouble("lng")));
         }
+        double[] padding;
+        double[] currentPadding = mapBoxMapView.mapboxMap.getCameraPosition().padding;
+
+        // Optional extra paddings
+        if (args.size() > 2) {
+            ReadableMap paddings = args.getMap(2);
+            padding = new double[]{currentPadding[0] + paddings.getDouble("paddingLeft"), currentPadding[1] + paddings.getDouble("paddingLeft"), currentPadding[2] + paddings.getDouble("paddingLeft"), currentPadding[3] + paddings.getDouble("paddingLeft")};
+        } else {
+            padding = currentPadding;
+        }
 
         LatLngBounds latLngBounds = new LatLngBounds.Builder().includes(latLngList).build();
-        mapBoxMapView.mapboxMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100), 1000);
+        mapBoxMapView.mapboxMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, (int) padding[0], (int) padding[1], (int) padding[2], (int) padding[3]), 1000);
     }
 
     public void sendJSEvent(String eventName, @Nullable WritableMap params) {

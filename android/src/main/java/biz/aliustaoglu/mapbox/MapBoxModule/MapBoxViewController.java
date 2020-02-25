@@ -110,9 +110,9 @@ public class MapBoxViewController extends SimpleViewManager<MapBoxMapView> {
     }
 
     @ReactProp(name = "locationPicker")
-    public void setLocationPicker(MapBoxMapView mapBoxMapView, @Nullable Boolean locationPicker) {
+    public void setLocationPicker(MapBoxMapView mapBoxMapView, @Nullable ReadableMap locationPicker) {
         if (mapBoxMapView.locationPicker == null) {
-            mapBoxMapView.locationPicker = new RNMBLocationPicker(locationPicker, mapBoxMapView);
+            mapBoxMapView.locationPicker = new RNMBLocationPicker(context, locationPicker, mapBoxMapView);
         } else {
             if (mapBoxMapView.isMapReady)
                 mapBoxMapView.locationPicker.update(mapboxMap, locationPicker);
