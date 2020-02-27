@@ -47,6 +47,8 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
 
     public MapBoxMapView(@NonNull ReactContext context) {
         super(context);
+
+
         this.mapView = new MapView(context);
         this.addView(mapView);
         mapView.onCreate(null);
