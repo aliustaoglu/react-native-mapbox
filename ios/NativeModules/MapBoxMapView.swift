@@ -157,6 +157,11 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
                 let newCamera = MGLMapCamera(lookingAtCenter: centerCoordinate, acrossDistance: currentCamera.viewingDistance, pitch: currentCamera.pitch, heading: currentCamera.heading)
                 let animationTimingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
                 self.mapView!.setCamera(newCamera, withDuration: duration, animationTimingFunction: animationTimingFunction)
+                let dict = [
+                    "lat": newCamera.centerCoordinate.latitude,
+                    "lng": newCamera.centerCoordinate.longitude
+                ]
+                JSEmitter.eventEmitter.sendEvent(withName: "onSetCamera", body: dict)
             }
             
             let insets = UIEdgeInsets(top: CGFloat(paddingTop), left: CGFloat(paddingLeft), bottom: CGFloat(paddingBottom), right: CGFloat(paddingRight))
@@ -165,6 +170,10 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
     }
     
     func setBounds(_ mapBounds:NSArray){
+        if self.mapView == nil {
+            return
+        }
+        
         var edgePadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         let boundSW = mapBounds[0] as! NSDictionary
         let boundNE = mapBounds[1] as! NSDictionary
@@ -179,10 +188,24 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
             print (padding)
         }
         
+        
+        
         let bounds = MGLCoordinateBounds(
             sw: CLLocationCoordinate2D(latitude: boundSW.object(forKey: "lat") as! CLLocationDegrees, longitude: boundSW.object(forKey: "lng") as! CLLocationDegrees),
             ne: CLLocationCoordinate2D(latitude: boundNE.object(forKey: "lat") as! CLLocationDegrees, longitude: boundNE.object(forKey: "lng") as! CLLocationDegrees))
-        self.mapView.setVisibleCoordinateBounds(bounds, edgePadding: edgePadding, animated: true, completionHandler: {} )
+        
+        let dict = [
+            "swLat": bounds.sw.latitude,
+            "swLng": bounds.sw.longitude,
+            "neLat": bounds.ne.latitude,
+            "neLng": bounds.ne.longitude
+        ]
+        
+        let onSetBounds = {
+            JSEmitter.eventEmitter.sendEvent(withName: "onSetBounds", body: dict)
+        }
+        
+        self.mapView.setVisibleCoordinateBounds(bounds, edgePadding: edgePadding, animated: true, completionHandler: onSetBounds )
         
     }
     
@@ -199,6 +222,13 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         DispatchQueue.main.async {
             let insets = UIEdgeInsets(top: CGFloat(paddingTop), left: CGFloat(paddingLeft), bottom: CGFloat(paddingBottom), right: CGFloat(paddingRight))
             self.mapView!.setContentInset(insets, animated: true)
+            let dict = [
+                "left": insets.left,
+                "top": insets.top,
+                "right": insets.right,
+                "bottom": insets.bottom,
+            ]
+            JSEmitter.eventEmitter.sendEvent(withName: "onSetPadding", body: dict)
         }
     }
     

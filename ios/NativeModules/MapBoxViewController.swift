@@ -68,7 +68,7 @@ open class ReactNativeEventEmitter: RCTEventEmitter {
     
     // Update this function after adding new listeners
     @objc open override func supportedEvents() -> [String] {
-        return ["onGetCameraPosition"]
+        return ["onGetCameraPosition", "onSetPadding", "onSetBounds", "onSetCamera"]
     }
 
 }
