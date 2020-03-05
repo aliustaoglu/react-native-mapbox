@@ -89,7 +89,7 @@ public class NativeEventsHelper {
         CameraPosition cameraPosition = cameraBuilder.build();
         Integer duration = (cameraArgs.hasKey("duration")) ? cameraArgs.getInt("duration") : 2000;
 
-        mapBoxMapView.mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), duration);
+        easeCameraPromise(mapBoxMapView,CameraUpdateFactory.newCameraPosition(cameraPosition), duration, "onSetCamera", null);
     }
 
     public void setPadding(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
@@ -103,7 +103,7 @@ public class NativeEventsHelper {
         for (int i = 0; i < arrPadding.length; i++)
             arrPadding[i] = listPadding[i] * displayMetrics.scaledDensity;
         CameraUpdate cameraUpdate = CameraUpdateFactory.paddingTo(arrPadding);
-        mapboxMap.easeCamera(cameraUpdate);
+        easeCameraPromise(mapBoxMapView, cameraUpdate, 500, "onSetPadding", null);
     }
 
     public void setBounds(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
@@ -125,7 +125,22 @@ public class NativeEventsHelper {
         }
 
         LatLngBounds latLngBounds = new LatLngBounds.Builder().includes(latLngList).build();
-        mapBoxMapView.mapboxMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, (int) padding[0], (int) padding[1], (int) padding[2], (int) padding[3]), 1000);
+        CameraUpdate boundsCamera = CameraUpdateFactory.newLatLngBounds(latLngBounds, (int) padding[0], (int) padding[1], (int) padding[2], (int) padding[3]);
+        easeCameraPromise(mapBoxMapView, boundsCamera, 1000, "onSetBounds", null);
+    }
+
+    private void easeCameraPromise(MapBoxMapView mapBoxMapView, CameraUpdate cameraUpdate, int duration, final String promiseName, final WritableMap promiseParams){
+        mapBoxMapView.mapboxMap.easeCamera(cameraUpdate, duration, new MapboxMap.CancelableCallback() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onFinish() {
+                sendJSEvent(promiseName, promiseParams);
+            }
+        });
     }
 
     public void sendJSEvent(String eventName, @Nullable WritableMap params) {

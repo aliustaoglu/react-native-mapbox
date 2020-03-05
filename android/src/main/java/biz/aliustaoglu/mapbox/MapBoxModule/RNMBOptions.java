@@ -10,6 +10,8 @@ import androidx.core.app.ActivityCompat;
 
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.core.PermissionListener;
+import com.mapbox.android.core.permissions.PermissionsListener;
+import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
@@ -20,7 +22,9 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.pluginscalebar.ScaleBarOptions;
 import com.mapbox.pluginscalebar.ScaleBarPlugin;
 
-public class RNMBOptions implements PermissionListener {
+import java.util.List;
+
+public class RNMBOptions {
     ReadableMap options;
 
     public RNMBOptions(ReadableMap options) {
@@ -50,12 +54,14 @@ public class RNMBOptions implements PermissionListener {
 
         final LocationComponent locationComponent = mapboxMap.getLocationComponent();
         final Boolean headingIndicator = showsUserHeadingIndicator;
+
+
         mapboxMap.getStyle(new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
-                locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(context, style).build());
-                locationComponent.setLocationComponentEnabled(true);
-                if (headingIndicator) {
+                if (headingIndicator == true) {
+                    locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(context, style).build());
+                    locationComponent.setLocationComponentEnabled(true);
                     locationComponent.setCameraMode(CameraMode.TRACKING);
                     locationComponent.setRenderMode(RenderMode.COMPASS);
                 }
@@ -65,8 +71,4 @@ public class RNMBOptions implements PermissionListener {
 
     }
 
-    @Override
-    public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        return false;
-    }
 }
