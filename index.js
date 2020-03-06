@@ -27,10 +27,10 @@ const invokeNativeUIFunction = (moduleName, functionName, ref, params) => {
   if (Platform.OS === 'ios') {
     const handle = findNodeHandle(ref)
     const func = NativeModules[moduleName][functionName]
-    UIManager.dispatchViewManagerCommand(handle, functionName, [params])
+    if (handle) UIManager.dispatchViewManagerCommand(handle, functionName, [params])
   } else {
     const handle = findNodeHandle(ref)
-    UIManager.dispatchViewManagerCommand(handle, functionName, params)
+    if (handle) UIManager.dispatchViewManagerCommand(handle, functionName, params)
   }
 }
 
