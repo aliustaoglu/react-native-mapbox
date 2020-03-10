@@ -213,7 +213,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         if self.mapView == nil {
             return
         }
-        
+
         let paddingLeft = padding[0] as! Double
         let paddingTop = padding[1] as! Double
         let paddingRight = padding[2] as! Double

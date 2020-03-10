@@ -31,6 +31,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
     public MarkerViewManager markerViewManager;
     public SymbolManager symbolManager;
     public CircleManager pulsatorManager;
+    public CircleManager circleManager;
     public FillManager fillManager;
     public LineManager lineManager;
 
@@ -107,6 +108,7 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         this.pulsatorManager = new CircleManager(mapView, mapboxMap, style);
         this.lineManager = new LineManager(mapView, mapboxMap, style);
         this.fillManager= new FillManager(mapView, mapboxMap, style);
+        this.circleManager = new CircleManager(mapView, mapboxMap, style);
 
         this.style = style;
 
