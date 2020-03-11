@@ -173,13 +173,13 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         if self.mapView == nil {
             return
         }
+        let boundParams = mapBounds.object(at: 0) as! NSDictionary
         
         var edgePadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        let boundSW = mapBounds[0] as! NSDictionary
-        let boundNE = mapBounds[1] as! NSDictionary
+        let boundSW = boundParams.object(forKey: "start") as! NSDictionary
+        let boundNE = boundParams.object(forKey: "end") as! NSDictionary
         // Optional extra paddings
-        if (mapBounds.count>2) {
-            let padding = mapBounds[2] as! NSDictionary
+        if let padding = boundParams.object(forKey: "padding") as? NSDictionary {
             let left = padding.object(forKey: "paddingLeft") ?? 0
             let top = padding.object(forKey: "paddingTop") ?? 0
             let right = padding.object(forKey: "paddingRight") ?? 0
