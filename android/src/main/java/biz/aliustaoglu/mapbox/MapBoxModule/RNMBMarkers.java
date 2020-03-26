@@ -197,6 +197,7 @@ public class RNMBMarkers {
         final String title = marker.hasKey("title") ? marker.getString("title") : "";
         final String subtitle = marker.hasKey("subtitle") ? marker.getString("subtitle") : "";
         final String strIcon = marker.hasKey("icon") ? marker.getMap("icon").getString("uri") : null;
+        final Float scale = marker.hasKey("icon") ? (float) marker.getMap("icon").getDouble("scale") : 1f;
         final Boolean canPulse = marker.hasKey("pulsator");
         final ReadableMap pulsator = canPulse ? marker.getMap("pulsator") : null;
 
@@ -216,7 +217,7 @@ public class RNMBMarkers {
             BitmapDownloader bd = new BitmapDownloader(new OnAsyncTaskListener<Bitmap>() {
                 @Override
                 public void onAsyncTaskSuccess(Bitmap bm) {
-                    setSymbolIcon(id, strIcon, bm, latLng, title, 2f, pulsator, iconOffset);
+                    setSymbolIcon(id, strIcon, bm, latLng, title, 2f / scale, pulsator, iconOffset);
                 }
 
                 @Override
@@ -230,7 +231,7 @@ public class RNMBMarkers {
             AssetsUtility assetsUtility = new AssetsUtility(this.context);
             int resourceId = assetsUtility.getAssetFromResource(strIcon);
             Bitmap bm = BitmapFactory.decodeResource(this.context.getResources(), resourceId);
-            setSymbolIcon(id, strIcon, bm, latLng, title, 1f, pulsator, iconOffset);
+            setSymbolIcon(id, strIcon, bm, latLng, title, 1f / scale, pulsator, iconOffset);
         }
     }
 
@@ -306,8 +307,10 @@ public class RNMBMarkers {
             CircleOptions circleOptions = new CircleOptions()
                     .withLatLng(latLng)
                     .withData(circleData);
-            if (circle.hasKey("color")) circleOptions = circleOptions.withCircleColor(circle.getString("color"));
-            if (circle.hasKey("radius")) circleOptions = circleOptions.withCircleRadius((float) circle.getDouble("radius"));
+            if (circle.hasKey("color"))
+                circleOptions = circleOptions.withCircleColor(circle.getString("color"));
+            if (circle.hasKey("radius"))
+                circleOptions = circleOptions.withCircleRadius((float) circle.getDouble("radius"));
             this.circleManager.create(circleOptions);
         } else {
             currentCircle.setLatLng(latLng);

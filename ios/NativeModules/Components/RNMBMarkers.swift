@@ -34,10 +34,11 @@ class RNMBPointAnnotation: MGLPointAnnotation {
             let icon = ico as? NSDictionary
             self.icon = icon
             let uri = icon?.object(forKey: "uri") as! String
+            let scale = icon?.value(forKey: "scale") as! CGFloat
             
             let url = URL(string: uri)
             let data = try? Data(contentsOf: url!)
-            let img = UIImage(data: data!)!
+            let img = UIImage(data: data!, scale: scale)!
             let imgView = UIImageView(image: img)
             
             self.annotationView = MGLAnnotationView(reuseIdentifier: self.id)
