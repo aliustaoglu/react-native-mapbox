@@ -146,6 +146,9 @@ public class MapBoxMapView extends LinearLayout implements OnMapReadyCallback, S
         WritableMap location = Arguments.createMap();
         location.putDouble("lat", position.target.getLatitude());
         location.putDouble("lng", position.target.getLongitude());
+        location.putDouble("zoom", position.zoom);
+        location.putDouble("bearing", position.bearing);
+        location.putDouble("tilt", position.tilt);
         return location;
     }
 

@@ -124,7 +124,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         if (self.onCameraMoveEnd == nil) {
             return
         }
-        self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude])
+        self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude, "zoom": mapView.zoomLevel])
     }
     
     
