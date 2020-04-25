@@ -108,17 +108,19 @@ public class NativeEventsHelper {
 
     public void setBounds(MapBoxMapView mapBoxMapView, @Nullable ReadableArray args) {
         List<LatLng> latLngList = new ArrayList<>();
+        ReadableMap boundsParams = args.getMap(0);
 
-        for (int i = 0; i < 2; i++) {
-            ReadableMap ll = args.getMap(i);
-            latLngList.add(new LatLng(ll.getDouble("lat"), ll.getDouble("lng")));
-        }
+        ReadableMap startPoint = boundsParams.getMap("start");
+        ReadableMap endPoint = boundsParams.getMap("end");
+        latLngList.add(new LatLng(startPoint.getDouble("lat"), startPoint.getDouble("lng")));
+        latLngList.add(new LatLng(endPoint.getDouble("lat"), endPoint.getDouble("lng")));
+
         double[] padding;
         double[] currentPadding = mapBoxMapView.mapboxMap.getCameraPosition().padding;
 
         // Optional extra paddings
-        if (args.size() > 2) {
-            ReadableMap paddings = args.getMap(2);
+        if (boundsParams.hasKey("padding")) {
+            ReadableMap paddings = boundsParams.getMap("padding");
             padding = new double[]{currentPadding[0] + paddings.getDouble("paddingLeft"), currentPadding[1] + paddings.getDouble("paddingLeft"), currentPadding[2] + paddings.getDouble("paddingLeft"), currentPadding[3] + paddings.getDouble("paddingLeft")};
         } else {
             padding = currentPadding;

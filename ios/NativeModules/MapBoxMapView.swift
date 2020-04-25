@@ -124,7 +124,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         if (self.onCameraMoveEnd == nil) {
             return
         }
-        self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude])
+        self.onCameraMoveEnd!(["lat": mapView.latitude, "lng": mapView.longitude, "zoom": mapView.zoomLevel])
     }
     
     
@@ -173,13 +173,13 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         if self.mapView == nil {
             return
         }
+        let boundParams = mapBounds.object(at: 0) as! NSDictionary
         
         var edgePadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        let boundSW = mapBounds[0] as! NSDictionary
-        let boundNE = mapBounds[1] as! NSDictionary
+        let boundSW = boundParams.object(forKey: "start") as! NSDictionary
+        let boundNE = boundParams.object(forKey: "end") as! NSDictionary
         // Optional extra paddings
-        if (mapBounds.count>2) {
-            let padding = mapBounds[2] as! NSDictionary
+        if let padding = boundParams.object(forKey: "padding") as? NSDictionary {
             let left = padding.object(forKey: "paddingLeft") ?? 0
             let top = padding.object(forKey: "paddingTop") ?? 0
             let right = padding.object(forKey: "paddingRight") ?? 0
@@ -213,7 +213,7 @@ class MapBoxMapView: UIView, MGLMapViewDelegate {
         if self.mapView == nil {
             return
         }
-        
+
         let paddingLeft = padding[0] as! Double
         let paddingTop = padding[1] as! Double
         let paddingRight = padding[2] as! Double
